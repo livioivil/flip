@@ -1,0 +1,26 @@
+2.0 (2013.03.08)
+- many test statistics have been implemented: "t", "F", "ANOVA","Wilcoxon","Kruskal-Wallis", "kruskal", "rank", "Mann-Whitney","chisq","chisq.separated", "Fisher","McNemar", "Sign","sum" to function flip()
+- Covariates (orthogonalized residuals) and Strata parameters have been implemented in function flip().
+- plot.flip.object has been ameliorated.
+- minor bugs has been fixed.
+
+2.1 (2013.04.08)
+- minor bugs has been fixed.
+- increased flexibility in definition of custom test statistics.
+
+2.2 (2013.06.15)
+- tests for fixed effects in mixed models (flipMix).
+
+2.3 (2013.07.22)
+- dependence to library(foreach) is now avoided.
+- minor bugs fixed.
+
+2.4 (2013.10.09)
+- implemented Mahalanobis combining function for function npc().
+- implemented exact solution for fixed effects in mixed models (flipMixWithin).
+- global test for flipMix have been moved from flipMix to npc, which now allows for new testStat options.
+- minor bugs fixed.
+
+2.4.1 (2013.10.13)
+- minor bugs fixed.
+

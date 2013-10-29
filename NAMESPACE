@@ -1,0 +1,22 @@
+importFrom(graphics, hist, plot)
+
+importFrom(e1071,bincombinations)
+
+importFrom(someMTP, p.adjust.w)
+
+importFrom(cherry, closed)
+
+importFrom(stats, coefficients, fitted.values, residuals, weights, alias, 
+	model.matrix, p.adjust, p.adjust.methods)
+
+import(methods)
+
+
+exportClasses(flip.object,
+numericOrmatrixOrNULL,arrayOrNULL,data.frameOrNULL
+)
+
+exportMethods("[", "[[", show, result, p.value, length, names, "names<-", 
+	sort, size, hist, plot,summary, p.adjust)
+
+export(flip, flipMix, flipMixWithin, obs2coeffWithin, npc,flip.adjust,make.signSpace,make.permSpace,npermutations,allpermutations,t2p,cFlip, getFlip)
