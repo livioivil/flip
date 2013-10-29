@@ -6,14 +6,13 @@
 # permP.return, permT.return, permSpace.return : logical: shoul space of p-values, of statistic and of signs be returned?
 ############################
 .symmetry.nptest <- function(data, perms=5000, statTest="t",  tail = NULL, testType="permutation",...){
-
 	if(is.function(statTest)) {
 		test<-statTest
-	} else if(statTest=="t"){
+	} else if(statTest%in%c("t","sum")){
 		if (testType=="rotation") {
-		test <- .t.rotation.nptest.1sample
-		} else ## permutation test
-		test <- .t.symmetry.nptest
+      test <- .t.rotation.nptest.1sample
+      } else ## permutation test
+        test <- .t.symmetry.nptest
 	} else if(statTest%in%c("Wilcoxon","ranks","Sign")){
 		if (testType=="rotation") warning("Rotations are not allowed for Wilcoxon (i.e. ranks) test, permutations will be used instead.")
 		 ## permutation test
