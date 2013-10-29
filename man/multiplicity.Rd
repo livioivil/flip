@@ -48,6 +48,7 @@ It works for \code{npc} and \code{flip.adjust} with \code{method}= "maxT", "maxT
   In the latter case, a separate test will be performed for each subset.
 Only for \code{comb.funct%in%c("data.sum","data.linComb","data.pc","data.trace")} the names refers to the columns of \code{Y} data (\code{colnames(flipObject@data$Y)}).
 }
+}
  
  \item{stdSpace}{Ask if the permutation distribution of the test statistic should be standardized or not. The default is \code{FALSE}. The option is applied only 
  if \code{comb.funct} or \code{method} is equal to \code{"maxT"} or \code{"sumT"}, it becomes useful when test statistics are of different nature (e.g. chisquare and t-test).}
