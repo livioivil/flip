@@ -10,9 +10,9 @@ setClassUnion("numericOrmatrixOrcharacterOrNULL", c("numeric","matrix", "NULL","
 setClassUnion("envOrNULL", c("environment", "NULL"))
 
 # #############da togliere per compilazione (esistno gia in someMTP)
- setClassUnion("numericOrNULL", c("numeric", "NULL"))
- setClassUnion("listOrNULL", c("list", "NULL"))
- require(e1071)
+#  setClassUnion("numericOrNULL", c("numeric", "NULL"))
+#  setClassUnion("listOrNULL", c("list", "NULL"))
+#  require(e1071)
 
 
 setClass("flip.object", 
