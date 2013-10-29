@@ -70,6 +70,7 @@ if(statTest%in%c("Fisher","Wilcoxon","Kruskal-Wallis","ranks","chisq","Kolmogoro
 	rownames(permT)=.getTRowNames(permT)		
 	
 	if(statTest=="sum") {
+    browser()
 		center=as.vector(t(colSums(data$X))%*%colSums(data$Y))/N
 		names(center)=colnames(permT)
 		attributes(tail)$center=center
