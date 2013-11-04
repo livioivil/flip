@@ -527,7 +527,7 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
 ###########################################################
 
 ################### get results
-.getOut <- function(type="flip",res=NULL, data=NULL, call=NULL, flipReturn=list(permT=TRUE),
+.getOut <- function(type="flip",res=NULL, data=NULL, call=NULL, flipReturn=list(permT=TRUE,call.env=TRUE),
                     separatedX=TRUE,extraInfoPre=NULL,extraInfoPost=NULL,call.env=NULL,...){ 
   colnames(res$permT)=.getTNames(data$Y,data$X,permT=res$permT) 
   
@@ -545,19 +545,17 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
     #build the results table
     TAB=data.frame(Stat=as.vector(stat),#sd.permT=as.vector(stDev), pseudoZ=as.vector(pseudoZ),
                    tail=as.vector(dir), p=as.vector(p))
-    colnames(TAB)[colnames(TAB)=="p"]="p-value"
-    rownames(TAB)=colnames(res$permT)
   } else if(type=="npc"){
     #build the results table
     TAB=data.frame(Stat=as.vector(stat),#sd.permT=as.vector(stDev), pseudoZ=as.vector(pseudoZ), 
                    p=as.vector(p))
     colnames(TAB)[colnames(TAB)=="nvar"]="#Vars"
-    colnames(TAB)[colnames(TAB)=="p"]="p-value"
-    rownames(TAB)=colnames(res$permT)
   }
   
-  if((!is.null(res$extraInfoPre))) TAB=cbind(data.frame(res$extraInfoPre),TAB)
-  if((!is.null(res$extraInfoPost))) TAB=cbind(TAB,data.frame(res$extraInfoPost))
+  if((!is.null(res$extraInfoPre))) {TAB=cbind(data.frame(res$extraInfoPre,row.names = NULL),TAB)}
+  if((!is.null(res$extraInfoPost))) {TAB=cbind(TAB,data.frame(res$extraInfoPost,row.names = NULL))}
+  colnames(TAB)[colnames(TAB)=="p"]="p-value"
+  rownames(TAB)=colnames(res$permT)
   
   out <- new("flip.object")  
   out @res = TAB
@@ -565,7 +563,6 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
                        (!is.null(flipReturn$permID)&&flipReturn$permID)  ) 
     res$perms else res$perms[-which(names(res$perms)=="permID")]
   out @call = if(!is.null(call)) call
-  out @call$perms = res$perms[c("seed","B")]
   out @permP=if(!is.null(flipReturn$permP))if(flipReturn$permP) t2p(res$permT, obs.only=FALSE,tail=res$tail)
   out @permT=if(!is.null(flipReturn$permT))if(flipReturn$permT) res$permT
   out @data = if(!is.null(flipReturn$data))if(flipReturn$data) data

@@ -178,7 +178,7 @@
   
 	if(is.null(otherParams$fastSumCombination) || (otherParams$fastSumCombination)){
 		if(is.null(otherParams$linComb)) {
-			if(is.null(otherParams$whichPCs)) whichPCs=1:(1+(ncol(data$Y)==2)) else whichPCs=otherParams$whichPCs
+			if(is.null(otherParams$whichPCs)) whichPCs=1 else whichPCs=otherParams$whichPCs
       # standard deviations
       sd2s=diag(apply(data$covs,c(2,3),mean))+diag(data$Su)
 			linComb=1/sqrt(sd2s)

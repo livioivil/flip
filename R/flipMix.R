@@ -20,7 +20,6 @@ flipMix <- function(modelWithin,X=NULL,Z=NULL,units, perms=1000, data=NULL, tail
   
   # store the call
   call <- match.call()
-  
   if(!(is.list(data) && (!is.data.frame(data)))) {
      data<-obs2coeffWithin(modelWithin,X=X,Z=Z,units=units, data=data,equal.se=equal.se,se=se,
                         replaceNA.coeffWithin=replaceNA.coeffWithin,replaceNA.coeffWithin.se=replaceNA.coeffWithin.se,...)
@@ -34,7 +33,7 @@ flipMix <- function(modelWithin,X=NULL,Z=NULL,units, perms=1000, data=NULL, tail
 
 	if(is.null(data$covs)) {data$covs=array(,c(N,p,p)); for( id in 1:N) data$covs[id,,]=diag(data$se[id,]^2)}
 	if(is.null(Su)){
-   		data$Su=.estimateSuMultiILS(Y=data$coeffWithin,Z=as.matrix(cbind(data$X,data$Z)), S=data$covs)
+    	data$Su=.estimateSuMultiILS(Y=data$coeffWithin,Z=as.matrix(cbind(data$X,data$Z)), S=data$covs)
 	 } else {
 		data$Su=Su; rm(Su) 
 		}

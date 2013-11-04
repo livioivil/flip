@@ -35,7 +35,7 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
       res=test()
 #      browser()
       if(!exists("flipReturn") || is.null(flipReturn)) 
-        flipReturn=list(permT=TRUE,permP=FALSE)
+        flipReturn=list(permT=TRUE,permP=FALSE,call.env=TRUE)
       
       out=.getOut(type="npc",res=list(permT=res$permT,extraInfoPre=list(comb.funct=comb.funct,nVar=res$extraInfoPre$nVar)),data=NULL,tail=list(...)$tail, call=match.call(), 
                 flipReturn=flipReturn,call.env=environment(test))

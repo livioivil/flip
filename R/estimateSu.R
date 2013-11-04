@@ -18,6 +18,8 @@
 		V = diag(as.vector(1/sqrt(si))) ; # W =  diag(as.vector(sqrt(si)))
 		ys = V%*%Y ; Zs = V%*%Z
 		Hs = diag(n)-Zs%*%solve(t(Zs)%*%Zs)%*%t(Zs)
+    #force the symmetry (errors on approx)
+    Hs = (Hs+t(Hs))/2
 		Es=eigen(Hs)
 		Ls = Es$vectors%*%diag(Es$values)
 		Rs = t(Ls)%*%ys  				#; Rr = W%*%Rs
