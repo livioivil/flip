@@ -288,7 +288,7 @@ setMethod("p.adjust", matchSignature(signature(p = "flip.object"), p.adjust),
 setGeneric("hist", function(x,...) standardGeneric("hist"))
 #setMethod("hist", matchSignature(signature(x = "flip.object"), hist), 
 setMethod("hist", "flip.object", function(x, ...)  {
-
+  
   flip.hist <- function(x, breaks=20, main="", xlab = "Permutation test statistics", ...) {
 
      if (length(x) > 1)
