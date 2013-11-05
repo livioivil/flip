@@ -4,7 +4,7 @@ flip.statTest <-
 	"Wilcoxon","Kruskal-Wallis", "kruskal", "rank", "Mann-Whitney",
 	"chisq","chisq.separated", "Fisher",
 	#"KS", "kolmogorow", "Kolmogorow-Smirnov", "ad",
-  "McNemar", "Sign","sum","NA")
+  "McNemar", "Sign","sum","coeff","NA")
 
 .get.statTest <- function(statTest){ 
 	if(is(statTest,"function")) return(statTest) else

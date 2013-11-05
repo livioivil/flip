@@ -167,13 +167,8 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
   attributes(X)$assign=attrXassign
   attributes(X)$factors=attrXfactors
   options(ref.cat =oldRefCat)
-  
-  if(is.null(Z) && !any(.getIntercept(X)))   X=cbind(1,X)
-  if(!is.function(statTest) && statTest%in%c("t", "F")) {
-    data <- list(Y=Y,X=X,Z=Z,Strata=Strata,intercept=FALSE)
-    data <- .orthoZ(data)
-    return(data)
-  } else  { return(list(Y=Y,X=X,Z=Z,Strata=Strata,intercept=FALSE))}
+  if(is.null(Z) && !any(.getIntercept(X)))   Z=matrix(1,nrow(X))
+  return(list(Y=Y,X=X,Z=Z,Strata=Strata,intercept=FALSE))
 }
 
 ##########################
