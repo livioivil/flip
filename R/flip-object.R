@@ -54,7 +54,7 @@ setMethod("show", "flip.object", function(object)
 })
 
 setGeneric("summary")
-setMethod("summary", "flip.object", function(object,star.signif=TRUE,...)
+setMethod("summary", "flip.object", function(object,star.signif=TRUE,only.p.leq=NULL,...)
 {
   nperms= as.list(object@call$perms)
   cat(" \"flip.object\" object of package flip\n")
@@ -64,6 +64,8 @@ setMethod("summary", "flip.object", function(object,star.signif=TRUE,...)
 	# ifelse(is.finite(nperms$seed),paste("(seed: ",is.finite(nperms$seed)," )",sep=""),"")) 
   cat(nperms$B+1, "permutations.",sep=" ")
   cat("\n")
+  if(!is.null(only.p.leq))  object@res=object@res[object@res[,ncol(object@res)]<=only.p.leq,,drop=FALSE]
+  
   if(is.null(star.signif)) star.signif=TRUE 
   if(is.logical(star.signif)) {
     if(star.signif) {
@@ -121,17 +123,23 @@ cFlip <- function(...) {
   res=list(...)[[1]]
     if(length(list(...))>1){
 		nperms=sapply(list(...),function(xx) nrow(xx@permT))
-		if(length(unique(nperms))==1) 
-        for(i in 2:length(list(...)))  res@permT=cbind(res@permT,list(...)[[i]]@permT)
-		else{
-			warning("The tests does not have the same number of permutations, only the first permT will be retained.")
-			res@permT=list(...)[[1]]@permT
-			}
+		if(length(unique(nperms))>1) {
+      warning("The flip-objects have different number of permutations, the minimum number will be retained for each test.")
+      nperms=min(nperms)
+		} else nperms=nperms[1]
+
+    for(i in 2:length(list(...)))  res@permT=cbind(res@permT[1:nperms,,drop=FALSE],list(...)[[i]]@permT[1:nperms,,drop=FALSE])
+		
 		res@tail = as.vector(unlist(sapply(1:length(list(...)), function(i)  rep(if(is.null(list(...)[[i]]@tail)) 0 else list(...)[[i]]@tail,length.out=ncol(list(...)[[i]]@permT))
                       )))
 		# migliore questo output, ammettere la presenza di altri elementi in extraInfoPre
-	  for(i in 2:length(list(...)))  res@permT=cbind(res@permT,list(...)[[i]]@permT)
-		for(i in 2:length(list(...)))  res@res=rbind(res@res,list(...)[[i]]@res)
+		resNames=unique(as.vector(sapply(list(...),function(xx) colnames(xx@res))))
+		resNames=c(setdiff(resNames,c("Stat","p-value")),c("Stat","p-value"))
+		res@res[,setdiff(resNames,colnames(res@res))]=NA
+		res@res=res@res[,resNames]
+		for(i in 2:length(list(...)))  {
+      res@res[nrow(res@res)+(1:nrow(list(...)[[i]]@res)),colnames(list(...)[[i]]@res)]=list(...)[[i]]@res
+		}
 	}
 	res
 }
@@ -304,12 +312,18 @@ setMethod("hist", "flip.object", function(x, ...)  {
       # subset <- x@subsets[[1]]
   
     #recalculate <- x@functions$permutations(subset, weights)
-    Qs <- x@permT[-1,] #recalculate$permS
+    
     Q <- x@permT[1,]
-    nperm <- length(Qs)
-    hst <- hist(Qs, xlim = c(1.1 * min(0, Qs, Q), 1.1 * max(Qs, Q)), breaks = breaks, 
+    nperm <- length(x@permT-1)
+    hst <- hist(x@permT, xlim = c(1.1 * min(0, x@permT), 1.1 * max(x@permT)), breaks = breaks, 
       main = main, xlab = xlab, ...)
-    h <- max(hst$counts)
+     if(is.null(list(...)$freq) & is.null(list(...)$probability)) 
+       h <- max(hst$counts) else {
+         if(c(1-list(...)$freq,list(...)$probability)>0 ) 
+           h <- max(hst$density) else  
+             h <- max(hst$counts)
+       }
+     
     arrows( Q, h/2, Q, 0 , lwd=2)
     text( Q, h/2, 'Observed\ntest\nstatistic' , pos=3)
   

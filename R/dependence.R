@@ -47,19 +47,20 @@ if(statTest%in%c("Fisher","Wilcoxon","Kruskal-Wallis","ranks","chisq","Kolmogoro
 ###########################################
 
 .t.dependence.nptest <- function(){
-	data <- .orthoZ(data) #if Z is.null, it doesn't make anything
+  data <- .orthoZ(data) #if Z is.null, it doesn't make anything
 	N=nrow(data$Y)
   perms <- make.permSpace(1:N,perms,return.permIDs=TRUE,testType=testType, Strata=data$Strata)
 	#search for intercept in the model
-	intercept=.getIntercept(data$X)
+  intercept=.getIntercept(data$X)
+  if(statTest=="coeff") {
+    data$X=data$X%*%solve(t(data$X)%*%data$X)
+  }
+  
 	if(any(intercept)) {
 		data$intercept=TRUE
 		data$X=data$X[,!intercept,drop=FALSE]
 	}
   
-	if(statTest=="coeff") {
-    data$X=data$X%*%solve(t(data$X)%*%data$X)
-	}
     
 		#data$X=scale(data$X,scale=FALSE)
   permT=.prod.perms(data,perms,testType=testType)
