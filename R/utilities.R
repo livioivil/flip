@@ -539,16 +539,16 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
     dir=.setTailOut (permT=res$permT, tail=res$tail)		
     #build the results table
     TAB=data.frame(Stat=as.vector(stat),#sd.permT=as.vector(stDev), pseudoZ=as.vector(pseudoZ),
-                   tail=as.vector(dir), p=as.vector(p))
+                   tail=as.vector(dir), p=as.vector(p),stringsAsFactors =FALSE)
   } else if(type=="npc"){
     #build the results table
     TAB=data.frame(Stat=as.vector(stat),#sd.permT=as.vector(stDev), pseudoZ=as.vector(pseudoZ), 
-                   p=as.vector(p))
+                   p=as.vector(p),stringsAsFactors =FALSE)
     colnames(TAB)[colnames(TAB)=="nvar"]="#Vars"
   }
   
-  if((!is.null(res$extraInfoPre))) {TAB=cbind(data.frame(res$extraInfoPre,row.names = NULL),TAB)}
-  if((!is.null(res$extraInfoPost))) {TAB=cbind(TAB,data.frame(res$extraInfoPost,row.names = NULL))}
+  if((!is.null(res$extraInfoPre))) {TAB=cbind(data.frame(res$extraInfoPre,row.names = NULL,stringsAsFactors =FALSE),TAB)}
+  if((!is.null(res$extraInfoPost))) {TAB=cbind(TAB,data.frame(res$extraInfoPost,row.names = NULL,stringsAsFactors =FALSE))}
   colnames(TAB)[colnames(TAB)=="p"]="p-value"
   rownames(TAB)=colnames(res$permT)
   
