@@ -293,7 +293,7 @@ out
         res$se[i,is.na(res$se[i,])]=sqrt(mean(res$se[i,]^2,na.rm=TRUE))
     }
   }
-  
+  if(is.null(res$Z)) res$Z=matrix(,nrow(res$X),0)
 	res
 }
 

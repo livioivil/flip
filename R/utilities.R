@@ -343,7 +343,7 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
 ##############################################
 
 .orthoZ <- function(data,returnGamma=FALSE){
-  if(is.null(data$Z) || (ncol(data$Z)==0)) return(data)
+  if(is.null(data$Z) || (length(data$Z)==0)) return(data)
   attrsYassign<-attributes(data$Y)$assign
   attrsXassign<-attributes(data$X)$assign
   ZZ= try(solve(t(data$Z) %*% data$Z),silent=TRUE)

@@ -7,7 +7,7 @@ flipMix <- function(modelWithin,X=NULL,Z=NULL,units, perms=1000, data=NULL, tail
   if(is.null(otherParams$alsoMANOVA)) otherParams$alsoMANOVA=FALSE
   
   if(missing(flipReturn)||is.null(flipReturn)) 
-  flipReturn=list(permT=TRUE,permP=FALSE,permSpace=FALSE,call.env=TRUE)
+  flipReturn=list(permT=TRUE,permP=FALSE,data=TRUE,call.env=TRUE)
   
   if(is.null(statTest) ) if(is.null(otherParams$separatedX)   || otherParams$separatedX)   { statTest="t" } else statTest="F"
   

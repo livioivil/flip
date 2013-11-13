@@ -351,7 +351,7 @@ setMethod("plot", "flip.object",
   plot.flip <- function(x, y=NULL, main, xlab, ylab,...){
     #draw <- function(x, main, xlab, ylab,...){
     if (length(x)==1 ){
-      hist(x, breaks=20, ...)
+      hist(x, ...)
     } else { 
       pc=prcomp(x@permT,scale. =FALSE,center=FALSE)
       #obs is always on top-right quadrant:

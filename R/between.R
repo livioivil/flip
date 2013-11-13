@@ -29,7 +29,6 @@
 
 ###########################################
 .t.between.nptest <- function(){
-#  browser()
   data=.getW(data)
   if((!is.null(otherParams$alsoMANOVA)&&otherParams$alsoMANOVA)|(!is.null(otherParams$onlyMANOVA)&&otherParams$onlyMANOVA)){  
     combData=.getLinCombAndWeights(data, otherParams)
@@ -47,7 +46,7 @@
     }
   }
 	#colnames(data$W)=colnames(data$Y)
-    perms <- make.permSpace(1:(nrow(data$Y) - ncol(data$Z)),perms,return.permIDs=TRUE,testType=testType)
+    perms <- make.permSpace(1:(nrow(data$Y) - max(0,ncol(data$Z))),perms,return.permIDs=TRUE,testType=testType)
 	uni.test <- function(i,data){	
 		data <- .orthoZ(list(X=data$W[,i]*data$X,Y=data$W[,i]*data$Y[,i,drop=FALSE],Z=data$W[,i]*data$Z,intercept = FALSE))
 		#environment(.prod2t) <- sys.frame(sys.parent())
@@ -82,7 +81,6 @@
 	    for(i in 1:length(otherParams$subsets))
 	    {
 	      dataSub=.subsetData(data,subset=otherParams$subsets[[i]])
-        #browser()
 	      permT=cbind(permT,.trace.sim(dataSub,perms))
 	      nVar=c(nVar,ncol(dataSub$Y))
 	    }
@@ -100,12 +98,19 @@
   for(i in 1:nrow(data$covs)) covs[i,,]=data$covs[i,,] +data$Su
   perms <- make.permSpace(covs,perms,testType="Simulation")	
   
-	PZX=cbind(data$Z,data$X)%*%solve(t(cbind(data$Z,data$X))%*%cbind(data$Z,data$X))%*%t(cbind(data$Z,data$X))
-	PZ=data$Z%*%solve(t(data$Z)%*%data$Z)%*%t(data$Z)
-	PZXPZ= PZX-PZ
-	HZX= diag(nrow(PZX)) - PZX
-	rm(PZ,PZX)
-	dfratio=(nrow(data$Y)- ncol(data$X) -ncol(data$Z) )/ncol(data$X)
+  if(is.null(data$Z) || (ncol(data$Z)==0)) 
+    {
+    PZXPZ= data$X%*%solve(t(data$X)%*%data$X)%*%t(data$X)
+    HZX= diag(nrow(PZXPZ)) - PZXPZ
+    dfratio=(nrow(data$Y)- ncol(data$X))/ncol(data$X)
+    }  else { 
+       PZ= data$Z%*%solve(t(data$Z)%*%data$Z)%*%t(data$Z)
+       PZX=cbind(data$Z,data$X)%*%solve(t(cbind(data$Z,data$X))%*%cbind(data$Z,data$X))%*%t(cbind(data$Z,data$X))
+       PZXPZ= PZX-PZ
+       HZX= diag(nrow(PZX)) - PZX
+       rm(PZ,PZX)
+       dfratio=(nrow(data$Y)- ncol(data$X) -ncol(data$Z) )/ncol(data$X)
+     }
 	.stat <- function(y) .tr(t(y)%*%PZXPZ %*% y)/.tr(t(y)%*%HZX%*%y) * dfratio
 	permT=matrix(,perms$B+1,1)
   permT[1,]=.stat(data$Y)  
@@ -131,7 +136,7 @@
     }
   }
   
-  perms <- make.permSpace(1:(nrow(data$Y) - ncol(data$Z)),perms,return.permIDs=TRUE,testType=testType)
+  perms <- make.permSpace(1:(nrow(data$Y) - max(0,ncol(data$Z))),perms,return.permIDs=TRUE,testType=testType)
   uni.test <- function(i,data){	
     data <- .orthoZ(list(X=data$W[,i]*data$X,Y=data$W[,i]*data$Y[,i,drop=FALSE],Z=data$W[,i]*data$Z,intercept = FALSE))
     P=.get.eigenv.proj.mat(data)
@@ -151,7 +156,6 @@
 
 #####################################
 .getLinCombAndWeights<- function(data, otherParams){
-#  browser()
   if(!is.null(otherParams$subsets)){
     dataComb=list(Y=NULL,W=NULL,nVar=NULL)
     otherParams2=otherParams
@@ -191,7 +195,6 @@
         if(length(otherParams$linComb)==1) otherParams$linComb=rep(otherParams$linComb,ncol(data$Y))
         linComb=otherParams$linComb
 		}
-  #  browser()
 		Y =data$Y%*%linComb
 		W=array(,dim(Y))
 		dimnames(W)=dimnames(Y)  
