@@ -9,7 +9,7 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
   data$W=array(,dim(data$Y))
   dimnames(data$W)=dimnames(data$Y)
   for(j in 1:nrow(data$covs)) {
-    data$W[j,]=1/sqrt(diag(data$Su) + diag(data$covs[j,,]))
+    data$W[j,]=1/sqrt(diag(data$Su) + diag(matrix(data$covs[j,,])))
   }	
   data
 }
@@ -342,13 +342,13 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
 
 ##############################################
 
-.orthoZ <- function(data,returnGamma=FALSE){
+.orthoZ <- function(data,returnGamma=FALSE){  
   if(is.null(data$Z) || (length(data$Z)==0)) return(data)
   attrsYassign<-attributes(data$Y)$assign
   attrsXassign<-attributes(data$X)$assign
   ZZ= try(solve(t(data$Z) %*% data$Z),silent=TRUE)
   if(is(ZZ,"try-error")) {warning("Data can not be orthoganalized"); return(data)}
-  IP0 <- diag(nrow(data$Z)) - data$Z %*% solve(t(data$Z) %*% data$Z) %*% t(data$Z)
+  IP0 <- diag(nrow(data$Z)) - data$Z %*% ZZ %*% t(data$Z)
   IP0 <- (IP0 + t(IP0))/2
   ei=eigen(IP0)
   if(any(is.complex(ei$values))) {warning("Data can not be orthoganalized"); return(data)}

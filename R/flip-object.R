@@ -297,7 +297,7 @@ setGeneric("hist", function(x,...) standardGeneric("hist"))
 #setMethod("hist", matchSignature(signature(x = "flip.object"), hist), 
 setMethod("hist", "flip.object", function(x, ...)  {
   
-  flip.hist <- function(x, breaks=20, main="", xlab = "Permutation test statistics", ...) {
+  flip.hist <- function(x, breaks=100, main="", xlab = "Permutation test statistics", ...) {
 
      if (length(x) > 1)
      stop("length(object) > 1. Please reduce to a single test result")
@@ -352,6 +352,16 @@ setMethod("plot", "flip.object",
     #draw <- function(x, main, xlab, ylab,...){
     if (length(x)==1 ){
       hist(x, ...)
+    } else if (length(x)==2 ){
+      plot(x@permT, xlim=range(x@permT[,1]), ylim=range(x@permT[,2]),
+           xlab=colnames(x@permT)[1],
+           ylab=colnames(x@permT)[2],
+           main= "Permutation Space" ,
+           col="darkgrey",
+           bg="orange",pch=21,lwd=1,cex=1,asp=1)
+      
+      points(x@permT[1,1],x@permT[1,2],col="darkgrey",bg="blue",cex=2,lwd=2,pch=21)
+      text(x@permT[1,1],x@permT[1,2],labels="ObsStat")
     } else { 
       pc=prcomp(x@permT,scale. =FALSE,center=FALSE)
       #obs is always on top-right quadrant:
