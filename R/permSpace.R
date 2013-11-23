@@ -68,8 +68,11 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 		perms=.make.RotSpace(IDs,perms)
 		perms$type="rotation"
 	} else if(tolower(testType)=="simulation") {
-		perms=.make.SimSpace(IDs,perms)
-		perms$type="simulation"
+	  perms=.make.SimSpace(IDs,perms)
+	  perms$type="simulation"
+	} else if(tolower(testType)=="symmetry") {
+	  perms=make.signSpace(length(IDs),perms)
+	  perms$type="symmetry"
 	} else 	{ ## then standard permutations
 		perms=.make.PermSpace(IDs,perms,return.permIDs=return.permIDs,Strata=Strata)
 		perms$type="permutation"

@@ -620,15 +620,15 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
 
 #################################
 .prod.perms <- function(data,perms,testType="permutation"){
-  if(testType%in%c("permutation","rotation"))  {
+  if(testType%in%c("permutation","symmetry","rotation"))  {
     if(is.null(perms$permID)){
-      digitsK=trunc(log10(perms$B))+1
+       digitsK=trunc(log10(perms$B))+1
       envOrig<-environment(perms$rotFunct)
       environment(perms$rotFunct) <- sys.frame(sys.parent())
       obs=as.vector(t(data$X)%*%data$Y)
       permT=matrix(,perms$B+1,length(obs))
       permT[1,]=obs
-      rm(obs)
+      rm(obs)     
       for(i in 1:perms$B) {
 #         if (i%%10==0) {
 #           cat(rep("\b", 2*digitsK+10), i, " / ", perms$B, sep="")
@@ -645,9 +645,18 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
       m=ncol(data$Y)
       q=ncol(data$X)
       digitsK=trunc(log10(m))+1
-      permT=matrix(,perms$B+1,m*q)
-      for( i in 1:ncol(data$Y)){
-        permT[,(i-1)*q+(1:q)]=(matrix(data$Y[rbind(1:perms$n,perms$permID),i],ncol=perms$n,nrow=(perms$B+1)) %*% data$X)
+      if(testType=='symmetry')  { #on.exit(browser())
+        permT=matrix(,nrow(perms$permID)+1,m*q)
+        for( i in 1:ncol(data$X)){
+          XY=diag(data$X[,i])%*%data$Y
+          permT[,(0:(m-1))*q+i]=rbind(rep(1,perms$n),perms$permID) %*% XY
+      }
+        permT = rbind(permT,-permT[nrow(permT):1,,drop=FALSE])
+      } else  {
+        permT=matrix(,perms$B+1,m*q)
+        for( i in 1:ncol(data$Y)){
+          permT[,(i-1)*q+(1:q)]=(matrix(data$Y[rbind(1:perms$n,perms$permID),i],ncol=perms$n,nrow=(perms$B+1)) %*% data$X)
+        }
       }
     }
   } else {warning("test type not implemented (yet?)"); return(NULL)}

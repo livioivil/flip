@@ -32,10 +32,9 @@ flip <- function(Y, X=NULL, Z=NULL, data=NULL, tail = 0, perms = 1000, statTest=
     statTest <- .get.statTest(statTest)
 	
   if(is.null(testType)){
-	if(is.null(list(...)$rotationTest) || (!list(...)$rotationTest) ) {testType="permutation"; rotationTest=FALSE } else { testType="rotation"; rotationTest=TRUE} 
+	if(is.null(list(...)$rotationTest) || (!list(...)$rotationTest) ) {testType="permutation"} else { testType="rotation"} 
   } 
-  testType=match.arg(testType,c("permutation","rotation"))
-  rotationTest= (testType=="rotation")
+  testType=match.arg(testType,c("permutation","rotation","symmetry"))
 
   if(missing(flipReturn)||is.null(flipReturn)) 
     flipReturn=list(permT=TRUE,permP=FALSE,permSpace=FALSE,test=TRUE,permID=TRUE)
@@ -46,7 +45,7 @@ flip <- function(Y, X=NULL, Z=NULL, data=NULL, tail = 0, perms = 1000, statTest=
   
   if(!is.function(statTest)){
     # get matrices from inputs
-    data <- .getXY(Y,X,Z,data,rotationTest=rotationTest,dummyfy=list(...)$dummyfy,statTest=statTest,Strata=Strata)
+    data <- .getXY(Y,X,Z,data,rotationTest=(testType=="rotation"),dummyfy=list(...)$dummyfy,statTest=statTest,Strata=Strata)
     rm(X,Y,Z,Strata)
     
     symmetryTest= is.null(data$X) || (length(unique(data$X))==1)

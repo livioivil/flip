@@ -57,12 +57,12 @@ setGeneric("summary")
 setMethod("summary", "flip.object", function(object,star.signif=TRUE,only.p.leq=NULL,...)
 {
   nperms= as.list(object@call$perms)
-  cat(" \"flip.object\" object of package flip\n")
+  #cat(" \"flip.object\" object of package flip\n")
   cat(" Call:\n ")
   cat(deparse(object@call), "\n")
   # cat(ifelse(is.null(nperms$seed),"all",""), nperms$B, ifelse(is.finite(nperms$seed),"random",""), "permutations.\n",   
 	# ifelse(is.finite(nperms$seed),paste("(seed: ",is.finite(nperms$seed)," )",sep=""),"")) 
-  cat(nperms$B+1, "permutations.",sep=" ")
+  cat(object@permSpace$B+1, "permutations.",sep=" ")
   cat("\n")
   if(!is.null(only.p.leq))  object@res=object@res[object@res[,ncol(object@res)]<=only.p.leq,,drop=FALSE]
   
