@@ -626,10 +626,10 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
       envOrig<-environment(perms$rotFunct)
       environment(perms$rotFunct) <- sys.frame(sys.parent())
       obs=as.vector(t(data$X)%*%data$Y)
-      permT=matrix(,perms$B+1,length(obs))
+      permT=matrix(,perms$B,length(obs))
       permT[1,]=obs
       rm(obs)     
-      for(i in 1:perms$B) {
+      for(i in 1:(perms$B-1)) {
 #         if (i%%10==0) {
 #           cat(rep("\b", 2*digitsK+10), i, " / ", perms$B, sep="")
 #           flush.console()
@@ -653,9 +653,9 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
       }
         permT = rbind(permT,-permT[nrow(permT):1,,drop=FALSE])
       } else  {
-        permT=matrix(,perms$B+1,m*q)
+        permT=matrix(,perms$B,m*q)
         for( i in 1:ncol(data$Y)){
-          permT[,(i-1)*q+(1:q)]=(matrix(data$Y[rbind(1:perms$n,perms$permID),i],ncol=perms$n,nrow=(perms$B+1)) %*% data$X)
+          permT[,(i-1)*q+(1:q)]=(matrix(data$Y[rbind(1:perms$n,perms$permID),i],ncol=perms$n,nrow=(perms$B)) %*% data$X)
         }
       }
     }
@@ -672,10 +672,10 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
       envOrig<-environment(perms$rotFunct)
       environment(perms$rotFunct) <- sys.frame(sys.parent())
       obs=as.vector(apply((t(data$Y)%*%P)^2,1,sum))
-      permT=matrix(,perms$B+1,length(obs))
+      permT=matrix(,perms$B,length(obs))
       permT[1,]=obs
       rm(obs)
-      for(i in 1:perms$B){ 
+      for(i in 1:(perms$B-1)){ 
         if (i%%10==0) {
           cat(rep("\b", 2*digitsK+10), i, " / ", perms$B, sep="")
           flush.console()
@@ -690,13 +690,13 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
     } else { #permutation test using IDs
       m=ncol(data$Y)
       digitsK=trunc(log10(m))+1
-      permT <- matrix(,perms$B+1,m)
+      permT <- matrix(,perms$B,m)
       for(i in 1:m){
         #       if (i%%10==0) {
         # 		    cat(rep("\b", 2*digitsK+5), i, " / ", m, sep="")
         # 		    flush.console()
         # 		  }
-        permT[,i]=rowSums((matrix(data$Y[rbind(1:perms$n,perms$permID),i],ncol=perms$n,nrow=(perms$B+1))%*%P)^2)
+        permT[,i]=rowSums((matrix(data$Y[rbind(1:perms$n,perms$permID),i],ncol=perms$n,nrow=(perms$B))%*%P)^2)
       }
       colnames(permT)=.getTNames(data$Y)
       rownames(permT)=.getTRowNames(permT)

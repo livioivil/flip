@@ -112,10 +112,10 @@ flip <- function(Y, X=NULL, Z=NULL, data=NULL, tail = 0, perms = 1000, statTest=
     
     
     obs=statTest(Y)
-    permT=matrix(,perms$B+1,length(obs))
+    permT=matrix(,perms$B,length(obs))
     colnames(permT)=names(obs)
     permT[1,]=obs
-    for(i in 2:(1+perms$B))
+    for(i in 2:(perms$B))
       {permT[i,]=statTest(Y[sample(perms$n),,drop=FALSE] )
               if (i%%10==0) {
                 cat(rep("\b", 2*digitsK+3), i, " / ", perms$B, sep="")

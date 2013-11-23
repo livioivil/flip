@@ -118,9 +118,9 @@
   perms <- make.permSpace(1:Ns,perms,testType=testType)
   digitsK=trunc(log10(perms$B))+1
   
-  permT=matrix(,perms$B+1, ncol(data$Y))
+  permT=matrix(,perms$B, ncol(data$Y))
   permT[1,]=colSums(data$Y)
-  for(i in 2:(1+perms$B)) { 
+  for(i in 2:(perms$B)) { 
       if (i%%1000==0) {
         cat(rep("\b", 2*digitsK+3), i, " / ", perms$B, sep="")
         flush.console()

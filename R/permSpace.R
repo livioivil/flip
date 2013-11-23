@@ -45,13 +45,13 @@ make.signSpace <- function(N,perms) {
 				return()
 				}
 				perms$seed=NA
-				perms$B=(2^(N)-1)
+				perms$B=(2^(N))
 				if(is.null(perms$rotFunct)) perms$rotFunct <- function(i) (permSpace$permID[i,]*data$Y)
 		} else {
 			#otherwise random permutations
 			#if (is.na(perms$seed)) perms$seed <- round(runif(1)*1000)
 			if (!is.na(perms$seed)) set.seed(perms$seed)
-			perms$permID <- matrix(1 - 2 * rbinom(N * (perms$B%/%2),1, 0.5), (perms$B%/%2), N)
+			perms$permID <- matrix(1 - 2 * rbinom(N * ((perms$B-1)%/%2),1, 0.5), ((perms$B-1)%/%2), N)
 			if(is.null(perms$rotFunct)) perms$rotFunct <- function(i) (permSpace$permID[i,]*data$Y)
 		}	
 	} else if(is.null(perms$rotFunct)) perms$rotFunct <- function(i) (permSpace$permID[i,]*data$Y)
@@ -96,7 +96,7 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 					#random <- FALSE
 					perms$permID <- t(allpermutations(IDs))[-1,]
 					perms$seed=NA
-					perms$B=(allperms-1)
+					perms$B=(allperms)
 					perms$rotFunct <- function(i) (data$Y[perms$permID[i,],,drop=FALSE])
 				} else {
 					# otherwise random permutations
@@ -108,7 +108,7 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 					if(!return.permIDs) {
 						perms$rotFunct <- function(i) (data$Y[sample(perms$n),,drop=FALSE])
 					} else {
-						perms$permID <- t(replicate(perms$B, IDs[sample(perms$n)]))
+						perms$permID <- t(replicate((perms$B-1), IDs[sample(perms$n)]))
 						perms$rotFunct <- function(i) (data$Y[perms$permID[i,],,drop=FALSE])
 						}
 				}

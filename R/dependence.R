@@ -230,9 +230,9 @@ if(statTest%in%c("Fisher","Wilcoxon","Kruskal-Wallis","ranks","chisq","Kolmogoro
       })))
       rm(notNA)
 
-      permT=matrix(,perms$B+1,length(tObs))
+      permT=matrix(,perms$B,length(tObs))
       permT[1,]=tObs
-      for(b  in (1:perms$B)) {
+      for(b  in (1:(perms$B-1))) {
                     Yperm=perms$rotFunct(b)
                     notNA=!is.na(Yperm)
                     permT[b+1,]=as.vector(unlist(sapply(1:ncol(data$Y),function(i) {
@@ -258,9 +258,9 @@ if(statTest%in%c("Fisher","Wilcoxon","Kruskal-Wallis","ranks","chisq","Kolmogoro
         else t(scale(data$X[notNA[,i],]))%*%data$Y[notNA[,i],i]
       })))
       rm(notNA)
-      permT=matrix(,perms$B+1,length(tObs))
+      permT=matrix(,perms$B,length(tObs))
       permT[1,]=tObs
-      for(b in (1:perms$B)){
+      for(b in (1:(perms$B-1))){
                 Yperm=perms$rotFunct(b)
                 notNA=!is.na(Yperm)
                 permT[b+1,]=as.vector(unlist(sapply(1:ncol(data$Y),function(i){ 

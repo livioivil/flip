@@ -55,7 +55,7 @@
 		permT
 	}
   nX=ncol(data$X)
-  permT = matrix(, perms$B+1,ncol(data$Y)*nX)
+  permT = matrix(, perms$B,ncol(data$Y)*nX)
   for(i in 1:ncol(data$Y)) {
     permT[,(i-1)*nX+(1:nX)]=uni.test(i,data)
   }
@@ -112,9 +112,9 @@
        dfratio=(nrow(data$Y)- ncol(data$X) -ncol(data$Z) )/ncol(data$X)
      }
 	.stat <- function(y) .tr(t(y)%*%PZXPZ %*% y)/.tr(t(y)%*%HZX%*%y) * dfratio
-	permT=matrix(,perms$B+1,1)
+	permT=matrix(,perms$B,1)
   permT[1,]=.stat(data$Y)  
-	for(i in 1:perms$B) permT[i+1,]=.stat(perms$rotFunct())
+	for(i in 1:(perms$B-1)) permT[i+1,]=.stat(perms$rotFunct())
 	colnames(permT)="F-trace"
 	permT
 }
@@ -144,7 +144,7 @@
     permT=.prod2F(permT,data)
     permT
   }
-  permT = matrix(,perms$B+1,ncol(data$Y))
+  permT = matrix(,perms$B,ncol(data$Y))
   for(i in 1:ncol(data$Y)) permT[,i]= uni.test(i,data)
   colnames(permT)=.getTNames(data$Y)
   rownames(permT)=.getTRowNames(permT)
