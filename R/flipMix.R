@@ -34,13 +34,13 @@ flipMix <- function(modelWithin,X=NULL,Z=NULL,units, perms=1000, data=NULL, tail
 
 	if(is.null(data$covs)) {data$covs=array(,c(N,p,p)); for( id in 1:N) data$covs[id,,]=diag(data$se[id,]^2)}
 	if(is.null(Su)){
-    if(testType=='symmetry')
-      {data$Su=sapply(1:ncol(data$coeffWithin), function(i)
-                                 .estimateSuMultiILS(Y=data$coeffWithin[,i,drop=FALSE],
-                                                     Z=as.matrix(cbind(data$X,data$Z)), 
-                                                     S=data$covs[,i,i,drop=FALSE])[1])
-       if(length(data$Su)>1) data$Su=diag(data$Su) else data$Su=matrix(data$Su)
-       }      else 
+#     if(testType=='symmetry') #dalle simulazioni il guadagno in tempo pare essere minimo mentre il guadagno in potenza pare non irrilevante
+#       {data$Su=sapply(1:ncol(data$coeffWithin), function(i)
+#                                  .estimateSuMultiILS(Y=data$coeffWithin[,i,drop=FALSE],
+#                                                      Z=as.matrix(cbind(data$X,data$Z)), 
+#                                                      S=data$covs[,i,i,drop=FALSE])[1])
+#        if(length(data$Su)>1) data$Su=diag(data$Su) else data$Su=matrix(data$Su)
+#        }      else 
         data$Su=.estimateSuMultiILS(Y=data$coeffWithin,Z=as.matrix(cbind(data$X,data$Z)), S=data$covs)
 	 } else {
 		data$Su=Su; rm(Su) 

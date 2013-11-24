@@ -8,9 +8,13 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
   if(!is.null(data$W)) return(data)
   data$W=array(,dim(data$Y))
   dimnames(data$W)=dimnames(data$Y)
+  if(!is.null(data$covs))
   for(j in 1:nrow(data$covs)) {
     data$W[j,]=1/sqrt(diag(data$Su) + diag(matrix(data$covs[j,,])))
-  }	
+  }	else
+    for(j in 1:nrow(data$se)) {
+      data$W[j,]=1/sqrt(diag(data$Su) + diag(matrix(data$se[j,]^2)))
+    }  
   data
 }
 
