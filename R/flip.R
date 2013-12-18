@@ -52,7 +52,7 @@ flip <- function(Y, X=NULL, Z=NULL, data=NULL, tail = 0, perms = 1000, statTest=
   
     #check if the problem can be set as one sample problem
     if(!symmetryTest) if(!is.function(statTest))
-  	if(statTest%in% c("t","sum","rank","Wilcoxon","McNemar","Sign"))
+  	if(statTest%in% c("t","sum","ranks","Wilcoxon","McNemar","Sign"))
   	  if(  !is.null(data$Strata) ){#is.null(data$Z)|| ncol(data$Z)==0)  &
   			keep=setdiff(1:ncol(data$X),.getIntercept(data$X))
   			if( (length(unique(data$X[,keep]))==2) && 

@@ -13,7 +13,7 @@
       test <- .t.rotation.nptest.1sample
       } else ## permutation test
         test <- .t.symmetry.nptest
-	} else if(statTest%in%c("Wilcoxon","ranks","Sign")){
+	} else if(statTest%in%c("Wilcoxon","rank","Sign")){
 		if (testType=="rotation") warning("Rotations are not allowed for Wilcoxon (i.e. ranks) test, permutations will be used instead.")
 		 ## permutation test
 		test <- .rank.symmetry.nptest
@@ -54,7 +54,7 @@
   return(list(permT=permT,perms=perms,tail=tail,extraInfoPre=list(Test=statTest)))
 }
 
-######signed rank test
+######signed ranks test
 .rank.symmetry.nptest <- function(){
   if(statTest=="Sign"){
     data$Y=sign(data$Y)  

@@ -14,7 +14,7 @@
 			statTest="t" else
 			statTest="F"
 
-	if((testType=="rotation") && statTest%in%c("Fisher","Wilcoxon","Kruskal-Wallis","ranks","chisq","chisq.separated") ){
+	if((testType=="rotation") && statTest%in%c("Fisher","Wilcoxon","Kruskal-Wallis","rank","chisq","chisq.separated") ){
 	  warning("Rotations are not allowed for Fisher exact test, permutations will be used instead.")
 	  testType="permutation"
 	}
@@ -28,7 +28,7 @@
 				test <- .F.dependence.nptest
 		} else if(statTest=="Fisher"){
 				test <- .fisher.dependence.nptest
-		} else if(statTest%in%c("Wilcoxon","Kruskal-Wallis","ranks")){
+		} else if(statTest%in%c("Wilcoxon","Kruskal-Wallis","rank")){
 				test <- .rank.dependence.nptest
 		} else if(statTest%in%c("chisq","chisq.separated")){
 			test <- .chisq.dependence.nptest
@@ -36,7 +36,7 @@
 # 			test <- .kolmogorov.dependence.nptest
 		} else	{stop("This test statistic is not valid, nothing done."); return()}
   
-if(statTest%in%c("Fisher","Wilcoxon","Kruskal-Wallis","ranks","chisq","Kolmogorov-Smirnov")) {
+if(statTest%in%c("Fisher","Wilcoxon","Kruskal-Wallis","rank","chisq","Kolmogorov-Smirnov")) {
 			if(length(unique(data$Z))>1 ) warning("Covariates Z can not be used in this test. Use strata instread.")
 	}
   environment(test) <- sys.frame(sys.nframe())
@@ -121,7 +121,7 @@ if(statTest%in%c("Fisher","Wilcoxon","Kruskal-Wallis","ranks","chisq","Kolmogoro
 	intercept=.getIntercept(data$X)
 	if(any(intercept)) data$X=data$X[,!intercept,drop=FALSE]
 
-	if(statTest=="ranks")
+	if(statTest=="rank")
 			statTest=ifelse(ncol(data$X)>1,"Kruskal-Wallis","Wilcoxon")
 
 	if(statTest=="Wilcoxon"){
@@ -252,6 +252,7 @@ if(statTest%in%c("Fisher","Wilcoxon","Kruskal-Wallis","ranks","chisq","Kolmogoro
       
       colnames(permT) = .getTNames(data$Y,permT=permT)
   } else { #only one predictor
+    data$Y=scale(data$Y, center = TRUE, scale = FALSE)
       notNA=!is.na(data$Y)
       tObs= as.vector(unlist(sapply(1:ncol(data$Y),function(i) {
         if(length(unique(data$X[notNA[,i],]))==1) NA  #X is constant

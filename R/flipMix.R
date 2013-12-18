@@ -72,6 +72,7 @@ flipMix <- function(modelWithin,X=NULL,Z=NULL,units, perms=1000, data=NULL, tail
 		  for(j in 1:nrow(data$covs)){
 		    data$W[j,]=1/sqrt(diag(data$Su) + diag(data$covs[j,,]))
 		  }
+      print("credo che qui manchi la moltiplicazione di X per Y. e occhio alle dev std")
 		  res=.symmetry.nptest(data, perms=perms, statTest=statTest[1],  tail = tail,testType=testType,...)
 		  out=res$test()
       out$extraInfoPre=cbind(est.Su=diag(data$Su),out$extraInfoPre)
