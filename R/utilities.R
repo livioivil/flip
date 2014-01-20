@@ -93,7 +93,7 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
   X <- .getAlternative(X, data= if(is.null(data)) data.frame(Y) else data, n,dummyfy=dummyfy,forceFactor=forceFactor)
   attrXassign=attributes(X)$assign
   attrXfactors=attributes(X)$factors
-  
+  #browser()
   if(!is.null(Z)){
     Z <- .getNull(Z, data, n)
     offset <- Z$offset   
@@ -171,7 +171,7 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
   attributes(X)$assign=attrXassign
   attributes(X)$factors=attrXfactors
   options(ref.cat =oldRefCat)
-  if(is.null(Z) && !any(.getIntercept(X)))   Z=matrix(1,nrow(X))
+  if((is.null(Z) && !any(.getIntercept(X))) & rotationTest )   Z=matrix(1,nrow(X))
   return(list(Y=Y,X=X,Z=Z,Strata=Strata,intercept=FALSE))
 }
 
