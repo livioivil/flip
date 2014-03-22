@@ -6,7 +6,7 @@ dev for R package flip.
 
 Install it in R using the following command
 
-install.packages("devtools")
+#install devtools, if you don't have it: install.packages("devtools")
 
 library(devtools)
 
