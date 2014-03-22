@@ -345,7 +345,11 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
 .getIntercept <- function(X) apply(X,2,function(x)length(unique(x))==1)
 
 ##############################################
+orthoZ <- function(Y, X=NULL, Z=NULL, data=NULL,returnGamma=FALSE){ 
+  data=.orthoZ (list(Y=Y, X=X, Z=Z),returnGamma=returnGamma)
+}
 
+#####
 .orthoZ <- function(data,returnGamma=FALSE){  
   if(is.null(data$Z) || (length(data$Z)==0)) return(data)
   attrsYassign<-attributes(data$Y)$assign

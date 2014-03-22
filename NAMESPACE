@@ -19,4 +19,4 @@ numericOrmatrixOrNULL,arrayOrNULL,data.frameOrNULL
 exportMethods("[", "[[", show, result, p.value, length, names, "names<-", 
 	sort, size, hist, plot,summary, p.adjust)
 
-export(flip, flipMix, flipMixWithin, obs2coeffWithin, npc,flip.adjust,make.signSpace,make.permSpace,npermutations,allpermutations,t2p,cFlip, getFlip)
+export(flip, flipMix, flipMixWithin, obs2coeffWithin, npc,flip.adjust,make.signSpace,make.permSpace,npermutations,allpermutations,t2p,cFlip, getFlip,.orthoZ)

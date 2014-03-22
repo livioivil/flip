@@ -1,13 +1,14 @@
 \name{flip}
 \alias{flip}
 \alias{flip.statTest}
+\alias{orthoZ}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-The main function for univariate and multivariate testing under a permutation (and rotation) framework
+The main function for univariate and multivariate testing under a permutation (and rotation) framework + some utilities.
 }
 \description{
-The general function for permutation (or rotation) test.
+\code{flip} is the main function for permutation (or rotation) test.
 
 It allows for multivariate one sample, C>=2 samples and any regression tests. Also the use of covariates (to be fitted in the model but) not under test is allowed.
 }
@@ -21,6 +22,7 @@ flip.statTest
 #	"chisq","chisq.separated", "Fisher",
 #  "McNemar", "Sign","sum","coeff","NA")
 
+orthoZ(Y, X=NULL, Z=NULL, data=NULL,returnGamma=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -49,11 +51,13 @@ Choose from \code{flip.statTest}. See also Details section.
 \item{flipReturn}{list of objects indicating what will be included in the output.
 
  e.g. \code{list(permP=TRUE,permT=TRUE,data=TRUE)}.}
-\item{testType}{
-by default \code{testType="permutation"}. In alternative you can choose \code{"rotation"}
+ 
+\item{testType}{by default \code{testType="permutation"}. In alternative you can choose \code{"rotation"}
 resampling is performed through random linear combinations (i.e. a rotation test is performed). This option is useful when only few permutations are available, that is, minimum reachable significance is hight.
 The old syntax \code{rotationTest=TRUE} is maintained for compatibility  but is deprecated, use \code{testType="rotation"} instead.
 }
+
+\item{returnGamma}{logical. Should be the eigenvectors of the anti-projection matrix of \code{Z} (i.e. I- Z(Z'Z)^-1 Z') returned?}
 
 \item{\dots}{Further parameters. The followings are still valid but deprecated:
  
