@@ -143,7 +143,7 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
       #the following is better:
 #    			R <- svd(R)$u
 #       R <- rorthog(perms$n)
-      return(R%*%data$Y)
+      return(R%*%diag(c(-1,1)[rbinom(n-2,1,.5)+1])%*%data$Y)
 		}
 
 	return(perms)
