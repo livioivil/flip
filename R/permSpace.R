@@ -139,11 +139,13 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 		perms$rotFunct  <- function(i) { #argument is not used now
   			R <- matrix(rnorm(perms$n^2),ncol=perms$n) 
 				R <- qr.Q(qr(R, LAPACK = FALSE))
+        flipsign <- which(rbinom(perms$n,1,.5)==1)
+				R[,flipsign] <- -R[,flipsign]
 				#the above does not work properly. same for LAPACK = FALSE.
       #the following is better:
 #    			R <- svd(R)$u
 #       R <- rorthog(perms$n)
-      return(R%*%diag(c(-1,1)[rbinom(n-2,1,.5)+1])%*%data$Y)
+      return(R%*%data$Y)
 		}
 
 	return(perms)
