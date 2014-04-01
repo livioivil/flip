@@ -64,7 +64,8 @@ flipMix <- function(modelWithin,X=NULL,Z=NULL,units, perms=1000, data=NULL, tail
           res=cFlip(res,out)          
         }
       }
-		} else { #otherwise perform a symmetry test
+		
+      } else{ #otherwise perform a symmetry test
 		  #estTypeWithin=c("none","H0","H1")
 		  #type=H0 return a vector of estimates, 
       data$W=data$Y
@@ -72,8 +73,7 @@ flipMix <- function(modelWithin,X=NULL,Z=NULL,units, perms=1000, data=NULL, tail
 		  for(j in 1:nrow(data$covs)){
 		    data$W[j,]=1/sqrt(diag(data$Su) + diag(data$covs[j,,]))
 		  }
-      print("credo che qui manchi la moltiplicazione di X per Y. e occhio alle dev std")
-		  res=.symmetry.nptest(data, perms=perms, statTest=statTest[1],  tail = tail,testType=testType,...)
+      res=.symmetry.nptest(data, perms=perms, statTest=statTest[1],  tail = tail,testType=testType,...)
 		  out=res$test()
       out$extraInfoPre=cbind(est.Su=diag(data$Su),out$extraInfoPre)
 		  res=.getOut(res=out,data=data, call=call, flipReturn=flipReturn,call.env=res)

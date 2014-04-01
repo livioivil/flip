@@ -8,7 +8,7 @@
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-These functions handle the orbit (i.e. permutation space) of permutation tests.
+These functions handle the orbit of permutation/rotation tests (i.e. permutation/rotation space).
 }
 \description{
 \code{make.permSpace} computes the \code{perms} x n matrix of ids used for test of dependence. \code{make.signSpace} computes the \code{perms} x n vector of +1 and -1 used for symmetry test.
