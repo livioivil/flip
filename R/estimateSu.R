@@ -33,7 +33,7 @@
 		SSu = (t(Rs)%*%Rs-SS)/sum(w) 
 		
 		########## simmetrizza per non avere PARTI IMMAGINARIE dovute a scarsa approssimazione
-		E = eigen((SSu+t(SSu))/2)
+    E = eigen((SSu+t(SSu))/2)
 		E$values[E$values<0]=0
 		if(length(E$values)==1) E$values=matrix(E$values)
 		

@@ -1,3 +1,7 @@
+useDynLib(flip)
+importFrom(Rcpp, evalCpp)
+
+
 importFrom(graphics, hist, plot)
 
 importFrom(e1071,bincombinations)
@@ -11,7 +15,6 @@ importFrom(stats, coefficients, fitted.values, residuals, weights, alias,
 
 import(methods)
 
-
 exportClasses(flip.object,
 numericOrmatrixOrNULL,arrayOrNULL,data.frameOrNULL
 )
@@ -19,4 +22,7 @@ numericOrmatrixOrNULL,arrayOrNULL,data.frameOrNULL
 exportMethods("[", "[[", show, result, p.value, length, names, "names<-", 
 	sort, size, hist, plot,summary, p.adjust)
 
-export(flip, flipMix, flipMixWithin, obs2coeffWithin, npc,flip.adjust,make.signSpace,make.permSpace,npermutations,allpermutations,t2p,cFlip, getFlip,.orthoZ)
+
+export(flip, flipMix, flipMixWithin, obs2coeffWithin, npc,flip.adjust,make.signSpace,make.permSpace,npermutations,allpermutations,t2p,cFlip, getFlip,.orthoZ,rom)
+
+

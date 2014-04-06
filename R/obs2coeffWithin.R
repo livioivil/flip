@@ -58,7 +58,6 @@ out
 	res=.getEmptyFlipMix(colNames = colNames,idClust=idClust,nUnit=nUnit,ncoef=ncoef)
 	
 	for(idsel in idClust )  {
-    
   	newmodel = try(update(modelWithin,subset=(units==idsel),na.action=na.omit),silent = TRUE)
 		if(!is(newmodel,"try-error")){
 			res$coeffWithin[idsel,]=as.vector(coef(newmodel))
