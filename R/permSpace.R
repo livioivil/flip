@@ -144,15 +144,13 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 	#if(is.null(perms$seed) || is.na(perms$seed) )  perms$seed <- round(runif(1)*1000)
 	if(is.null(perms$rotFunct))  
 		perms$rotFunct  <- function(i) { #argument is not used now
-  			R <- matrix(rnorm(perms$n^2),ncol=perms$n) 
-				R <- qr.Q(qr(R, LAPACK = FALSE))
-        flipsign <- which(rbinom(perms$n,1,.5)==1)
-				R[,flipsign] <- -R[,flipsign]
+#   			R <- matrix(rnorm(perms$n^2),ncol=perms$n) 
+# 				R <- qr.Q(qr(R, LAPACK = FALSE))
+#         flipsign <- which(rbinom(perms$n,1,.5)==1)
+# 				R[,flipsign] <- -R[,flipsign]
 				#the above does not work properly. same for LAPACK = FALSE.
-      #the following is better:
-#    			R <- svd(R)$u
-#       R <- rorthog(perms$n)
-      return(R%*%data$Y)
+      #rom() is better:
+      return(rom(perms$n)%*%data$Y)
 		}
 
 	return(perms)
