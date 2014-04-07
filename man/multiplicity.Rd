@@ -18,7 +18,7 @@ flip.adjust(permTP, method = flip.npc.methods, maxalpha = 1,
 
 flip.npc.methods 
 #    c("Fisher", "Liptak", "Tippett", "MahalanobisT", "MahalanobisP", 
-#      "minP", "maxT", "maxTstd", "sumT", "Direct", "sumTstd", "sumT2",
+#      "minP", "maxT", "maxTstd", "sumT", "Direct", "sumTstd", "sumT2","kwer",
 #      "data.sum","data.linComb","data.pc","data.trace") 
 # use methods in the last row only for outputs of function flipMix()
 
@@ -28,7 +28,7 @@ flip.npc.methods
   \item{permTP}{
   A permutation space (B times m matrix) or an \code{flip.object} as produced by \code{\link{flip}}. Alternatively it can be a \code{\link{flip.object-class}} resulting, for example from a call of function \code{\link{flip}}.
 }
-  \item{comb.funct}{ A combining function \code{flip.npc.methods}: "Fisher", "Liptak", "MahalanobisT" , "MahalanobisP" (i.e. related to Hotelling T2), "minP" (i.e. Tippet), "maxT", "sumT" (i.e. direct) , "sumT2" (sum of T^2).
+  \item{comb.funct}{ A combining function \code{flip.npc.methods} (all but "kfwer"): "Fisher", "Liptak", "MahalanobisT" , "MahalanobisP" (i.e. related to Hotelling T2), "minP" (i.e. Tippet), "maxT", "sumT" (i.e. direct) , "sumT2" (sum of T^2).
   \code{"Fisher"} combining function is the default.
   See also the section \code{Details}.
 }
@@ -77,14 +77,16 @@ The followings have to be used carefully and only with objects from function fli
 \code{"data.sum"} = sum of all columns of Y\\
 \code{"data.linComb"} = sum of all columns of Y (include a vector or matrix \code{linComb} among the arguments)\\
 \code{"data.pc"} = extract the first Principal component from the covariance matrix (you may also include a vector \code{whichPCs} indicating which PCs you want to consider)\\
-\code{"data.trace"} = Extends the Pillai Trace, use parametric bootstrap to asses the significance.
+\code{"data.trace"} = Extends the Pillai Trace, use parametric bootstrap to asses the significance.\\
+\code{"kfwer"} = can be only used with \code{flip.adjust} (not in \code{npc}). It requires an extra parameter \code{k} (\code{k=11} by default).
 
 
 
-\code{flip.adjust} adjusts the p-value for multiplicity (FamilyWise Error Rate).
+\code{flip.adjust} adjusts the p-value for multiplicity (FamilyWise Error Rate -FWER- and kFWER).  
 When \code{method} is equal to \code{"maxT"}, \code{"maxTstd"} (i.e. max T on \code{scale(permTP)}) or "minP" (i.e. Tippett) it performs the step-down method of Westfall and Young (1993).
  For any other element of \code{flip.npc.methods} (i.e. "Fisher", "Liptak", "sumT" (i.e. direct) or "sumT2" (sum of T^2)) a call to \code{npc} together with a closed testing procedure is used (it make use of  \code{\link[cherry:closed]{cherry:closed}}).
  When \code{method} is any among \code{p.adjust.methods} the function \code{stats:p.adjust} or -if weights are provided- \code{someMTP:p.adjust.w} is used.
+ To perform control of the kFWER use \code{flip.adjust} with \code{method="kfwer"} and extra parameter \code{k}.
 }
 
 

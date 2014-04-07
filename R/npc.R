@@ -1,6 +1,6 @@
 ############################
 flip.npc.methods <-
-    c("Fisher", "Liptak", "Tippett", "MahalanobisT", "MahalanobisP", "minP", "maxT", "maxTstd", "sumT", "Direct", "sumTstd", "sumT2","data.sum","data.linComb","data.pc","data.trace")
+    c("Fisher", "Liptak", "Tippett", "MahalanobisT", "MahalanobisP", "minP", "maxT", "maxTstd", "sumT", "Direct", "sumTstd", "sumT2", "kfwer", "data.sum","data.linComb","data.pc","data.trace")
 ############################
 
 npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subsets=NULL,weights=NULL, stdSpace=FALSE, ...){

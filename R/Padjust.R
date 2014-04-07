@@ -24,6 +24,11 @@ flip.adjust <- function (permTP, method = flip.npc.methods, maxalpha=1, weights=
 			} else if(method=="maxT") {
 				if(stdSpace) {permTP@permT = .t2stdt(permTP@permT,FALSE)}
 				adjs=.maxt.adjust(.setTail(.fixPermT(permTP@permT), tail=permTP@tail), maxalpha,weights=weights)
+			} else if(method=="kfwer") {
+			  if(is.null(list(...)$k)) k=11 else 
+          k=list(...)$k
+			  if(stdSpace) {permTP = .t2stdt(permTP@permT,FALSE)}
+			  adjs=.p.adjust.kfwer(.setTail(.fixPermT(permTP@permT), tail=tail), k=k)
 			} else {
 			#otherwise perform closed testing
 			if(stdSpace & (method %in% c("sumT", "sumT2"))) {permTP@permT = .t2stdt(permTP@permT,FALSE)}
@@ -31,19 +36,24 @@ flip.adjust <- function (permTP, method = flip.npc.methods, maxalpha=1, weights=
 			  permTP@permP=t2p(.fixPermT(permTP@permT),obs.only=FALSE,tail=permTP@tail)
 			}
       
-			# Define the local test to be used in the closed testing procedure
-			mytest <- function(hyps) {p.value(npc(permTP[hyps],method,weights=weights[hyps]))}
-			cl <- closed(mytest, names(permTP),alpha=NA)
-			adjs=sapply(names(permTP),function(id) adjusted(cl,id))
+      # Define the local test to be used in the closed testing procedure
+      mytest <- function(hyps) {p.value(npc(permTP[hyps],method,weights=weights[hyps]))}
+      cl <- closed(mytest, names(permTP),alpha=NA)
+      adjs=sapply(names(permTP),function(id) adjusted(cl,id))
 			}
 		}
 		#fit it to the flip-object
 		permTP@res=cbind(permTP@res,adjs)
-	  if(paste("Adjust:",method,sep="")%in%colnames(permTP@res)){
+    pastemethod <- function(){
+      if(method=="kfwer")
+        method=paste("k",k,"fwer",sep="")
+      method
+    }
+	  if(paste("Adjust:",pastemethod(),sep="")%in%colnames(permTP@res)){
       i=2
-      while(paste("Adjust:",method,".",i,sep="")%in%colnames(permTP@res)) i=i+1
-        newname=paste("Adjust:",method,".",i,sep="")
-	  } else newname=paste("Adjust:",method,sep="")
+      while(paste("Adjust:",pastemethod(),".",i,sep="")%in%colnames(permTP@res)) i=i+1
+        newname=paste("Adjust:",pastemethod(),".",i,sep="")
+	  } else newname=paste("Adjust:",pastemethod(),sep="")
     colnames(permTP@res)[length(colnames(permTP@res))]=newname
 		return(permTP)
 			
@@ -62,6 +72,10 @@ flip.adjust <- function (permTP, method = flip.npc.methods, maxalpha=1, weights=
 			} else if(method=="maxT") {
 			    if(stdSpace) {permTP = .t2stdt(permTP,FALSE)}
 			  return(.maxt.adjust(.setTail(.fixPermT(permTP), tail=tail), maxalpha,weights=weights))
+			} else if(method=="kfwer") {
+        if(is.null(k)) k=11
+			  if(stdSpace) {permTP = .t2stdt(permTP,FALSE)}
+			  return(.p.adjust.kfwer(.setTail(.fixPermT(permTP), tail=tail), k=k))
 			} else {
 			#then perform closed testing
 			# Define the local test to be used in the closed testing procedure
