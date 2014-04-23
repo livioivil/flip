@@ -21,6 +21,10 @@
 - global test for flipMix have been moved from flipMix to npc, which now allows for new testStat options.
 - minor bugs fixed.
 
-2.4.1 (2013.10.13)
+2.4.1 (2014.04.14)
+- rom() (random orthogonal matrix) function have been (compiled) and implemented.
+- kfwer options for flip.adjust() performs generalized familiwise error rate for permutation tests.
 - minor bugs fixed.
 
+2.4.2 (2013.10.25)
+- minor bugs fixed.

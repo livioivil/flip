@@ -1,13 +1,17 @@
 Package: flip
 Type: Package
 Title: Multivariate Permutation Tests
-Version: 2.4.1
-Date: 2013-10-13
+Version: 2.4.2
+Date: 2013-04-25
 Author: Livio Finos, with contributions by Dario Basso, Aldo Solari, Jelle Goeman and Marco Rinaldo. Special thanks are due to Ivan Marin-Franch and Fredrik Nilsson for the debugging and the good questions.
 Maintainer: Livio Finos <livio@stat.unipd.it>
 Depends: methods, e1071, someMTP, cherry
-Imports: Rcpp, RcppArmadillo
+Imports: Rcpp,
 LinkingTo: Rcpp, RcppArmadillo
-Description: It implements many univariate and multivariate permutation (and rotation) tests. Allowed tests: the t one and two samples, ANOVA, linear models, Chi Squared test, rank tests (i.e. Wilcoxon, Mann-Whitney, Kruskal-Wallis), Sign test and McNemar. Test on Linear Models are performed also in presence of covariates (i.e. nuisance parameters). The permutation and the rotation methods to get the null distribution of the test statistics are available. It also implements methods for multiplicity control such as Westfall-Young minP procedure and Closed Testing (Marcus, 1976). Moreover, it allows to test for fixed effects in mixed effects models.
+Description: It implements many univariate and multivariate permutation (and rotation) tests. Allowed tests: the t one and two samples, ANOVA, linear models, Chi Squared test, rank tests (i.e. Wilcoxon, Mann-Whitney, Kruskal-Wallis), Sign test and McNemar. Test on Linear Models are performed also in presence of covariates (i.e. nuisance parameters). The permutation and the rotation methods to get the null distribution of the test statistics are available. It also implements methods for multiplicity control such as Westfall-Young minP procedure and Closed Testing (Marcus, 1976) and k-FWER. Moreover, it allows to test for fixed effects in mixed effects models.
 License: GPL (>= 2)
 LazyLoad: yes
+Packaged: 2014-04-14 11:03:22 UTC; livio
+NeedsCompilation: yes
+Repository: CRAN
+Date/Publication: 2014-04-14 19:04:45

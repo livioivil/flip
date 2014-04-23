@@ -22,7 +22,7 @@ flip.statTest
 #	"chisq","chisq.separated", "Fisher",
 #  "McNemar", "Sign","sum","coeff","NA")
 
-orthoZ(Y, X=NULL, Z=NULL, data=NULL,returnGamma=FALSE)
+orthoZ(Y, X=NULL, Z=NULL, data=NULL, returnGamma=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -57,7 +57,7 @@ resampling is performed through random linear combinations (i.e. a rotation test
 The old syntax \code{rotationTest=TRUE} is maintained for compatibility  but is deprecated, use \code{testType="rotation"} instead.
 }
 
-\item{returnGamma}{logical. Should be the eigenvectors of the anti-projection matrix of \code{Z} (i.e. I- Z(Z'Z)^-1 Z') returned?}
+\item{returnGamma}{logical. Should be the eigenvectors (with corresponding non-null eigenvalues) of the anti-projection matrix of \code{Z} (i.e. I- Z(Z'Z)^-1 Z') returned?}
 
 \item{\dots}{Further parameters. The followings are still valid but deprecated:
  
@@ -189,7 +189,7 @@ flip(~Y,~X,data=data,statTest="chisq")
 (res.sep=flip(~Y,~X,data=data,statTest="chisq.separated"))
 npc(res.sep,"sumT2") #note that combined test statistic is the same as chisq
 
-
+\dontrun{
 # User-defined test statistic:
 my.fun <- function(Y){
   summary(lm(Y~X))$coeff[1,"Pr(>|t|)"]
@@ -197,6 +197,7 @@ my.fun <- function(Y){
 X<- matrix(rep(0:2,10))
 Y <- matrix(rnorm(30))
 flip(Y=Y,X=X,statTest=my.fun)
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
