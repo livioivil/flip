@@ -156,11 +156,11 @@ res
 #flip(Y,~X,data=data)
 #since the former is based on orthogonalized residuals of Y and X by Z.
 
-
+\dontrun{
 #Rotation tests:
-rot=flip(Y,X,Z=~1,testType="rotation") #deprecated: rotationTest=TRUE
+rot=flip(Y,X,Z=~1,testType="rotation") 
 # note the use Z=~1.
-
+}
 
 #Using rank tests:
 res = flip(Y,~X,data=data,statTest="Wilcoxon")

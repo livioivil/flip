@@ -69,10 +69,12 @@ make.signSpace(5, 10)
 #All elements of the orbit of a one-sample test (the size of the space is 2^5 < 1000)
 make.signSpace(5, 1000)
 
+\dontrun{
 #A random rotation matrix of size 3
 (r=rom(3))
 #verify that it is orthogonal:
 r%*%t(r)
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
