@@ -1,8 +1,8 @@
 Package: flip
 Type: Package
 Title: Multivariate Permutation Tests
-Version: 2.4.2
-Date: 2013-04-25
+Version: 2.4.3
+Date: 2013-06-13
 Author: Livio Finos, with contributions by Dario Basso, Aldo Solari, Jelle Goeman and Marco Rinaldo. Special thanks are due to Ivan Marin-Franch and Fredrik Nilsson for the debugging and the good questions.
 Maintainer: Livio Finos <livio@stat.unipd.it>
 Depends: methods, e1071, someMTP, cherry

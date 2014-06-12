@@ -26,5 +26,10 @@
 - kfwer options for flip.adjust() performs generalized familiwise error rate for permutation tests.
 - minor bugs fixed.
 
-2.4.2 (2013.10.25)
+2.4.2 (2013.04.24)
 - minor bugs fixed.
+
+2.4.3 (2013.06.13)
+- minor bugs fixed.
+- mahalanobis combining function implemented in npc()
+
