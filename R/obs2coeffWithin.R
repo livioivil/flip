@@ -58,10 +58,10 @@ out
 	res=.getEmptyFlipMix(colNames = colNames,idClust=idClust,nUnit=nUnit,ncoef=ncoef)
 	
 	for(idsel in idClust )  {
-  	newmodel = try(update(modelWithin,subset=(units==idsel),na.action=na.omit),silent = TRUE)
+  	newmodel = try(update(modelWithin,contrasts=modelWithin$contrasts,subset=(units==idsel),na.action=na.omit),silent = TRUE)
 		if(!is(newmodel,"try-error")){
 			res$coeffWithin[idsel,]=as.vector(coef(newmodel))
-			res$se[idsel,]=if(!is.null(dim(coefficients(modelWithin)))) 
+  	res$se[idsel,]=if(!is.null(dim(coefficients(modelWithin)))) 
 			                   as.vector(sapply(summary(newmodel),
 							      function(x) {out=rep(NA,length(rownames(modelWithin$coefficients))); 
 								               names(out)=rownames(modelWithin$coefficients); 
@@ -69,11 +69,12 @@ out
 											   out})) else 
 								as.vector(summary(newmodel)$coef[,"Std. Error"])
 								
-			temp=if(!is.null(dim(coefficients(modelWithin)))) as.vector(sapply(summary(newmodel),function(x)x$df[1:2])) else as.vector(summary(newmodel)$df[1:2])
+# 			temp=if(!is.null(dim(coefficients(modelWithin)))) as.vector(sapply(summary(newmodel),function(x)x$df[1:2])) else as.vector(summary(newmodel)$df[1:2])
 			res$df.mod[idsel,] = 1
 			res$df.res[idsel,] =  newmodel$df.residual
         temp=vcov(newmodel)
 			res$covs[idsel,colnames(temp),colnames(temp)]= temp
+#       res$se[idsel,colnames(temp)]=sqrt(diag(temp))
 		}
 	}
 	####? serve?

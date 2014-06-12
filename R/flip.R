@@ -124,7 +124,11 @@ flip <- function(Y, X=NULL, Z=NULL, data=NULL, tail = 0, perms = 1000, statTest=
     }
     flush.console()
     cat("\n")
-    if(is.null(colnames(permT)))  colnames(permT)=.getTNames(Y,,permT=permT,checkUnique=TRUE)
+    if(is.null(colnames(permT))){
+      if(ncol(permT)==ncol(Y)) 
+        colnames(permT)=.getTNames(Y,,permT=permT,checkUnique=TRUE) else
+          colnames(permT)=.getTNames(Y,X,permT=permT,checkUnique=TRUE)
+    }
     rownames(permT)=.getTRowNames(permT)		  
     res=list(permT=permT,perms=perms,tail=tail,extraInfoPre=list(Test="Custom"))
   }

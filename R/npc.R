@@ -123,7 +123,10 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
            if(one.weight) pseudoT<-permTP%*%diag(all.weights) else 
              pseudoT<-permTP  else
              if(one.weight) pseudoT<-permTP[,subset,drop=FALSE]%*%diag(all.weights[subset])  else 
-               pseudoT<-permTP[,subset,drop=FALSE] 
+               pseudoT<-permTP[,subset,drop=FALSE]
+         if(ncol(pseudoT)==1)
+           return(scale(pseudoT)^2)
+           
          if(comb.funct %in% "MahalanobisP")          
            pseudoT=qnorm( t2p(pseudoT,tail=1,obs.only=FALSE)*.99999999999)  else
              pseudoT=scale(pseudoT,scale=FALSE)

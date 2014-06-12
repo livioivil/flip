@@ -10,6 +10,7 @@
 \alias{cFlip}
 \alias{flip.object-class}
 \alias{[,flip.object-method}
+\alias{[,flip.object,ANY,ANY,ANY-method}
 \alias{[[,flip.object-method}
 \alias{hist,flip.object-method}
 \alias{length,flip.object-method}
