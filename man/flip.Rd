@@ -22,7 +22,7 @@ flip.statTest
 #	"chisq","chisq.separated", "Fisher",
 #  "McNemar", "Sign","sum","coeff","NA")
 
-orthoZ(Y, X=NULL, Z=NULL, data=NULL, returnGamma=FALSE)
+orthoZ(Y, X=NULL, Z=NULL, returnGamma=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

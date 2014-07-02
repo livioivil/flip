@@ -22,7 +22,7 @@
     if(statTest=="NA"){ #for missing values
 	    #same function for permutation and rotation tests
 	      test <- .NA.dependence.nptest
-	  } else if(statTest%in%c("sum","t","coeff")){
+	  } else if(statTest%in%c("sum","t","coeff","cor")){
 				test <- .t.dependence.nptest		
 		} else if(statTest=="F"){ #ANOVAtype test, 1 column for each column of Y summarizing the dependence with all Xs			
 				test <- .F.dependence.nptest
@@ -65,9 +65,11 @@ if(statTest%in%c("Fisher","Wilcoxon","Kruskal-Wallis","rank","chisq","Kolmogorov
 		#data$X=scale(data$X,scale=FALSE)
   permT=.prod.perms(data,perms,testType=testType)
 	
-	if(statTest%in%c("sum","coeff") )
-		permT= .prod2sum(permT,data)
-	else if(statTest=="t") {
+  if(statTest%in%c("sum","coeff") )
+    permT= .prod2sum(permT,data)
+  else if(statTest%in%c("cor") )
+    permT= .prod2cor(permT,data)
+  else if(statTest=="t") {
 		permT= .prod2t(permT,data)
 		if(any(intercept) ) permT =permT * sqrt((N-1-sum(intercept))/(N-1))
 		}

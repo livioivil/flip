@@ -33,3 +33,5 @@
 - minor bugs fixed.
 - mahalanobis combining function implemented in npc()
 
+future version
+- function allpermutations now relies on the function permutation of the library(e1071) (much faster)

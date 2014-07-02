@@ -101,7 +101,7 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 				# all permutations if possible
 				if ( ( allperms <= perms$B) && (!forceRandom)) {
 					#random <- FALSE
-					perms$permID <- t(allpermutations(IDs))[-1,]
+					perms$permID <- allpermutations(IDs)[-1,]
 					perms$seed=NA
 					perms$B=(allperms)
 					perms$rotFunct <- function(i) (data$Y[perms$permID[i,],,drop=FALSE])
@@ -198,31 +198,31 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 # values: vector of all unique values
 # multiplicity: multiplicity of each value
 ############################
-.allpermutations <- function(values, multiplicity) {
-
-  if (length(values)==1) {
-    out <- values
-  } else {
-    n <- sum(multiplicity)
-    out <- matrix(0 , n, .npermutations(multiplicity))
-    where <- 0
-    for (i in 1:length(values)) {
-      if (multiplicity[i] == 1) {
-        newmult <- multiplicity[-i]
-        newvals <- values[-i]
-      } else {
-        newmult <- multiplicity
-        newmult[i] <- newmult[i] - 1
-        newvals <- values
-      }
-      range <- where + seq_len(.npermutations(newmult))
-      where <- range[length(range)]
-      out[1,range] <- values[i]
-      out[2:n, range] <- .allpermutations(newvals, newmult)
-    }
-  }
-  out
-}
+# .allpermutations <- function(values, multiplicity) {
+# 
+#   if (length(values)==1) {
+#     out <- values
+#   } else {
+#     n <- sum(multiplicity)
+#     out <- matrix(0 , n, .npermutations(multiplicity))
+#     where <- 0
+#     for (i in 1:length(values)) {
+#       if (multiplicity[i] == 1) {
+#         newmult <- multiplicity[-i]
+#         newvals <- values[-i]
+#       } else {
+#         newmult <- multiplicity
+#         newmult[i] <- newmult[i] - 1
+#         newvals <- values
+#       }
+#       range <- where + seq_len(.npermutations(newmult))
+#       where <- range[length(range)]
+#       out[1,range] <- values[i]
+#       out[2:n, range] <- .allpermutations(newvals, newmult)
+#     }
+#   }
+#   out
+# }
 
 ############################
 # Iterative function counts all permutations of a vector
@@ -242,13 +242,10 @@ npermutations <- function(Y) {
 }
 
 ############################
-# Calculates all permutations of a vector y
-# user-friendly version of .allpermutations()
+# Calculates all permutations of a vector y using permutations() of library(e1071)
 ############################
 allpermutations <- function(Y) {
-  values <- unique(Y)
-  multiplicity <- colSums(outer(Y, values, "=="))
-  .allpermutations(values, multiplicity)
+  matrix(Y[permutations(length(Y))],ncol=length(Y))
 }
 
 

@@ -3,7 +3,7 @@ importFrom(Rcpp, evalCpp)
 
 importFrom(graphics, hist, plot)
 
-importFrom(e1071,bincombinations)
+importFrom(e1071,bincombinations,permutations)
 
 importFrom(someMTP, p.adjust.w)
 

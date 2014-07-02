@@ -345,7 +345,7 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
 .getIntercept <- function(X) apply(X,2,function(x)length(unique(x))==1)
 
 ##############################################
-orthoZ <- function(Y, X=NULL, Z=NULL, data=NULL,returnGamma=FALSE){ 
+orthoZ <- function(Y, X=NULL, Z=NULL, returnGamma=FALSE){ 
   data=.orthoZ (list(Y=Y, X=X, Z=Z),returnGamma=returnGamma)
 }
 
@@ -721,7 +721,23 @@ orthoZ <- function(Y, X=NULL, Z=NULL, data=NULL,returnGamma=FALSE){
   colnames(permT)=.getTNames(data$Y,data$X)
   rownames(permT)=.getTRowNames(permT)
   permT
-}	
+}  
+.prod2cor <- function(permT,data){
+  N=nrow(data$Y)
+  permT=permT/N
+  meany=apply(data$Y,2,mean)
+  meanx=apply(data$X,2,mean)
+  vary=apply(data$Y,2,var)
+  varx=apply(data$X,2,var)
+  
+  
+  permT=scale(permT, 
+              center=as.vector(outer(colMeans(data$X),colMeans(data$Y),"*"))  , 
+              scale=(N-1)/N*as.vector(outer(apply(data$X,2,sd),apply(data$Y,2,sd),"*"))  )
+  colnames(permT)=.getTNames(data$Y,data$X)
+  rownames(permT)=.getTRowNames(permT)
+  permT
+}  
 
 .prod2t <- function(permT,data){
   N=nrow(data$Y)

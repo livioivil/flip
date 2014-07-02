@@ -14,7 +14,10 @@ These functions handle the orbit of permutation/rotation tests (i.e. permutation
 \description{
 \code{make.permSpace} computes the \code{perms} x n matrix of ids used for test of dependence. \code{make.signSpace} computes the \code{perms} x n vector of +1 and -1 used for symmetry test.
 
-\code{rom} computes a Random Orthogonal Matrix of size \code{n}X\code{n}.
+\code{rom} computes a Random Orthogonal Matrix of size \code{n}X\code{n} (C-compiled function, very fast)
+
+\code{allpermutations} computes all permutations of a vector \code{Y}. Is is based on the function \code{permutations} of the \code{library(e1071)}.
+
 
 \code{t2p} computes the (possibily multivariate) space of p-values from the space of test statistic.
 
