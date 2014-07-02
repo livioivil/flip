@@ -78,9 +78,8 @@ The old syntax \code{rotationTest=TRUE} is maintained for compatibility  but is 
 from the fit of a multiple (multivariate) linear models, since the correlation does not consider the other covariates).  The test \code{t} is valid only under the assumption that each variable in X is independent of each variable in Y. To get adequate test while adjusting for covariates, use \code{Z} (see example below)
 The test statistic \code{"sum"} is the sum  of values (or frequencies) of the given sample 
 centered on the expected (i.e. computed on the overall sample).
-\code{"coeff"} is the statistic based on the estimated coefficient of lm.
-It produce a test for every possible combination of (columns of) \code{X} and \code{Y} (p-values can be combined using \code{npc}).
-\code{"cor"} is the correlation between each column of \code{X} and each of \code{Y}.
+\code{"coeff"} is the statistic based on the estimated coefficient of an \code{lm}. It produces a test for every possible combination of (columns of) \code{X} and \code{Y} (p-values can be combined using \code{npc}).
+\code{"cor"} is the correlation (i.e. not partial correlation) between each column of \code{X} and each of \code{Y}.
 
 \code{"ANOVA"} is synonyms of \code{"F"}. Only valid for dependence tests (i.e. non constant \code{X}). 
 \code{"Mann-Whitney"} is synonyms of \code{"Wilcoxon"}. 
