@@ -20,7 +20,7 @@ flip.statTest
 #    c("t", "F", "ANOVA",
 #  "Wilcoxon","Kruskal-Wallis", "kruskal", "rank", "Mann-Whitney",
 #	"chisq","chisq.separated", "Fisher",
-#  "McNemar", "Sign","sum","coeff","NA")
+#  "McNemar", "Sign","sum","coeff","cor","NA")
 
 orthoZ(Y, X=NULL, Z=NULL, returnGamma=FALSE)
 }
@@ -80,6 +80,7 @@ The test statistic \code{"sum"} is the sum  of values (or frequencies) of the gi
 centered on the expected (i.e. computed on the overall sample).
 \code{"coeff"} is the statistic based on the estimated coefficient of lm.
 It produce a test for every possible combination of (columns of) \code{X} and \code{Y} (p-values can be combined using \code{npc}).
+\code{"cor"} is the correlation between each column of \code{X} and each of \code{Y}.
 
 \code{"ANOVA"} is synonyms of \code{"F"}. Only valid for dependence tests (i.e. non constant \code{X}). 
 \code{"Mann-Whitney"} is synonyms of \code{"Wilcoxon"}. 
