@@ -310,7 +310,6 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
     # if (model == "cox") Z <- Z[,names(Z) != "(Intercept)"]
   }
   
-  print(str(Z))
   # check dimensions
   if (nrow(Z) != n) {
     stop("the length of \"Y\" (",n, ") does not match the row count of \"Z\" (", nrow(Z), ")")
