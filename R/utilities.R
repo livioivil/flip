@@ -286,6 +286,7 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
       stop("argument \"Z\" could not be coerced into a matrix")
     }
   }
+  
   if (is(Z, "formula")) {
     if (is.null(data)) {
       tnull <- terms(Z)
@@ -309,6 +310,7 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
     # if (model == "cox") Z <- Z[,names(Z) != "(Intercept)"]
   }
   
+  print(str(Z))
   # check dimensions
   if (nrow(Z) != n) {
     stop("the length of \"Y\" (",n, ") does not match the row count of \"Z\" (", nrow(Z), ")")
@@ -546,7 +548,7 @@ orthoZ <- function(Y, X=NULL, Z=NULL, returnGamma=FALSE){
     # tails of the test
     dir=.setTailOut (permT=res$permT, tail=res$tail)		
     #build the results table
-    TAB=data.frame(Stat=as.vector(stat),#sd.permT=as.vector(stDev), pseudoZ=as.vector(pseudoZ),
+    TAB=data.frame(Stat=round(as.vector(stat),4),#sd.permT=as.vector(stDev), pseudoZ=as.vector(pseudoZ),
                    tail=as.vector(dir), p=as.vector(p),stringsAsFactors =FALSE)
   } else if(type=="npc"){
     #build the results table

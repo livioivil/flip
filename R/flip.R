@@ -4,7 +4,7 @@ flip.statTest <-
 	"Wilcoxon","Kruskal-Wallis", "kruskal", "rank", "Mann-Whitney",
 	"chisq","chisq.separated", "Fisher",
 	#"KS", "kolmogorow", "Kolmogorow-Smirnov", "ad",
-  "McNemar", "Sign","sum","coeff","cor","NA")
+  "McNemar", "Sign","sum","coeff","cor","cor.Spearman","cor.rank","NA")
 
 .get.statTest <- function(statTest){ 
 	if(is(statTest,"function")) return(statTest) else
@@ -18,6 +18,8 @@ flip.statTest <-
 		statTest="Kruskal-Wallis" else
 	if(statTest=="Mann-Whitney")
 		statTest="Wilcoxon" else
+		  if(statTest=="cor.rank")
+		    statTest="cor.Spearman" #else
 # 	if(statTest%in%c("KS", "kolmogorow"))
 # 		statTest="Kolmogorow-Smirnov"
 # 		
@@ -52,7 +54,7 @@ flip <- function(Y, X=NULL, Z=NULL, data=NULL, tail = 0, perms = 1000, statTest=
   
     #check if the problem can be set as one sample problem
     if(!symmetryTest) if(!is.function(statTest))
-  	if(statTest%in% c("t","sum","cor","ranks","Wilcoxon","McNemar","Sign"))
+  	if(statTest%in% c("t","sum","cor","cor.Spearman","cor.rank","ranks","Wilcoxon","McNemar","Sign"))
   	  if(  !is.null(data$Strata) ){#is.null(data$Z)|| ncol(data$Z)==0)  &
   			keep=setdiff(1:ncol(data$X),.getIntercept(data$X))
   			if( (length(unique(data$X[,keep]))==2) && 
@@ -91,6 +93,7 @@ flip <- function(Y, X=NULL, Z=NULL, data=NULL, tail = 0, perms = 1000, statTest=
   } else{
     test= .custom.nptest(Y=Y, X=X, Z=Z, data=data, tail = tail, perms = perms, statTest=statTest, Strata=Strata, flipReturn=flipReturn, testType=testType, ...)
   }
+
   res <- test$test()
 	#build the flip-object
   res$call=call

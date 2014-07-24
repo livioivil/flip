@@ -122,11 +122,12 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 		perms
 	} else #Strata are present
 	{	
-		strataSz=cumsum(table(Strata))
-		strataLable= unique(Strata)
-		space=.make.PermSpace(IDs=IDs[Strata==strataLable[1]],perms=perms,return.permIDs=TRUE,Strata=NULL,forceRandom=TRUE)
-		for(i in 2:length(strataSz))
-		space$permID =cbind(space$permID,.make.PermSpace(IDs=IDs[Strata==strataLable[i]],perms=perms,return.permIDs=TRUE,Strata=NULL,forceRandom=TRUE)$permID)
+		strataLabel= as.vector(unique(as.matrix(Strata)))
+		space=.make.PermSpace(IDs=IDs[Strata==strataLabel[1]],perms=perms,return.permIDs=TRUE,Strata=NULL,forceRandom=TRUE)
+		for(i in 2:length(strataLabel))
+		space$permID =cbind(space$permID,.make.PermSpace(IDs=IDs[Strata==strataLabel[i]],perms=perms,return.permIDs=TRUE,Strata=NULL,forceRandom=TRUE)$permID)
+    space$n=length(IDs)
+	space
 	}
 }
 
