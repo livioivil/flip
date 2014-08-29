@@ -136,6 +136,14 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 # rotation space of a vector Y. 
 # perms is the number of permutations; seed the seed for random number generation, rotFunct the function to generate the random rotations
 ############################
+romFast  <- function(n) {
+  R <- matrix(rnorm(n^2),ncol=n) 
+  R <- qr.Q(qr(R, LAPACK = FALSE))
+  flipsign <- which(rbinom(n,1,.5)==1)
+  R[,flipsign] <- -R[,flipsign]
+  R}
+
+
 .make.RotSpace <- function(Y,perms) {
 
 	##then it is a list anyway now
@@ -143,19 +151,17 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 	if(is.null(perms$n))  perms$n <- length(Y)
 	if(is.null(perms$B))  perms$B <- 1000
 	#if(is.null(perms$seed) || is.na(perms$seed) )  perms$seed <- round(runif(1)*1000)
-	if(is.null(perms$rotFunct))  
-		perms$rotFunct  <- function(i) { #argument is not used now
-#   			R <- matrix(rnorm(perms$n^2),ncol=perms$n) 
-# 				R <- qr.Q(qr(R, LAPACK = FALSE))
-#         flipsign <- which(rbinom(perms$n,1,.5)==1)
-# 				R[,flipsign] <- -R[,flipsign]
-				#the above does not work properly. same for LAPACK = FALSE.
-      #rom() is better:
-      return(rom(perms$n)%*%data$Y)
-		}
-
+	if(is.null(perms$rotFunct))
+	  if(perms$n<50){
+      perms$rotFunct  <- function(i) { #argument is not used now
+        return(rom(perms$n)%*%data$Y)
+      }
+	  } else {
+	    perms$rotFunct  <- function(i) { #argument is not used now
+	      return(romFast(perms$n)%*%data$Y)
+	    }
+	  }
 	return(perms)
-	
 }	  
 
 

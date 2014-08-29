@@ -37,7 +37,7 @@ orthoZ(Y, X=NULL, Z=NULL, returnGamma=FALSE)
       not have to be supplied again here. May be given as a half
       \code{\link[stats:formula]{formula}} object (e.g. \code{~a+b}). In
       that case the intercept is always suppressed.}
-    \item{Z}{The part of the design matrix corresponding to the null hypothesis. May be given as a design matrix or as a half \code{\link[stats:formula]{formula}} object (e.g. \code{~a+b}). The default for \code{Z} is \code{~1}, i.e. only an intercept. This intercept may be suppressed, if desired, with \code{Z = ~0}.}    
+    \item{Z}{The part of the design matrix corresponding to the null hypothesis. May be given as a design matrix or as a half \code{\link[stats:formula]{formula}} object (e.g. \code{~a+b}). The default for \code{Z} is \code{~1}, i.e. only an intercept. This intercept may be suppressed, if desired, with \code{Z = ~0}.}
 	\item{data}{Only used when \code{Y}, \code{X}, or \code{Z} is given in formula form. An optional data frame, list or environment containing the variables used in the formula. If the variables in a formula are not found in \code{data}, the variables are taken from environment(formula), typically the environment from which \code{gt} is called.}
   \item{tail}{Vector of values -1, 0 or 1 indicating the tail to be used in the test for each column of \code{Y}. \code{tail=1} (-1) means that greater (smaller) values bring more evidence to the alternative hypothesis. \code{tail=0} indicates a two sided alternative. If the length of \code{tail} is smaller than number of columns of \code{Y}, the values are recycled.}
 \item{perms}{The number of permutations to use. The default is \code{perms = 1000}. Alternatively it can be a matrix (i.e. the permutation space) or a list with elements \code{number} and \code{seed}.}
@@ -53,7 +53,7 @@ Choose from \code{flip.statTest}. See also Details section.
  e.g. \code{list(permP=TRUE,permT=TRUE,data=TRUE)}.}
  
 \item{testType}{by default \code{testType="permutation"}. In alternative you can choose \code{"rotation"}
-resampling is performed through random linear combinations (i.e. a rotation test is performed). This option is useful when only few permutations are available, that is, minimum reachable significance is hight.
+resampling is performed through random linear combinations (i.e. a rotation test is performed). This option is useful when only few permutations are available, that is, minimum reachable significance is hight. See also the \code{details} section for the algorithm used.
 The old syntax \code{rotationTest=TRUE} is maintained for compatibility  but is deprecated, use \code{testType="rotation"} instead.
 }
 
@@ -94,20 +94,18 @@ When the \code{X} is not a two-levels factor, it measures the codeviance among \
 For paired samples (see also the argument \code{Strata} and the example below) the Signed Rank test is performed.
 To perform the Sign Test use option \code{Sign} (i.e. same as Signed Rank but without using magnitude of ranks).
 
-
 The \code{"Fisher"} test is allowed only with dichotomous \code{Y}s. The reported statistic is the bottom-right cell of the 2 by 2 frequencies table.
 The \code{"chisq.separated"} test perform cell-wise chi squared (see also Finos and Salmaso (2004) Communications in Statistics - Theory and methods).
 
-
 The \code{"McNemar"} test is based on the signs of the differences, hence it can be used also with ordinal or continuous responses. Only valid for symmetry tests (i.e. \code{X} is constant or \code{NULL}). 
 The reported statistic for \code{"McNemar"} test is the signed squared root of the McNemar statistic. Hence it allows for tailed alternatives.
-
 
 For ordered \code{X}, a stochastic ordering test can be performed using \code{"t","Wilcoxon","sum"} and then combining the separated test using \code{npc}.
 
 When \code{statTest} is a \code{function}, the first argument must be \code{Y}. This same function is ran to observed data \code{Y} and to a number of permuted rows of \code{Y}. The returned value must be a vector of test statistics. Please note that argument \code{tail} must be defined accordingly.
 The default way the rows of \code{Y} are rearranged is through permutation (without strata). More complex permutation strategies can be defined through proper definition of argument \code{perm} (see also \code{\link{permutationSpace}}).
-}
+
+For \code{testType="rotation"}: As long as the number of orthogonalized residuals (i.e. the number of observations minus the number of columns in \code{Z}) is lower than 50, the function \code{rom} is used. The the number is larger, the faster version \code{romFast} is used instead. Although the latter is less accurate, for such a big sample size, it is not expected to affect the control of the type I error.}
 
 
 \value{An object of class \code{flip.object}. 

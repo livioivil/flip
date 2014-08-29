@@ -6,6 +6,7 @@
 \alias{npermutations}
 \alias{t2p}
 \alias{rom}
+\alias{romFast}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -16,11 +17,11 @@ These functions handle the orbit of permutation/rotation tests (i.e. permutation
 
 \code{rom} computes a Random Orthogonal Matrix of size \code{n}X\code{n} (C-compiled function, very fast)
 
+\code{romFast} computes a Random Orthogonal Matrix of size \code{n}X\code{n} using the \code{qr.Q}  decomposition. \code{romFast} is faster than \code{rom} but can be inaccurate (i.e. providing inaccurate type I error control when used in testing), specially for very small \code{n} (i.e. sample size).
+
 \code{allpermutations} computes all permutations of a vector \code{Y}. Is is based on the function \code{permutations} of the \code{library(e1071)}.
 
-
 \code{t2p} computes the (possibily multivariate) space of p-values from the space of test statistic.
-
 }
 \usage{
 make.permSpace(IDs,perms,return.permIDs=FALSE,testType="permutation",Strata=NULL)
@@ -28,6 +29,7 @@ make.signSpace(N, perms)
 allpermutations(Y)
 npermutations(Y)
 rom(N)
+romFast(N)
 t2p(T, obs.only = TRUE, tail)
 }
 %- maybe also 'usage' for other objects documented here.
