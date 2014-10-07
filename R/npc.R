@@ -1,6 +1,6 @@
 ############################
 flip.npc.methods <-
-    c("Fisher", "Liptak", "Tippett", "MahalanobisT", "MahalanobisP", "minP", "maxT", "maxTstd", "sumT", "Direct", "sumTstd", "sumT2", "kfwer", "data.sum","data.linComb","data.pc","data.trace")
+    c("Fisher", "Liptak", "Tippett", "MahalanobisT", "MahalanobisP", "minP", "maxT", "maxTstd", "sumT", "Direct", "sumTstd", "sumT2","kfwer", "data.sum","data.linComb","data.pc","data.trace")
 ############################
 
 npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subsets=NULL,weights=NULL, stdSpace=FALSE, ...){
@@ -110,13 +110,13 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
 	if(comb.funct %in% c("Fisher", "Liptak", "sumT", "sumT2", "sumTstd"))
 		  test= function(subset=NULL,weights=NULL){ 
 		  permT = matrix(if(is.null(subset)) permTP%*%all.weights else permTP[,subset,drop=FALSE]%*%all.weights[subset]) ;
-      permT} else 	
+      permT} else 
   if(comb.funct %in% c("minP", "maxT", "maxTstd"))
-		   test= function(subset=NULL,weights=NULL){ #browser()
-					permT = matrix(apply(if(is.null(subset)) { if(one.weight) t(all.weights*t(permTP)) else permTP } else 
-					t(all.weights[subset]*t(permTP[,subset,drop=FALSE])) , 1, max))  ; 
-					permT
-          } else 
+      test= function(subset=NULL,weights=NULL){ #browser()
+        permT = matrix(apply(if(is.null(subset)) { if(one.weight) t(all.weights*t(permTP)) else permTP } else 
+          t(all.weights[subset]*t(permTP[,subset,drop=FALSE])) , 1, max))  ; 
+        permT
+      } else  
   if(comb.funct %in% c("MahalanobisT","MahalanobisP")) 
         test= function(subset=NULL,weights=NULL){
          if(is.null(subset)) 
