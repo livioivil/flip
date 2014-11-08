@@ -12,7 +12,7 @@ editare i file e poi
 
    git status 
 
-x vedere quali file nuovi ci sono, quali modificati ,,,
+x vedere quali file nuovi ci sono, quali modificati ...
 
   git add nuovofile.R  (x aggiuneger un file al repository)
 

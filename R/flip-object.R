@@ -297,11 +297,20 @@ setGeneric("hist", function(x,...) standardGeneric("hist"))
 #setMethod("hist", matchSignature(signature(x = "flip.object"), hist), 
 setMethod("hist", "flip.object", function(x, ...)  {
   
-  flip.hist <- function(x, breaks=100, main="", xlab = "Permutation test statistics", ...) {
+  flip.hist <- function(x, breaks=100, main=NULL, xlab = "Test Statistics", ...) {
 
-     if (length(x) > 1)
-     stop("length(object) > 1. Please reduce to a single test result")
-  
+     if (length(x) > 1){
+       k=length(x)/5
+       n.cl=floor(k*3)
+       n.rw=floor(k*2)
+       mfrow.now=par("mfrow")
+       par(mfrow=c(n.rw,n.cl))
+        res=sapply(1:length(x),function(i)flip.hist(x[i]))
+       par(mfrow=mfrow.now)
+       
+       return(invisible(res))
+#      stop("length(object) > 1. Please reduce to a single test result")
+  }
     # if (is.null(x@weights)) 
       # weights <- rep(1, size(x))
     # else
@@ -312,20 +321,30 @@ setMethod("hist", "flip.object", function(x, ...)  {
       # subset <- x@subsets[[1]]
   
     #recalculate <- x@functions$permutations(subset, weights)
-    
+    if(is.null(main))  main=names(x)[1]
     Q <- x@permT[1,]
     nperm <- length(x@permT-1)
-    hst <- hist(x@permT, xlim = c(1.1 * min(0, x@permT), 1.1 * max(x@permT)), breaks = breaks, 
-      main = main, xlab = xlab, ...)
+    hst <- hist(x@permT,plot=FALSE, breaks = breaks)
+
+
+      cols=rep(wes.palette(5, "Darjeeling")[2],length(hst$breaks)-1)
+      pts=.setTail(cbind(c(x@permT[1,],hst$breaks[-1])),x@tail)
+      cols[which(pts[-1]>=pts[1] )]="#F98400"
+      
+     plot(hst,          xlim = c(1.1 * min(0, x@permT), 1.1 * max(x@permT)), 
+      main = main, xlab = xlab,col=cols,
+      , border= "#00A08A"#"#F2AD00"
+      , ...)#"#00A08A"
      if(is.null(list(...)$freq) & is.null(list(...)$probability)) 
        h <- max(hst$counts) else {
          if(c(1-list(...)$freq,list(...)$probability)>0 ) 
            h <- max(hst$density) else  
              h <- max(hst$counts)
        }
-     
-    arrows( Q, h/2, Q, 0 , lwd=2)
-    text( Q, h/2, 'Observed\ntest\nstatistic' , pos=3)
+redUnipd="#FF0000"
+    lines(  c(Q, Q), c(h/2, 0) , lwd=2,col=redUnipd)
+    points( Q,0 , lwd=2,col=redUnipd,pch=21,bg=redUnipd)
+    text( Q, h/2, 'Observed\ntest\nstatistic' , pos=3,col=redUnipd)
   
     # No output
     invisible(list(statistic = Q, histogram = hst))
@@ -357,11 +376,14 @@ setMethod("plot", "flip.object",
            xlab=colnames(x@permT)[1],
            ylab=colnames(x@permT)[2],
            main= "Permutation Space" ,
-           col="darkgrey",
-           bg="orange",pch=21,lwd=1,cex=1,asp=1)
+           bg="#F2AD00"#"darkgrey"
+           ,col="#F98400"#"orange"
+           ,pch=21,lwd=1,cex=1,asp=1)
       
-      points(x@permT[1,1],x@permT[1,2],col="darkgrey",bg="blue",cex=2,lwd=2,pch=21)
-      text(x@permT[1,1],x@permT[1,2],labels="ObsStat")
+      points(x@permT[1,1],x@permT[1,2],col="#F2AD00"#"darkgrey"
+             ,bg="#00A08A"#"blue"
+             ,cex=2,lwd=2,pch=21)
+      text(x@permT[1,1],x@permT[1,2],labels="ObsStat",col="gray30")
     } else { 
       pc=prcomp(x@permT,scale. =FALSE,center=FALSE)
       #obs is always on top-right quadrant:
@@ -377,14 +399,19 @@ setMethod("plot", "flip.object",
            xlab=paste("PC1 (",round(pc$ sdev [1]^2 /sum(pc$ sdev ^2) *100,2)," %)",sep=""),
            ylab=paste("PC2 (",round(pc$ sdev [2]^2 /sum(pc$ sdev ^2) *100,2)," %)",sep=""),
            main= "PCA of Permutation Space" ,
-           col="darkgrey",
-           bg="orange",pch=21,lwd=1,cex=1,asp=1)
+           bg="#F2AD00"#"darkgrey"
+           ,col="#F98400"#"orange"
+           ,pch=21,lwd=1,cex=1,asp=1)
       
-      points(pc$x[1,1],pc$x[1,2],col="darkgrey",bg="blue",cex=2,lwd=2,pch=21)
+      points(pc$x[1,1],pc$x[1,2],col="#F2AD00"#"darkgrey"
+             ,bg="#00A08A"#"blue"
+             ,cex=2,lwd=2,pch=21)
 
-      arrows(0,0,datapc[,1],datapc[,2],col=ifelse( p.value(x)<.05,"red","blue"),lwd=2,angle=15,length=.1)
-      text(datapc[,1],datapc[,2],labels=rownames(datapc))
-      text(pc$x[1,1],pc$x[1,2],labels="ObsStat")
+      arrows(0,0,datapc[,1],datapc[,2],col=ifelse( p.value(x)<.05,"#FF0000"#"red"
+                                                   ,"#00A08A"#"blue"
+                                                   ),lwd=2,angle=15,length=.1)
+      text(datapc[,1],datapc[,2],labels=rownames(datapc),col="gray30")
+      text(pc$x[1,1],pc$x[1,2],labels="ObsStat",col="gray30")
       
       # lam <- pc$sdev[1:2] #* sqrt(dim(pc$x)[1])
       # #plot(pc$x[, 1:2]/lam)

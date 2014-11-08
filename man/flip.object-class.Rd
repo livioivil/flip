@@ -56,7 +56,7 @@ Objects can be created by calls of the form \code{new("flip.object", ...)}.
   \describe{
     \item{[}{Select tests from the \code{flip.object}. Tests can be selected by position of name. It also allow for grep-like selection.}
     \item{[[}{Same as \code{[} }
-    \item{hist}{Produces a histogram to visualize the permutation test statistics (same as \code{globaltest:gt.object}) }
+    \item{hist}{Produces an histogram for each element to visualize the distribution based on permutation of test statistics (same as \code{globaltest:gt.object}). }
     \item{length}{Number of tests }
     \item{names}{\code{signature(x = "flip.object")}: ... }
     \item{names<-}{\code{signature(x = "flip.object")}: ... }
