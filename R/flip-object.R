@@ -326,14 +326,15 @@ setMethod("hist", "flip.object", function(x, ...)  {
     nperm <- length(x@permT-1)
     hst <- hist(x@permT,plot=FALSE, breaks = breaks)
 
-
       cols=rep(wes.palette(5, "Darjeeling")[2],length(hst$breaks)-1)
-      pts=.setTail(cbind(c(x@permT[1,],hst$breaks[-1])),x@tail)
+      cols.brd=cols
+      pts=.setTail(cbind(c(x@permT[1,],hst$mids)),x@tail)
       cols[which(pts[-1]>=pts[1] )]="#F98400"
+#       cols.brd[which(pts[-1]>=pts[1] )]="#FF0000"
       
      plot(hst,          xlim = c(1.1 * min(0, x@permT), 1.1 * max(x@permT)), 
       main = main, xlab = xlab,col=cols,
-      , border= "#00A08A"#"#F2AD00"
+      , border= cols.brd#"#F2AD00"
       , ...)#"#00A08A"
      if(is.null(list(...)$freq) & is.null(list(...)$probability)) 
        h <- max(hst$counts) else {
