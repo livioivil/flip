@@ -56,13 +56,13 @@ Objects can be created by calls of the form \code{new("flip.object", ...)}.
   \describe{
     \item{[}{Select tests from the \code{flip.object}. Tests can be selected by position of name. It also allow for grep-like selection.}
     \item{[[}{Same as \code{[} }
-    \item{hist}{Produces an histogram for each element to visualize the distribution based on permutation of test statistics (same as \code{globaltest:gt.object}). }
+    \item{hist}{Produces an histogram for each element to visualize the distribution based on permutation of test statistics (same as \code{globaltest:gt.object}). The colors used are mostly taken from \code{wes.palette(5, "Darjeeling")} of \code{library(wesanderson)}.}
     \item{length}{Number of tests }
     \item{names}{\code{signature(x = "flip.object")}: ... }
     \item{names<-}{\code{signature(x = "flip.object")}: ... }
     \item{p.value}{Extracts p-values from the object.}
 	\item{p.adjust}{Performs multiple testing correction and produces multiplicity-corrected p-values. See \code{\link[flip:flip.adjust]{flip.adjust}} for details. }
-    \item{plot}{\code{signature(x = "flip.object", y = "missing")}. It plots the permutation space and the observed test statistic. The plot is an histogram (see \code{hist.flip.object}) if there is only one test, while it is a biplot when there are more variables. In this case the arrows of the rotations are colored in red when the associated \code{p-value(res)<=.05}. }
+    \item{plot}{\code{signature(x = "flip.object", y = "missing")}. It plots the permutation space and the observed test statistic. The plot is an histogram (see \code{hist.flip.object}) if there is only one test, while it is a biplot when there are more variables. In this case the arrows of the rotations are colored in red when the associated \code{p-value(res)<=.05}. The colors used are mostly taken from \code{wes.palette(5, "Darjeeling")} of \code{library(wesanderson)}.}
     \item{result}{report table of results}
     \item{show}{report table of results}
     \item{size}{Returns the size of permT (i.e. number of permutations X number of tests)}

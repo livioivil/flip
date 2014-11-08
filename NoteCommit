@@ -14,7 +14,7 @@ editare i file e poi
 
 x vedere quali file nuovi ci sono, quali modificati ...
 
-  git add nuovofile.R  (x aggiuneger un file al repository)
+  git add nuovofile.R  (x aggiungere un file al repository)
 
 x fare commit
 
