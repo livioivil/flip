@@ -326,7 +326,7 @@ setMethod("hist", "flip.object", function(x, ...)  {
     nperm <- length(x@permT-1)
     hst <- hist(x@permT,plot=FALSE, breaks = breaks)
 
-      cols=rep(wes.palette(5, "Darjeeling")[2],length(hst$breaks)-1)
+      cols=rep("#00A08A",length(hst$breaks)-1)
       cols.brd=cols
       pts=.setTail(cbind(c(x@permT[1,],hst$mids)),x@tail)
       cols[which(pts[-1]>=pts[1] )]="#F98400"
