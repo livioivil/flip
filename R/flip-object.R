@@ -368,7 +368,7 @@ setMethod("plot", "flip.object",
   if(!exists("xlab")) xlab = NULL
   if(!exists("ylab")) ylab=NULL 
   
-  plot.flip <- function(x, y=NULL, main, xlab, ylab,...){
+  plot.flip <- function(x, y=NULL, main, xlab, ylab, which.PCs=1:2,...){
     #draw <- function(x, main, xlab, ylab,...){
     if (length(x)==1 ){
       hist(x, ...)
@@ -386,8 +386,15 @@ setMethod("plot", "flip.object",
              ,cex=2,lwd=2,pch=21)
       text(x@permT[1,1],x@permT[1,2],labels="ObsStat",col="gray30")
     } else { 
+      keep=apply(x@permT,2,function(x)length(unique(x))>1)
+      x@permT=x@permT[,keep]
       pc=prcomp(x@permT,scale. =FALSE,center=FALSE)
-      #obs is always on top-right quadrant:
+#       reduce the data
+      pc$x=pc$x[,which.PCs]
+      pc$sdev=pc$sdev[which.PCs]
+      pc$rotation=pc$rotation[,which.PCs]
+      
+      #makes obs to be always on top-right quadrant:
       pc$rotation[,1]=pc$rotation[,1]*sign(pc$x[1,1]) 
       pc$rotation[,2]=pc$rotation[,2]*sign(pc$x[1,2]) 
       pc$x[,1]=pc$x[,1]*sign(pc$x[1,1])
