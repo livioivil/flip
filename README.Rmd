@@ -5,12 +5,11 @@
 
 To **install** this github version type (in R):
 
-`install.packages("devtools")` if you don't already have it.
-
 `library(devtools)`
 
 `install_github("flip", "livioivil")`
 
+(if devtools is not installed yet: `install.packages("devtools")` )
 
 
 **Some examples**
@@ -34,6 +33,19 @@ df=data.frame(y1=rnorm(10)+.5,y2=rnorm(10))
 res=flip(~.,data=df)
 summary(res)
 plot(res) 
-# which is different from 
+# which is different from
+##set the following if you get an error (mostly using Rstudio)
+#par(mar=c(1,1,1,1))
 hist(res)
+```
+
+
+```{r}
+#Same analysis but ask to store che vector of p.values
+res=flip(~.,data=df,flip.return=list(permP=TRUE))
+
+
+(res.npc=npc(res,flip.return=list(permP=TRUE)))
+lower=res.npc@permT<=res.npc@permT[1]
+plot(res,bg=c("#F98400","#F2AD00")[lower+1])
 ```

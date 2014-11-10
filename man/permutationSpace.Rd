@@ -30,7 +30,7 @@ allpermutations(Y)
 npermutations(Y)
 rom(N)
 romFast(N)
-t2p(T, obs.only = TRUE, tail)
+t2p(T, obs.only = NULL, tail = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -42,8 +42,8 @@ t2p(T, obs.only = TRUE, tail)
   If perms > number of all possible flips, then compute the complete space.
 }
 \item{T}{ the (possibly multivariate) permutation space as returned, for example by \code{flip}}
-\item{obs.only}{ logical. If \code{TRUE} only the p-value for observed test statistic is returned, otherwise the whole space is computed}
-\item{tail}{Tail of the distribution being significant for H1. See also argument \code{tail} in \code{\link{flip}} }
+\item{obs.only}{ logical. If \code{TRUE} only the p-value for observed test statistic is returned, otherwise the whole space is computed. Defaults: \code{TRUE} if \code{T} is a \code{flip-object}, \code{FALSE} otherwise.}
+\item{tail}{Tail of the distribution being significant for H1. See also argument \code{tail} in \code{\link{flip}}. Defaults: \code{1} if \code{T} is NOT a \code{flip-object}, it is taken from \code{T} otherwise.}
 \item{testType}{ See argument \code{testType} in \code{\link{flip}}}
 \item{Strata}{ See argument \code{testType} in \code{\link{flip}}}
 

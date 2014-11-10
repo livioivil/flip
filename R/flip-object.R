@@ -300,12 +300,12 @@ setMethod("hist", "flip.object", function(x, ...)  {
   flip.hist <- function(x, breaks=100, main=NULL, xlab = "Test Statistics", ...) {
 
      if (length(x) > 1){
-       f=function(k=length(x),yxratio=1.25){
-       n.cl=ceiling(sqrt(k*2.5/2) )
+       
+       f<-function(k=length(x),yxratio=1.25){
+       n.cl=ceiling(sqrt(k*yxratio) )
        n.rw=ceiling(k/n.cl)
        if((n.cl-1)*n.rw>=k) n.cl=n.cl-1
-       c(n.rw,n.cl)}
-       
+       c(n.cl,n.rw)}
        mfrow.now=par("mfrow")
        par(mfrow=f(k=length(x),yxratio=1.25))
         res=sapply(1:length(x),function(i)flip.hist(x[i]))
@@ -371,7 +371,9 @@ setMethod("plot", "flip.object",
   if(!exists("xlab")) xlab = NULL
   if(!exists("ylab")) ylab=NULL 
   
-  plot.flip <- function(x, y=NULL, main, xlab, ylab, which.PCs=1:2,...){
+  plot.flip <- function(x, y=NULL, main, xlab, ylab, which.PCs=1:2,col="#F98400"#"orange
+                        ,bg="#F2AD00" #"darkgrey"
+                        ,pch=21,asp=1,...){
     #draw <- function(x, main, xlab, ylab,...){
     if (length(x)==1 ){
       hist(x, ...)
@@ -380,9 +382,7 @@ setMethod("plot", "flip.object",
            xlab=colnames(x@permT)[1],
            ylab=colnames(x@permT)[2],
            main= "Permutation Space" ,
-           bg="#F2AD00"#"darkgrey"
-           ,col="#F98400"#"orange"
-           ,pch=21,lwd=1,cex=1,asp=1)
+           bg=bg, col=col,pch=pch,asp=asp,...)
       
       points(x@permT[1,1],x@permT[1,2],col="#F2AD00"#"darkgrey"
              ,bg="#00A08A"#"blue"
@@ -410,9 +410,7 @@ setMethod("plot", "flip.object",
            xlab=paste("PC1 (",round(pc$ sdev [1]^2 /sum(pc$ sdev ^2) *100,2)," %)",sep=""),
            ylab=paste("PC2 (",round(pc$ sdev [2]^2 /sum(pc$ sdev ^2) *100,2)," %)",sep=""),
            main= "PCA of Permutation Space" ,
-           bg="#F2AD00"#"darkgrey"
-           ,col="#F98400"#"orange"
-           ,pch=21,lwd=1,cex=1,asp=1)
+           bg=bg, col=col,pch=pch,asp=asp)
       
       points(pc$x[1,1],pc$x[1,2],col="#F2AD00"#"darkgrey"
              ,bg="#00A08A"#"blue"

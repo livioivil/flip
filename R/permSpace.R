@@ -258,16 +258,23 @@ allpermutations <- function(Y) {
 
 ##########
 #compute p-value space P from statistic space T (the percentile of the statistic T column-wise)
-t2p<-function(T, obs.only=TRUE, tail = 1){  
-    
+t2p<-function(T, obs.only=NULL, tail = NULL){  
+    if(is.null(tail)){
+      if(is(T, "flip.object")) tail=T@tail else tail=1
+    }
+    if(is.null(obs.only)){
+      if(is(T, "flip.object")) obs.only=FALSE else tail=TRUE
+    }
+    if(is(T, "flip.object")) {
+      T=T@permT
+    }
 	if(!missing(tail))	T = .setTail(T,tail)
 	
 	if(!is.matrix(T)) {T<-as.matrix(T)}
 	if(obs.only) { 
 		P=matrix(apply(T,2,function(permy)mean(permy>=permy[1],na.rm=TRUE)),1,ncol(T))
 		rownames(P)="p-value"
-	}
-	else{
+	} 	else{
 		#oth<-seq(1:length(dim(T)))[-1]
     T <- .fixPermT(T)
 		B<-nrow(T)
