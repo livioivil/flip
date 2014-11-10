@@ -46,6 +46,7 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
     oldRefCat=options()$ref.cat
   }
   
+  
   # data default
   # if (missing(data) || is.null(data))
   # if(is.data.frame(Y) | (is.matrix(Y)))
@@ -86,7 +87,7 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
   # evaluate Y, which may be one of the colnames of data
   if(is(Y,"formula")) Y <- model.frame(Y, data, drop.unused.levels = TRUE,na.action=na.pass)
   Y <- eval(Y, data, parent.frame(sys.nframe()))
-  
+  if(is.vector(Y)) Y=matrix(Y)
   n <- nrow(Y)
   
   # get Z and X
