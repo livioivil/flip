@@ -1,21 +1,39 @@
----
-title: "flip - README"
-author: "livio finos"
-date: "10/11/2014"
-output: html_document
----
 
-
-**Welcome** to the dev-version of the [library flip in CRAN](http://cran.r-project.org/web/packages/flip/index.html)
+# Welcome to the dev-version of the [library flip on CRAN](http://cran.r-project.org/web/packages/flip/index.html)
 
 
 
-To install this github version type (in R):
+To **install** this github version type (in R):
 
-# install.packages("devtools") # if you don't already have it.
+`install.packages("devtools")` if you don't already have it.
 
-library(devtools)
+`library(devtools)`
 
-install_github("flip", "livioivil")
+`install_github("flip", "livioivil")`
 
+
+
+**Some examples**
+
+```{r, message=FALSE}
 library(flip)
+```
+An univarite analysis
+```{r}
+set.seed(1)
+y=rnorm(10)+.5
+res=flip(y)
+summary(res)
+plot(res) # same ad hist(res)
+```
+
+A multivarite analysis
+```{r}
+set.seed(1)
+df=data.frame(y1=rnorm(10)+.5,y2=rnorm(10))
+res=flip(~.,data=df)
+summary(res)
+plot(res) 
+# which is different from 
+hist(res)
+```

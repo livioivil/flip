@@ -300,11 +300,14 @@ setMethod("hist", "flip.object", function(x, ...)  {
   flip.hist <- function(x, breaks=100, main=NULL, xlab = "Test Statistics", ...) {
 
      if (length(x) > 1){
-       k=length(x)/5
-       n.cl=floor(k*3)
-       n.rw=floor(k*2)
+       f=function(k=length(x),yxratio=1.25){
+       n.cl=ceiling(sqrt(k*2.5/2) )
+       n.rw=ceiling(k/n.cl)
+       if((n.cl-1)*n.rw>=k) n.cl=n.cl-1
+       c(n.rw,n.cl)}
+       
        mfrow.now=par("mfrow")
-       par(mfrow=c(n.rw,n.cl))
+       par(mfrow=f(k=length(x),yxratio=1.25))
         res=sapply(1:length(x),function(i)flip.hist(x[i]))
        par(mfrow=mfrow.now)
        
