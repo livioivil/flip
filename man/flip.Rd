@@ -118,8 +118,13 @@ livio finos (livioATstatDOTunipdDOTit)
 For the general framework of univariate and multivariate permutation tests see: 
 Pesarin, F. (2001) Multivariate Permutation Tests with Applications in Biostatistics. Wiley, New York.
 
-for Rotation tests see: 
+For Rotation tests see: 
 Langsrud, O. (2005) Rotation tests, Statistics and Computing, 15, 1, 53-60
+
+A. Solari, L. Finos, J.J. Goeman (2014) Rotation-based multiple testing in the
+multivariate linear model. Biometrics. Accepted
+
+
 }
 
 \seealso{

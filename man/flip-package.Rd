@@ -34,7 +34,25 @@ livio finos
 Maintainer: livio finos <livio@stat.unipd.it>
 }
 \references{
-Pesarin (2001) Multivariate Permutation Tests with Applications in Biostatistics. Wiley, New York.
+For the general framework of univariate and multivariate permutation tests see: 
+Pesarin, F. (2001) Multivariate Permutation Tests with Applications in Biostatistics. Wiley, New York.
+
+For analysis of mixed-models see:
+L. Finos and D. Basso (2014) Permutation Tests for Between-Unit Fixed Effects
+in Multivariate Generalized Linear Mixed Models. Statistics and Computing. Vo-
+lume 24, Issue 6, pp 941-952. DOI: 10.1007/s11222-013-9412-6 J. J. Goeman and
+
+D. Basso, L. Finos (2011) Exact Multivariate Permutation Tests for Fixed Effec-
+ts in Mixed-Models. Communications in Statistics - Theory and Methods. DOI
+10.1080/03610926.2011.627103
+
+
+For Rotation tests see: 
+Langsrud, O. (2005) Rotation tests, Statistics and Computing, 15, 1, 53-60
+
+A. Solari, L. Finos, J.J. Goeman (2014) Rotation-based multiple testing in the
+multivariate linear model. Biometrics. Accepted
+
 
 The structure of \code{flip} is widely borrowed from library \code{globaltest} by J. Goeman and J. Oosting in bioconductor.org.
 }
