@@ -21,8 +21,19 @@ To **install** this github version type (in R):
 ## Some examples
 
 
+```r
+library(flip)
+```
 
-An univarite analysis
+_An univariate analysis_
+Testing the symmetry around 0 in a one sample (i.e. equivalent to one sample t-test) 
+
+```r
+set.seed(1)
+y=rnorm(10)+.5
+res=flip(y)
+summary(res)
+```
 
 ```
 ##  Call:
@@ -31,11 +42,47 @@ An univarite analysis
 ##   Test  Stat tail p-value sig.
 ## Y    t 2.561   ><  0.0293    *
 ```
+an ploting
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
+```r
+plot(res) # same ad hist(res)
+```
+
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
+
+One side alternative
+
+```r
+set.seed(1)
+y=rnorm(10)+.5
+res=flip(y,tail=1)
+summary(res)
+```
+
+```
+##  Call:
+##  flip(Y = y, tail = 1) 
+## 1023 permutations.
+##   Test  Stat tail p-value sig.
+## Y    t 2.561    >  0.0146    *
+```
+an ploting
+
+```r
+plot(res) # same ad hist(res)
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
 
 
-A multivarite analysis
+_A multivarite analysis_
+
+```r
+set.seed(1)
+df=data.frame(y1=rnorm(10)+.5,y2=rnorm(10))
+res=flip(~.,data=df)
+summary(res)
+```
 
 ```
 ##  Call:
@@ -46,10 +93,22 @@ A multivarite analysis
 ## y2    t 0.7358   ><  0.4844
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
+```r
+plot(res) 
+```
+
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
+
+Which is different from ploting
 
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+```r
+##set the following if you get an error (mostly using Rstudio)
+#par(mar=c(1,1,1,1))
+hist(res)
+```
+
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
 
 
 * * *

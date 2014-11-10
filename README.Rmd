@@ -20,22 +20,38 @@ To **install** this github version type (in R):
 
 ## Some examples
 
-```{r, echo = FALSE, message = FALSE}
+```{r,  message = FALSE}
 library(flip)
 ```
 
-An univarite analysis
-```{r, echo = FALSE, message = FALSE}
+_An univariate analysis_
+Testing the symmetry around 0 in a one sample (i.e. equivalent to one sample t-test) 
+```{r, message = FALSE}
 set.seed(1)
 y=rnorm(10)+.5
 res=flip(y)
 summary(res)
+```
+an ploting
+```{r, message = FALSE}
+plot(res) # same ad hist(res)
+```
+
+One side alternative
+```{r, message = FALSE}
+set.seed(1)
+y=rnorm(10)+.5
+res=flip(y,tail=1)
+summary(res)
+```
+an ploting
+```{r, message = FALSE}
 plot(res) # same ad hist(res)
 ```
 
 
-A multivarite analysis
-```{r, echo = FALSE, message = FALSE}
+_A multivarite analysis_
+```{r,message = FALSE}
 set.seed(1)
 df=data.frame(y1=rnorm(10)+.5,y2=rnorm(10))
 res=flip(~.,data=df)
@@ -43,9 +59,9 @@ summary(res)
 plot(res) 
 ```
 
+Which is different from ploting
 
-```{r, echo = FALSE, message = FALSE}
-# which is different from
+```{r, message = FALSE}
 ##set the following if you get an error (mostly using Rstudio)
 #par(mar=c(1,1,1,1))
 hist(res)
