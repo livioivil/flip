@@ -173,9 +173,8 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
 	
 	
 	
-	  if(!exists("flipReturn") || is.null(flipReturn)) 
-			flipReturn=list(permT=TRUE,permP=FALSE)
-  #build the flip-object
-	out=.getOut(type="npc",res=list(permT=permT,extraInfoPre=list(comb.funct=comb.funct,nVar=nVar)),data=list(),tail=list(...)$tail, call=match.call(), flipReturn=flipReturn)
+	  #build the flip-object
+   if(is.null(list(...)$flipReturn)) flipReturn=list(permT=TRUE,call.env=TRUE)
+	out=.getOut(type="npc",res=list(permT=permT,extraInfoPre=list(comb.funct=comb.funct,nVar=nVar)),data=list(),tail=list(...)$tail, call=match.call(), flipReturn=list(...)$flipReturn)
 	return(out)
 }
