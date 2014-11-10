@@ -34,7 +34,6 @@ An univarite analysis
 
 ![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
 
-![alt text](https://github.com/livioivil/flip/blob/master/figures/hist.png)
 
 A multivarite analysis
 
@@ -49,11 +48,9 @@ A multivarite analysis
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
 
-![alt text](https://github.com/livioivil/flip/blob/master/figures/scatter.png)
 
 ![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
 
-![alt text](https://github.com/livioivil/flip/blob/master/figures/hists.png)
 
 * * *
 
