@@ -26,6 +26,7 @@ library(flip)
 ```
 
 _An univariate analysis_
+
 Testing the symmetry around 0 in a one sample (i.e. equivalent to one sample t-test) 
 
 ```r
