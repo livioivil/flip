@@ -75,3 +75,6 @@ For Rotation tests see:
 *Langsrud, O. (2005) Rotation tests, Statistics and Computing, 15, 1, 53-60*
 
 *A. Solari, L. Finos, J.J. Goeman (2014) Rotation-based multiple testing in the multivariate linear model. Biometrics. Accepted*
+
+
+The colors of the plots of library flip are mostly taken from `display.wes.palette(5, "Darjeeling")` of [library(wesanderson)](https://github.com/karthik/wesanderson).
