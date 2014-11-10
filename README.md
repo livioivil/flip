@@ -32,7 +32,7 @@ summary(res)
 plot(res) # same ad hist(res)
 ```
 
-![alt text](https://github.com/livioivil/flip/tree/master/figures/hist.png)
+![alt text](https://github.com/livioivil/flip/blob/master/figures/hist.png)
 
 A multivarite analysis
 ```
@@ -43,7 +43,7 @@ summary(res)
 plot(res) 
 ```
 
-![alt text](https://github.com/livioivil/flip/tree/master/figures/scatter.png)
+![alt text](https://github.com/livioivil/flip/blob/master/figures/hist.png)
 
 ```
 # which is different from
@@ -52,7 +52,7 @@ plot(res)
 hist(res)
 ```
 
-![alt text](https://github.com/livioivil/flip/tree/master/figures/hists.png)
+![alt text](https://github.com/livioivil/flip/blob/master/figures/hist.png)
 
 * * *
 
