@@ -51,30 +51,6 @@ plot(res) # same ad hist(res)
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
 
-One side alternative
-
-```r
-set.seed(1)
-y=rnorm(10)+.5
-res=flip(y,tail=1)
-summary(res)
-```
-
-```
-##  Call:
-##  flip(Y = y, tail = 1) 
-## 1023 permutations.
-##   Test  Stat tail p-value sig.
-## Y    t 2.561    >  0.0146    *
-```
-an ploting
-
-```r
-plot(res) # same ad hist(res)
-```
-
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
-
 
 _A multivarite analysis_
 
@@ -98,7 +74,7 @@ summary(res)
 plot(res) 
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
 
 Which is different from ploting
 
@@ -109,7 +85,7 @@ Which is different from ploting
 hist(res)
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
 
 
 * * *

@@ -38,18 +38,6 @@ an ploting
 plot(res) # same ad hist(res)
 ```
 
-One side alternative
-```{r, message = FALSE}
-set.seed(1)
-y=rnorm(10)+.5
-res=flip(y,tail=1)
-summary(res)
-```
-an ploting
-```{r, message = FALSE}
-plot(res) # same ad hist(res)
-```
-
 
 _A multivarite analysis_
 ```{r,message = FALSE}
