@@ -7,7 +7,11 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
 #	on.exit(browser())
 	### just in analogy with gt(). to be implemented as flip-options
 	trace=TRUE
-	
+	if(is.null(list(...)$flipReturn)) 
+    flipReturn=list(permT=TRUE,call.env=TRUE) else 
+      flipReturn=list(...)$flipReturn
+  
+  
 	#### arrange comb.funct
 	comb.funct <- match.arg(tolower(comb.funct[1]),tolower(flip.npc.methods))
 	comb.funct <- flip.npc.methods[which(tolower(flip.npc.methods)==comb.funct)]
@@ -33,9 +37,6 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
       if(comb.funct %in% c("data.sum","data.linComb","data.pc")) environment(test)$otherParams$onlyMANOVA=TRUE
       if(comb.funct %in% c("data.sum")) environment(test)$otherParams$linComb=1
       res=test()
-#      browser()
-      if(!exists("flipReturn") || is.null(flipReturn)) 
-        flipReturn=list(permT=TRUE,permP=FALSE,call.env=TRUE)
       
       out=.getOut(type="npc",res=list(permT=res$permT,extraInfoPre=list(comb.funct=comb.funct,nVar=res$extraInfoPre$nVar)),data=NULL,tail=list(...)$tail, call=match.call(), 
                 flipReturn=flipReturn,call.env=environment(test))
@@ -174,7 +175,6 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
 	
 	
 	  #build the flip-object
-   if(is.null(list(...)$flipReturn)) flipReturn=list(permT=TRUE,call.env=TRUE)
-	out=.getOut(type="npc",res=list(permT=permT,extraInfoPre=list(comb.funct=comb.funct,nVar=nVar)),data=list(),tail=list(...)$tail, call=match.call(), flipReturn=list(...)$flipReturn)
+	out=.getOut(type="npc",res=list(permT=permT,extraInfoPre=list(comb.funct=comb.funct,nVar=nVar)),data=list(),tail=list(...)$tail, call=match.call(), flipReturn=flipReturn)
 	return(out)
 }
