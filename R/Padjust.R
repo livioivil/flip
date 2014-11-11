@@ -111,7 +111,7 @@ flip.adjust <- function (permTP, method = flip.npc.methods, maxalpha=1, weights=
 	i <- 1
 	while((i<=m) & ifelse(i>1,Padjs[steps[i-1]] <= maxalpha,TRUE)){
 		Padjs[steps[i]]=max( 
-      t2p(c(permT[1,steps[i]], apply(permT[-1,notrejs,drop=FALSE],1,max) )) ,
+      t2p(c(permT[1,steps[i]], as.vector(apply(permT[-1,notrejs,drop=FALSE],1,max) ))) ,
       Padjs[steps[i-1]] ) #first max ensures monotonicity
 		notrejs[steps[i]]=FALSE
 		

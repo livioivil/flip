@@ -495,7 +495,7 @@ orthoZ <- function(Y, X=NULL, Z=NULL, returnGamma=FALSE){
 .fitTail <- function(permT,tail){
   if (missing(tail)||is.null(tail)) {
     tail = rep(0, ncol(permT))
-  }     else if (length(tail) != ncol(permT)) {
+  }     else if (length(tail) != ncol(as.matrix(permT))) {
     attrs=attributes(tail)$center
     tail <- rep(tail,len = ncol(permT))
     if(!is.null(attrs)) attributes(tail)$center=rep(attrs,len = ncol(permT))

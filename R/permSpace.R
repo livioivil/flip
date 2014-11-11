@@ -136,10 +136,10 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 # rotation space of a vector Y. 
 # perms is the number of permutations; seed the seed for random number generation, rotFunct the function to generate the random rotations
 ############################
-romFast  <- function(n) {
-  R <- matrix(rnorm(n^2),ncol=n) 
+romFast  <- function(N) {
+  R <- matrix(rnorm(N^2),ncol=N) 
   R <- qr.Q(qr(R, LAPACK = FALSE))
-  flipsign <- which(rbinom(n,1,.5)==1)
+  flipsign <- which(rbinom(N,1,.5)==1)
   R[,flipsign] <- -R[,flipsign]
   R}
 
@@ -263,11 +263,13 @@ t2p<-function(T, obs.only=NULL, tail = NULL){
       if(is(T, "flip.object")) tail=T@tail else tail=1
     }
     if(is.null(obs.only)){
-      if(is(T, "flip.object")) obs.only=FALSE else tail=TRUE
+      if(is(T, "flip.object")) obs.only=FALSE else obs.only=TRUE
     }
     if(is(T, "flip.object")) {
       T=T@permT
     }
+    if(is.vector(T)) T=as.matrix(T)
+    
 	if(!missing(tail))	T = .setTail(T,tail)
 	
 	if(!is.matrix(T)) {T<-as.matrix(T)}

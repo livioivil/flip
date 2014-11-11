@@ -126,12 +126,12 @@ summary(p2)
 
 res=flip.adjust(res,"maxT")
 
-res=flip.adjust(res,"BH")
+#res=flip.adjust(res,"BH")
 ##same as 
 #p.adjust(res,"BH")
 
 ## now try
-getFlip(res,"Adjust")
+#getFlip(res,"Adjust")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
