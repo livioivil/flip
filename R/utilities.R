@@ -494,7 +494,7 @@ orthoZ <- function(Y, X=NULL, Z=NULL, returnGamma=FALSE){
 #make "hight" (depending on the tail) values of the statistics to be significative
 .fitTail <- function(permT,tail){
   if (missing(tail)||is.null(tail)) {
-    tail = rep(0, ncol(permT))
+    tail = rep(1, ncol(permT))
   }     else if (length(tail) != ncol(as.matrix(permT))) {
     attrs=attributes(tail)$center
     tail <- rep(tail,len = ncol(permT))
@@ -630,7 +630,7 @@ orthoZ <- function(Y, X=NULL, Z=NULL, returnGamma=FALSE){
 
 #################################
 .prod.perms <- function(data,perms,testType="permutation"){
-  if(testType%in%c("permutation","symmetry","rotation"))  {
+  if(testType%in%c("permutation","symmetry","rotation","combination"))  {
     if(is.null(perms$permID)){
        digitsK=trunc(log10(perms$B))+1
       envOrig<-environment(perms$rotFunct)
@@ -644,7 +644,10 @@ orthoZ <- function(Y, X=NULL, Z=NULL, returnGamma=FALSE){
 #           cat(rep("\b", 2*digitsK+10), i, " / ", perms$B, sep="")
 #           flush.console()
 #         }
-        permT[i+1,]=as.vector(t(data$X)%*%perms$rotFunct())
+        
+       print(perms$rComb(perms$RJv[i]))
+        print("")
+        permT[i+1,]=as.vector(t(data$X)%*%perms$rotFunct(i))
       }
       cat(rep("\b", 2*digitsK+1));  flush.console()
       
@@ -669,7 +672,7 @@ orthoZ <- function(Y, X=NULL, Z=NULL, returnGamma=FALSE){
         }
       }
     }
-  } else {warning("test type not implemented (yet?)"); return(NULL)}
+  } else {warning("testType not implemented (yet?)"); return(NULL)}
   cat(rep("\b", 2*digitsK+3));  flush.console()
   permT
 }

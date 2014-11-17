@@ -36,7 +36,7 @@ flip <- function(Y, X=NULL, Z=NULL, data=NULL, tail = 0, perms = 1000, statTest=
   if(is.null(testType)){
 	if(is.null(list(...)$rotationTest) || (!list(...)$rotationTest) ) {testType="permutation"} else { testType="rotation"} 
   } 
-  testType=match.arg(testType,c("permutation","rotation","symmetry"))
+  testType=match.arg(testType,c("permutation","rotation","symmetry","combination"))
 
   if(missing(flipReturn)||is.null(flipReturn)) 
     flipReturn=list(permT=TRUE,permP=FALSE,permSpace=FALSE,test=TRUE,permID=TRUE)

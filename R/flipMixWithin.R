@@ -21,7 +21,10 @@
     
     ### no estimates
     if("Tnaive"%in%statTest){
-      permT <- rbind(rep(1,perms$n),perms$permID) %*% (data$Y%*%diag(1/n))
+      permT <- rbind(rep(1,perms$n),perms$permID) %*% (data$Y)
+      M2s=apply(data$Y^2,2,sum)
+      permT=permT/t(sqrt((M2s-t((permT)^2)/n)*((n)/(n-1))))
+      rm(M2s)
       permT = rbind(permT,-permT[nrow(permT):1,,drop=FALSE])
       rownames(permT)=.getTRowNames(permT)
       colnames(permT) = .getTNames(data$Y,permT=permT)
@@ -96,7 +99,7 @@
 
 ######################################################
 
-flipMixWithin <- function(modelWithin,units, X=~1, perms=1000, data=NULL, tail=NULL,
+flipMixWithin <- function(modelWithin,units, X=~1, perms=1000, data=NULL, tail=0,
                           statTest=NULL,flipReturn,
                           Su=NULL, equal.se=FALSE,se=NA,replaceNA.coeffWithin=0,
                           replaceNA.coeffWithin.se=Inf, ...) {

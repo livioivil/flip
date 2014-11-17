@@ -24,7 +24,7 @@ These functions handle the orbit of permutation/rotation tests (i.e. permutation
 \code{t2p} computes the (possibily multivariate) space of p-values from the space of test statistic.
 }
 \usage{
-make.permSpace(IDs,perms,return.permIDs=FALSE,testType="permutation",Strata=NULL)
+make.permSpace(IDs,perms,return.permIDs=FALSE,testType="permutation",Strata=NULL,...)
 make.signSpace(N, perms)
 allpermutations(Y)
 npermutations(Y)
