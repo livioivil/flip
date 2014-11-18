@@ -643,10 +643,7 @@ orthoZ <- function(Y, X=NULL, Z=NULL, returnGamma=FALSE){
 #         if (i%%10==0) {
 #           cat(rep("\b", 2*digitsK+10), i, " / ", perms$B, sep="")
 #           flush.console()
-#         }
-        
-       print(perms$rComb(perms$RJv[i]))
-        print("")
+#         }  
         permT[i+1,]=as.vector(t(data$X)%*%perms$rotFunct(i))
       }
       cat(rep("\b", 2*digitsK+1));  flush.console()
