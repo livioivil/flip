@@ -53,7 +53,7 @@ t2p(T, obs.only = NULL, tail = NULL)
 \code{rom} implements the algorithm of Stewart (1980). The function is compiled in C++.
 }
 \author{
-Livio Finos, Aldo Solari and Marco Rinaldo
+Livio Finos, Aldo Solari, Marco Rinaldo and Lucia Benetazzo
 }
 
 \references{

@@ -69,7 +69,7 @@ make.signSpace <- function(N,perms) {
 # Calculates permutations space of a vector Y. 
 # perms is the number of permutations; if perms > number of all permutations, then compute the complete space
 ############################
-make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation",Strata=NULL,...) {
+make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation",Strata=NULL,X=NULL,...) {
   perms=.PermSpaceMatchInput(perms)
   if(tolower(testType)=="combination") {
     perms=.make.CombSpace(X,perms)
