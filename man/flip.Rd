@@ -52,7 +52,7 @@ Choose from \code{flip.statTest}. See also Details section.
 
  e.g. \code{list(permP=TRUE,permT=TRUE,data=TRUE)}.}
  
-\item{testType}{by default \code{testType="permutation"}. In alternative you can choose \code{"rotation"}
+\item{testType}{by default \code{testType="permutation"}. The use of option \code{"combination"} is more efficient when \code{X} is indicator of groups (i.e. C>1 samples testing). As an alternative if you choose \code{"rotation"}, 
 resampling is performed through random linear combinations (i.e. a rotation test is performed). This option is useful when only few permutations are available, that is, minimum reachable significance is hight. See also the \code{details} section for the algorithm used.
 The old syntax \code{rotationTest=TRUE} is maintained for compatibility  but is deprecated, use \code{testType="rotation"} instead.
 }
