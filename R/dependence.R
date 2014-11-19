@@ -54,7 +54,7 @@ if(statTest%in%c("Fisher","Wilcoxon","Kruskal-Wallis","rank","chisq","Kolmogorov
   }
   
 	N=nrow(data$Y)
-  perms <- make.permSpace(1:N,perms,return.permIDs=TRUE,testType=testType, Strata=data$Strata,X=data$X)
+  perms <- make.permSpace(1:N,perms,return.permIDs=TRUE,testType=testType, Strata=data$Strata,X=apply(data$X,1,paste,collapse="_"))
 	#search for intercept in the model
   intercept=.getIntercept(data$X)
   if(statTest=="coeff") {
