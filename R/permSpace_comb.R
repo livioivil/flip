@@ -6,8 +6,15 @@
   if(is.null(perms$B))  perms$B <- 1000
   
   
+  grpFr<-table(X)
+  coeffmult<-factorial(perms$n)/prod(factorial(grpFr))
+  if (is.na(coeffmult>1E5)||coeffmult>1E5){
+    return(.make.PermSpace(X,perms))
+  }
+    
   if(is.null(perms$rotFunct)){
-    grpFr<-perms$grpFr<-table(X)
+    perms$coeffmult=coeffmult
+    perms$grpFr<-grpFr
     #n ? il vettore contenente le numerosit? di ogni gruppo
   
     #perms$n ? il numero totale di osservazioni
@@ -15,6 +22,9 @@
     #J ? il numero di gruppi
     vec<-1:perms$n
     #vec ? il vettore degli indici delle osservazioni
+    
+    perms$coeffmult<-factorial(perms$n)/prod(factorial(grpFr[1:perms$J]))
+    
     M<-list(NA)
     for(j in 2:perms$J) {
       #ogni iterazione corrisponde a un gruppo
@@ -25,7 +35,7 @@
     perms$M=M
     rm(M)
     
-    perms$coeffmult<-factorial(perms$n)/prod(factorial(grpFr[1:perms$J]))
+
     #coeffmult ? il numero delle combinazioni necessarie e sufficienti
     #se B>coeffmult si prende B=coeffmult e in quel caso li esploro tutti da 1 a coeffmult
     
@@ -70,5 +80,6 @@
       return(data$Y[perms$ox[perms$rComb(perms$RJv[i])][perms$rnks],,drop=FALSE])
     }
     }
+  perms$type="combination"
   return(perms)
 }	  

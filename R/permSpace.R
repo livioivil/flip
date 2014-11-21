@@ -62,6 +62,7 @@ make.signSpace <- function(N,perms) {
 			if(is.null(perms$rotFunct)) perms$rotFunct <- function(i) (permSpace$permID[i,]*data$Y)
 		}	
 	} else if(is.null(perms$rotFunct)) perms$rotFunct <- function(i) (permSpace$permID[i,]*data$Y)
+	perms$type="symmetry"
 	perms
 }
 
@@ -73,19 +74,14 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
   perms=.PermSpaceMatchInput(perms)
   if(tolower(testType)=="combination") {
     perms=.make.CombSpace(X,perms)
-    perms$type="combination"
   } else if(tolower(testType)=="rotation") {
     perms=.make.RotSpace(IDs,perms)
-    perms$type="rotation"
   } else if(tolower(testType)=="simulation") {
 	  perms=.make.SimSpace(IDs,perms)
-	  perms$type="simulation"
 	} else if(tolower(testType)=="symmetry") {
 	  perms=make.signSpace(length(IDs),perms)
-	  perms$type="symmetry"
 	} else 	{ ## then standard permutations
 		perms=.make.PermSpace(IDs,perms,return.permIDs=return.permIDs,Strata=Strata)
-		perms$type="permutation"
   }
   if(!is.na(perms$seed)) set.seed(perms$seed)
   environment(perms$rotFunct) <- sys.frame(sys.parent())
@@ -122,6 +118,7 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 						perms$rotFunct <- function(i) (data$Y[perms$permID[i,],,drop=FALSE])
 						}
 				}
+				perms$type="permutation"
 		perms
 	} else #Strata are present
 	{	
@@ -164,6 +161,7 @@ romFast  <- function(N) {
 	      return(romFast(perms$n)%*%data$Y)
 	    }
 	  }
+	perms$type="rotation"
 	return(perms)
 }	  
 
@@ -200,6 +198,7 @@ romFast  <- function(N) {
 			R <- array(R,c(perms$p,perms$n,perms$p))
 			R <- apply(R,c(2,3),sum)
 		}
+	perms$type="simulation"
 	return(perms)
 }	  
 
