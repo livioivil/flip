@@ -66,17 +66,20 @@ setMethod("summary", "flip.object", function(object,star.signif=TRUE,only.p.leq=
   cat("\n")
   if(!is.null(only.p.leq))  object@res=object@res[object@res[,ncol(object@res)]<=only.p.leq,,drop=FALSE]
   
-  if(is.null(star.signif)) star.signif=TRUE 
-  if(is.logical(star.signif)) {
-    if(star.signif) {
-      #takes the last column among raw and Ajusted p-value
-      column=c("p-value",names(object@res)[grep("Adjust",names(object@res))])
-      column=column[length(column)]
+  if(nrow(object@res)>0){
+    
+    if(is.null(star.signif)) star.signif=TRUE 
+    if(is.logical(star.signif)) {
+      if(star.signif) {
+        #takes the last column among raw and Ajusted p-value
+        column=c("p-value",names(object@res)[grep("Adjust",names(object@res))])
+        column=column[length(column)]
+      }
+    } else { column=star.signif; star.signif=TRUE}
+    if(star.signif){object@res$"sig."=sapply((object@res[,column]<=.05)+
+                                    (object@res[,column]<=.01)+
+                                    (object@res[,column]<=.001),function(x) paste(rep("*",x),collapse=""))
     }
-  } else { column=star.signif; star.signif=TRUE}
-  if(star.signif){object@res$"sig."=sapply((object@res[,column]<=.05)+
-                                  (object@res[,column]<=.01)+
-                                  (object@res[,column]<=.001),function(x) paste(rep("*",x),collapse=""))
   }
   result(object,...)
 })
@@ -89,11 +92,12 @@ setMethod("summary", "flip.object", function(object,star.signif=TRUE,only.p.leq=
 setGeneric("result", function(object,...) standardGeneric("result"))
 setMethod("result", "flip.object",
   function(object,...) { 
-    for(i in c("p-value",names(object@res)[grep("Adjust",names(object@res))])){
-      lower=(object@res[,i]<.0001)
-      object@res[,i]=formatC(object@res[,i],digits=4,drop0trailing=FALSE,format="f")
-      object@res[lower,i]="<.0001"
-    }
+    if(nrow(object@res)>0)
+      for(i in c("p-value",names(object@res)[grep("Adjust",names(object@res))])){
+        lower=(object@res[,i]<.0001)
+        object@res[,i]=formatC(object@res[,i],digits=4,drop0trailing=FALSE,format="f")
+        object@res[lower,i]="<.0001"
+      }
       print(object@res, digits = 4)  
 })
 

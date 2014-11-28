@@ -18,7 +18,7 @@ flip.adjust(permTP, method = flip.npc.methods, maxalpha = 1,
 
 flip.npc.methods 
 #    c("Fisher", "Liptak", "Tippett", "MahalanobisT", "MahalanobisP", 
-#      "minP", "maxT", "maxTstd", "sumT", "Direct", "sumTstd", "sumT2","kwer",
+#      "minP", "maxT", "maxTstd", "sumT", "Direct", "sumTstd", "sumT2","kfwer",
 #      "data.sum","data.linComb","data.pc","data.trace") 
 # use methods in the last row only for outputs of function flipMix()
 
