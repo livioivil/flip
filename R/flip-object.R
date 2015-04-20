@@ -137,7 +137,7 @@ cFlip <- function(...) {
 		res@tail = as.vector(unlist(sapply(1:length(list(...)), function(i)  rep(if(is.null(list(...)[[i]]@tail)) 0 else list(...)[[i]]@tail,length.out=ncol(list(...)[[i]]@permT))
                       )))
 		# migliore questo output, ammettere la presenza di altri elementi in extraInfoPre
-		resNames=unique(as.vector(sapply(list(...),function(xx) colnames(xx@res))))
+		resNames=unique(unlist(sapply(list(...),function(xx) colnames(xx@res))))
 		resNames=c(setdiff(resNames,c("Stat","p-value")),c("Stat","p-value"))
 		res@res[,setdiff(resNames,colnames(res@res))]=NA
 		res@res=res@res[,resNames]
