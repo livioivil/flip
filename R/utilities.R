@@ -74,11 +74,16 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
   if (missing(Z)) Z=NULL
   
   # remove terms from X that are also in Z
-  if (is(Z, "formula") && is(X, "formula") && 
-        identical(environment(Z), environment(X))) {
-    if( !( (length(attr(terms(X, data=data), "term.labels"))==0) & (length(attr(terms(Z, data=data), "term.labels"))==0)  )) {
-      dup <- attr(terms(X, data=data), "term.labels") %in% attr(terms(Z, data=data), "term.labels")
-      if (all(dup)) stop("all covariates in X also in Z")
+  if ((is(Z, "formula")||is(Strata, "formula") )&& is(X, "formula") && 
+        (identical(environment(Z), environment(X))||
+           identical(environment(Strata), environment(X)))) {
+    if( !( ((length(attr(terms(X, data=data), "term.labels"))==0) & 
+             (length(attr(terms(Z, data=data), "term.labels"))==0)) &
+             (length(attr(terms(Strata, data=data), "term.labels"))==0))) {
+      dup <- attr(terms(X, data=data), "term.labels") %in% 
+        c(attr(terms(Z, data=data), "term.labels"),
+          attr(terms(Strata, data=data), "term.labels"))
+      if (all(dup)) stop("all covariates in X also in Z or Strata")
       if (any(dup)) 
         X <- formula(terms(X,data=data)[!dup])
     }
