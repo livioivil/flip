@@ -71,7 +71,25 @@ i<-permSpace<-testType<-statTest<-return.permIDs<-P<-idClust<-test <-j <- otherP
       }
     } else X <- ~1 
   
-  if (missing(Z)) Z=NULL
+  
+  # remove terms from Z that are also in Y
+  if (missing(Z)) Z=NULL else 
+    {if( !( (length(attr(terms(Z, data=data), "term.labels"))==0) & 
+             (length(attr(terms(Y, data=data), "term.labels"))==0)  )) {
+      dup <- attr(terms(Y, data=data), "term.labels") %in% attr(terms(Z, data=data), "term.labels")
+      if (any(dup)) 
+        Y <- formula(terms(Y,data=data)[!dup])
+    }
+  } 
+  # remove terms from Strata that are also in Y
+  if (!is.null(Strata)) {
+    if( !( (length(attr(terms(Strata, data=data), "term.labels"))==0) & 
+            (length(attr(terms(Y, data=data), "term.labels"))==0)  )) {
+    dup <- attr(terms(Y, data=data), "term.labels") %in% attr(terms(Strata, data=data), "term.labels")
+    if (any(dup)) 
+      Y <- formula(terms(Y,data=data)[!dup])
+  }
+  }
   
   # remove terms from X that are also in Z
   if (is(Z, "formula") && is(X, "formula") && 
