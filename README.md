@@ -25,7 +25,7 @@ To **install** this github version type (in R):
 library(flip)
 ```
 
-_An univariate analysis_
+_A univariate analysis_
 
 Testing the symmetry around 0 in a one sample (i.e. equivalent to one sample t-test) 
 
@@ -43,7 +43,7 @@ summary(res)
 ##   Test  Stat tail p-value sig.
 ## Y    t 2.561   ><  0.0293    *
 ```
-an ploting
+and ploting
 
 ```r
 plot(res) # same ad hist(res)
