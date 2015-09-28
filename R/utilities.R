@@ -444,20 +444,16 @@ orthoZ <- function(Y, X=NULL, Z=NULL, returnGamma=FALSE){
   many.weights <- (!is.null(weights)) && (!one.weight)
   if (many.weights && !is.list(weights))
     weights <- list(weights)
-  
+
   # check weights and subsets lengths
   if (many.subsets && many.weights) {
     if (length(subsets) != length(weights))
-      stop("lengths of \"subsets\" and \"weights\" do not match")
-    if (!((!is.null(names(subsets))) && (!is.null(names(weights))) && (!all(names(subsets)==names(weights)))))
-      #if (is.null(alias))
-      # alias <- names(weights)
-      #else
-      warning("names of subsets and weights do not match")
+        stop("lengths of \"subsets\" and \"weights\" do not match")
+    if (length(names(subsets))!=length(names(weights)) || !all(names(subsets) == names(weights)))
+        warning("names of subsets and weights do not match")
   }
   
-  
-  # make sure subsets is a list of names, compatible with colnames(tail)
+  # make sure subsets is a list of names, compatible with colNames.permSpace
   if (many.subsets) {
     osl <- sapply(subsets, length)
     subsets <- lapply(subsets, function(sst) {
@@ -468,18 +464,18 @@ orthoZ <- function(Y, X=NULL, Z=NULL, returnGamma=FALSE){
     })
   }
   
-  # make sure that weights is a named list, compatible with colnames(tail)
+  # make sure that weights is a named list, compatible with colNames.permSpace
   if (many.weights) {
     names.weights <- names(weights)
     weights <- lapply(1:length(weights), function (i) {
       wt <- weights[[i]]
       if (!is.null(names(wt)))
-        wt <- wt[names(wt) %in% colnames(tail)]
+        wt <- wt[names(wt) %in% colNames.permSpace]
       else 
         if (many.subsets && length(wt) == length(subsets[[i]]))
           names(wt) <- subsets[[i]]
-      else if (length(wt) == ncol(tail))
-        names(wt) <- colnames(tail)
+      else if (length(wt) == length(colNames.permSpace))
+        names(wt) <- colNames.permSpace
       wt
     })
     names(weights) <- names.weights
