@@ -46,7 +46,7 @@ parameter \code{Z} is not considered in this case.
  Also note that when only two levels with one observation per each level are present in each stratum, the problem becomes a paired two-samples problem and hence simplified to a one-sample test.
 }
 \item{statTest}{
-Choose from \code{flip.statTest}. See also Details section.
+Choose a test statistic from \code{flip.statTest}. See also Details section.
 }
 \item{flipReturn}{list of objects indicating what will be included in the output.
 
@@ -74,7 +74,7 @@ The old syntax \code{rotationTest=TRUE} is maintained for compatibility  but is 
 }
 \details{
 
-\code{statTest="t"} is the t statistic derived from the correlation among the Xs and the Ys (i.e. a linear model for each couples of Xs and Ys). This is different
+\code{statTest="t"} is the t statistic derived from the correlation among each Xs and each Ys (i.e. a linear model for each couples of Xs and Ys). This is different
 from the fit of a multiple (multivariate) linear models, since the correlation does not consider the other covariates).  The test \code{t} is valid only under the assumption that each variable in X is independent of each variable in Y. To get adequate test while adjusting for covariates, use \code{Z} (see example below)
 The test statistic \code{"sum"} is the sum  of values (or frequencies) of the given sample 
 centered on the expected (i.e. computed on the overall sample).

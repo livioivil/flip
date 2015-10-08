@@ -29,7 +29,7 @@ Depends: \tab methods, e1071, someMTP, cherry\cr
 }
 }
 \author{
-livio finos
+Livio Finos, with contributions by Florian Klinglmueller, Dario Basso, Aldo Solari, Lucia Benetazzo, Jelle Goeman and Marco Rinaldo. Special thanks are due to Ivan Marin-Franch and Fredrik Nilsson for the debugging and the good questions.
 
 Maintainer: livio finos <livio@stat.unipd.it>
 }
