@@ -7,7 +7,7 @@
 using namespace Rcpp;
 
 
-// rom
+rom
 mat rom(int n);
 RcppExport SEXP flip_rom(SEXP nSEXP) {
 BEGIN_RCPP
