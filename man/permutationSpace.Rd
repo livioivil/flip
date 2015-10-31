@@ -23,6 +23,7 @@ These functions handle the orbit of permutation/rotation tests (i.e. permutation
 
 \code{t2p} computes the (possibily multivariate) space of p-values from the space of test statistic.
 }
+
 \usage{
 make.permSpace(IDs,perms,return.permIDs=FALSE,testType="permutation",Strata=NULL, X=NULL,...)
 make.signSpace(N, perms)
@@ -47,6 +48,7 @@ t2p(T, obs.only = NULL, tail = NULL)
 \item{testType}{ See argument \code{testType} in \code{\link{flip}}}
 \item{Strata}{ See argument \code{testType} in \code{\link{flip}}}
 \item{X}{A vector of length \code{N} with a different value for each group. Only used together with \code{testType="combination"}.}
+\item{...}{other parameters}
 }
 
 \details{

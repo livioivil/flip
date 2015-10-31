@@ -6,7 +6,7 @@
 }
 
 #####################
-.reff.symmetry.nptest <- function(data, perms=5000, statTest="Tnaive",  tail = NULL,...){
+.reff.symmetry.nptest <- function(data, perms=5000, statTest="Tnaive",  tail = 0,...){
   test <- function(){
     n=colSums(data$Y!=0)
     p=ncol(data$Y)

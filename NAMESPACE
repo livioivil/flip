@@ -9,6 +9,8 @@ importFrom(someMTP, p.adjust.w)
 
 importFrom(cherry, closed)
 
+importFrom(cherry, adjusted)
+
 importFrom(stats, coefficients, fitted.values, residuals, weights, alias, 
 	model.matrix, p.adjust, p.adjust.methods)
 

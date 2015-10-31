@@ -18,7 +18,7 @@ flipMix(modelWithin, X = NULL, Z = NULL, units, perms = 1000, data = NULL,
           Su = NULL, equal.se = FALSE, se = NA, replaceNA.coeffWithin = "coeffMeans", 
           replaceNA.coeffWithin.se = replaceNA.coeffWithin, ...)
 
-flipMixWithin(modelWithin, units, X = ~1, perms=1000, data=NULL, tail=NULL,
+flipMixWithin(modelWithin, units, X = ~1, perms=1000, data=NULL, tail=0,
                           statTest=NULL, flipReturn,
                           Su=NULL, equal.se=FALSE, se=NA, replaceNA.coeffWithin=0,
                           replaceNA.coeffWithin.se= Inf, ...)

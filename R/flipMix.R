@@ -1,4 +1,4 @@
-flipMix <- function(modelWithin,X=NULL,Z=NULL,units, perms=1000, data=NULL, tail=NULL,
+flipMix <- function(modelWithin,X=NULL,Z=NULL,units, perms=1000, data=NULL, tail=0,
                     statTest=NULL,flipReturn, testType="permutation", 
                     Su=NULL, equal.se=FALSE,se=NA,replaceNA.coeffWithin="coeffMeans",
                     replaceNA.coeffWithin.se=replaceNA.coeffWithin, ...) {
