@@ -13,7 +13,7 @@ To **install** this github version type (in R):
     #if devtools is not installed yet: 
     # install.packages("devtools") 
     library(devtools)
-    install_github("flip", "livioivil")
+    install_github("livioivil/flip")
 
 
 * * *
@@ -49,7 +49,7 @@ and ploting
 plot(res) # same ad hist(res)
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
 
 
 _A multivarite analysis_
@@ -74,7 +74,7 @@ summary(res)
 plot(res) 
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
 
 Which is different from ploting
 
@@ -85,7 +85,7 @@ Which is different from ploting
 hist(res)
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
 
 
 * * *
