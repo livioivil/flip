@@ -2,7 +2,7 @@ flip.adjust <- function (permTP, method = flip.npc.methods, maxalpha=1, weights=
     
 	##TODO: here is case sensitive, while in npc it is not. here is so for compatibility with p.adjust. shall we change?
   if(length(method)>1) method <- "maxT" else 
-    method <- match.arg(method,c(p.adjust.methods,flip.npc.methods))
+    method <- match.arg(method,c(p.adjust.methods,flip.npc.methods,"minP_","maxT_"))
   
 	
 	##TODO: add some check for names(weights) compatibility. 
@@ -67,12 +67,17 @@ flip.adjust <- function (permTP, method = flip.npc.methods, maxalpha=1, weights=
 			if(method=="hommel") {print("weighted \"hommel\" method not allowed."); return()}
 			return(p.adjust.w(permTP, method = method, w=weights))
 		} else{		#perform permutation specific procedures
-			if(method=="minP") {
-				return(.maxt.adjust(-t2p(permTP,obs.only=FALSE,tail=tail), maxalpha,weights=weights))
-			} else if(method=="maxT") {
-			    if(stdSpace) {permTP = .t2stdt(permTP,FALSE)}
-			  return(.maxt.adjust(.setTail(.fixPermT(permTP), tail=tail), maxalpha,weights=weights))
-			} else if(method=="kfwer") {
+		  if(method=="minP") {
+		    return(.maxt.adjust(-t2p(permTP,obs.only=FALSE,tail=tail), maxalpha,weights=weights))
+		  } else if(method=="maxT") {
+		    if(stdSpace) {permTP = .t2stdt(permTP,FALSE)}
+		    return(.maxt.adjust(.setTail(.fixPermT(permTP), tail=tail), maxalpha,weights=weights))
+		  } else if(method=="minP_") {
+		    return(.maxt.adjust_2(-t2p(permTP,obs.only=FALSE,tail=tail), maxalpha,weights=weights))
+		  } else if(method=="maxT_") {
+		    if(stdSpace) {permTP = .t2stdt(permTP,FALSE)}
+		    return(.maxt.adjust_2(.setTail(.fixPermT(permTP), tail=tail), maxalpha,weights=weights))
+		  } else if(method=="kfwer") {
         if(is.null(k)) k=11
 			  if(stdSpace) {permTP = .t2stdt(permTP,FALSE)}
 			  return(.p.adjust.kfwer(.setTail(.fixPermT(permTP), tail=tail), k=k))
@@ -90,6 +95,17 @@ flip.adjust <- function (permTP, method = flip.npc.methods, maxalpha=1, weights=
 
 
 ################
+.maxt.adjust_2 <- function(permT,maxalpha=1,weights=NULL,m=ncol(permT)) {
+#   maxalpha=1 no used !!
+  if(!is.null(weights)) permT=permT%*%diag(weights)
+  ord=order(-permT[1,])
+  permT=permT[,ord]
+  adjps=sapply(1:m,function(i) t2p(obs.only = TRUE,apply(permT[,i:m,drop=FALSE],1,max)))
+  adjps=Reduce(max, adjps,accumulate = TRUE)
+  adjps[ord]=adjps
+  return(adjps)
+}
+
 .maxt.adjust <- function(permT,maxalpha=1,weights=NULL,m=ncol(permT)) {
   
 	#get colnames to 
