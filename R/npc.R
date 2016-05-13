@@ -132,6 +132,8 @@ flip.npc.methods <-
 #' #getFlip(res,"Adjust")
 #' 
 #' @export npc
+#' @export flip.adjust
+#' 
 npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subsets=NULL,weights=NULL, stdSpace=FALSE, ...){
 #	on.exit(browser())
 	### just in analogy with gt(). to be implemented as flip-options
