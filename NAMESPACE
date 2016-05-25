@@ -2,5 +2,12 @@
 
 export(flip)
 export(flip.adjust)
+export(flip.npc.methods)
+export(flip.statTest)
 export(flipMix)
+export(flipMixWithin)
 export(npc)
+export(obs2coeffWithin)
+export(orthoZ)
+importFrom(Rcpp,evalCpp)
+useDynLib(flip)

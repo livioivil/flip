@@ -138,7 +138,7 @@ res=flip.adjust(res,"maxT")
 
 }
 \author{
-livio finos (livioATstatDOTunipdDOTit) and Aldo Solari.
+livio finos, Florian Klinglmueller and Aldo Solari.
 }
 \references{
 Pesarin (2001) Multivariate Permutation Tests with Applications

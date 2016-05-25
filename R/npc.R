@@ -95,7 +95,7 @@ flip.npc.methods <-
 #' @return The function returns an object of class
 #' \code{\link{flip.object-class}} (and the use of
 #' \code{getFlip(obj,"Adjust")}.
-#' @author livio finos (livioATstatDOTunipdDOTit) and Aldo Solari.
+#' @author livio finos, Florian Klinglmueller and Aldo Solari.
 #' @references Pesarin (2001) Multivariate Permutation Tests with Applications
 #' in Biostatistics. Wiley, New York.
 #' 
@@ -132,7 +132,7 @@ flip.npc.methods <-
 #' #getFlip(res,"Adjust")
 #' 
 #' @export npc
-#' @export flip.adjust
+#' @export flip.adjust flip.npc.methods
 #' 
 npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subsets=NULL,weights=NULL, stdSpace=FALSE, ...){
 #	on.exit(browser())

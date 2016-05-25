@@ -238,7 +238,7 @@ flip(Y=Y,X=X,statTest=my.fun)
 
 }
 \author{
-livio finos (livioATstatDOTunipdDOTit)
+livio finos, Florian Klinglmueller
 }
 \references{
 For the general framework of univariate and multivariate

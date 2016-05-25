@@ -174,7 +174,7 @@ flip.statTest <-
 #' instead.
 #' @return An object of class \code{flip.object}.  Several operations and plots
 #' can be made from this object. See also \code{\link{flip.object-class}}.
-#' @author livio finos (livioATstatDOTunipdDOTit)
+#' @author livio finos, Florian Klinglmueller
 #' @seealso The permutation spaces on which the test is based:
 #' \code{\link{permutationSpace}} function and useful functions associated with
 #' that object.
@@ -262,7 +262,7 @@ flip.statTest <-
 #' flip(Y=Y,X=X,statTest=my.fun)
 #' }
 #' 
-#' @export flip
+#' @export flip flip.statTest orthoZ
 flip <- function(Y, X=NULL, Z=NULL, data=NULL, tail = 0, perms = 1000, statTest=NULL, 
                  Strata=NULL, flipReturn, testType=NULL, ...) {
 

@@ -143,7 +143,8 @@
 #'         units= ~subj, perms=1000,statTest=c("TH1est")))
 #' npc(res)
 #' 
-#' @export flipMix
+#' @export flipMix flipMixWithin obs2coeffWithin
+
 flipMix <- function(modelWithin,X=NULL,Z=NULL,units, perms=1000, data=NULL, tail=0,
                     statTest=NULL,flipReturn, testType="permutation", 
                     Su=NULL, equal.se=FALSE,se=NA,replaceNA.coeffWithin="coeffMeans",
