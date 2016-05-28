@@ -27,6 +27,13 @@
 #' @name permutationSpace
 #' @aliases permutationSpace make.permSpace make.signSpace allpermutations
 #' npermutations t2p rom romFast
+#' @export make.permSpace 
+#' @export make.signSpace 
+#' @export allpermutations
+#' @export npermutations 
+#' @export t2p 
+#' @export rom 
+#' @export romFast
 #' @param IDs vector of IDs to be permuted. If \code{IDs} is a scalar, it is
 #' replaced with \code{1:IDs}.
 #' @param return.permIDs logical. If \code{TRUE}, the matrix of permuted IDs is
