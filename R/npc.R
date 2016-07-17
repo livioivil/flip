@@ -232,7 +232,7 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
       if (length(weights) != ncol(permTP)) 
         stop("length of \"weights\" does not match column count of \"permTP\"")
       all.weights <- weights
-    } else {
+    } else { #browser()
       if(comb.funct%in%c("sumT","sumTstd")) 
 		all.weights <- rep(1/sqrt(ncol(permTP)), ncol(permTP)) else 
 		all.weights <- rep(1, ncol(permTP)) 	 
@@ -246,20 +246,20 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
       if(comb.funct %in% c("maxT", "maxTstd"))
         test= function(subset=NULL,weights=NULL){ #browser()
           permT = matrix(apply(if(is.null(subset)) { if(one.weight) t(all.weights*t(permTP)) else permTP } else 
-            t(all.weights[subset]*t(permTP[,subset,drop=FALSE])) , 1, max))  ; 
+            t(weights[subset]*t(permTP[,subset,drop=FALSE])) , 1, max))  ; 
           permT
         } else  
       if(comb.funct %in% c("minP"))
         test= function(subset=NULL,weights=NULL){ #browser()
           permT = -matrix(apply(if(is.null(subset)) { if(one.weight) t(t(permTP)/all.weights) else permTP } else 
-            t(t(permTP[,subset,drop=FALSE])/all.weights[subset]) , 1, min))  ; 
+            t(t(permTP[,subset,drop=FALSE])/weights[subset]) , 1, min))  ; 
           permT
         } else  
           if(comb.funct %in% c("Simes")){
             
         test= function(subset=NULL,weights=NULL){ #browser()
           permT = if(is.null(subset)) { if(one.weight) t(t(permTP)/all.weights) else permTP } else 
-            t(t(permTP[,subset,drop=FALSE])/all.weights[subset])
+            t(t(permTP[,subset,drop=FALSE])/weights[subset])
           w=1:ncol(permT) 
           Simes <- function(x) -min(sort(x)/w)
           permT=  matrix(plyr::aaply( permT , 1, Simes))  ; 
