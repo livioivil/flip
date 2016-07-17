@@ -342,7 +342,7 @@ npermutations <- function(Y) {
 # Calculates all permutations of a vector y using permutations() of library(e1071)
 ############################
 allpermutations <- function(Y) {
-  matrix(Y[permutations(length(Y))],ncol=length(Y))
+  matrix(Y[e1071::permutations(length(Y))],ncol=length(Y))
 }
 
 

@@ -1,6 +1,6 @@
 ############################
 flip.npc.methods <-
-    c("Fisher", "Liptak", "Tippett", "MahalanobisT", "MahalanobisP", "minP", "maxT", "maxTstd", "sumT", "Direct", "sumTstd", "sumT2","kfwer", "data.sum","data.linComb","data.pc","data.trace")
+    c("Fisher", "Liptak", "Tippett", "MahalanobisT", "MahalanobisP", "minP", "maxT", "maxTstd", "sumT", "Direct", "sumTstd", "sumT2", "Simes","kfwer", "data.sum","data.linComb","data.pc","data.trace")
 ############################
 
 
@@ -133,7 +133,7 @@ flip.npc.methods <-
 #' 
 #' @export npc
 #' @export flip.adjust flip.npc.methods
-#' 
+#' @import plyr
 npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subsets=NULL,weights=NULL, stdSpace=FALSE, ...){
 #	on.exit(browser())
 	### just in analogy with gt(). to be implemented as flip-options
@@ -174,7 +174,7 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
       return(out)
       
     } else	
-      if(comb.funct %in% c("Fisher", "Liptak", "minP")) {
+      if(comb.funct %in% c("Fisher", "Liptak", "minP","Simes")) {
 			if(!is.null(permTP@permP)){ 
 				permTP=permTP@permP			
 			} else { 
@@ -202,8 +202,8 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
 	if(stdSpace & (comb.funct %in% c("maxT", "sumT", "sumT2"))) {permTP = .t2stdt(permTP,FALSE)}
 	if(comb.funct=="Fisher"){permTP = -log(permTP)} else
 	if(comb.funct=="Liptak"){permTP = -qnorm(permTP)} else
-	if(comb.funct=="minP"){permTP = 1/permTP} else
-	  if(comb.funct=="sumT2"){permTP = permTP^2}	
+	  # if(comb.funct%in%c("minP","Simes")){permTP = -permTP} else
+	    if(comb.funct=="sumT2"){permTP = permTP^2}	
 	
 	
 	############
@@ -243,13 +243,29 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
 		  test= function(subset=NULL,weights=NULL){ 
 		  permT = matrix(if(is.null(subset)) permTP%*%all.weights else permTP[,subset,drop=FALSE]%*%all.weights[subset]) ;
       permT} else 
-  if(comb.funct %in% c("minP", "maxT", "maxTstd"))
-      test= function(subset=NULL,weights=NULL){ #browser()
-        permT = matrix(apply(if(is.null(subset)) { if(one.weight) t(all.weights*t(permTP)) else permTP } else 
-          t(all.weights[subset]*t(permTP[,subset,drop=FALSE])) , 1, max))  ; 
-        permT
-      } else  
-  if(comb.funct %in% c("MahalanobisT","MahalanobisP")) 
+      if(comb.funct %in% c("maxT", "maxTstd"))
+        test= function(subset=NULL,weights=NULL){ #browser()
+          permT = matrix(apply(if(is.null(subset)) { if(one.weight) t(all.weights*t(permTP)) else permTP } else 
+            t(all.weights[subset]*t(permTP[,subset,drop=FALSE])) , 1, max))  ; 
+          permT
+        } else  
+      if(comb.funct %in% c("minP"))
+        test= function(subset=NULL,weights=NULL){ #browser()
+          permT = -matrix(apply(if(is.null(subset)) { if(one.weight) t(t(permTP)/all.weights) else permTP } else 
+            t(t(permTP[,subset,drop=FALSE])/all.weights[subset]) , 1, min))  ; 
+          permT
+        } else  
+          if(comb.funct %in% c("Simes")){
+            
+        test= function(subset=NULL,weights=NULL){ #browser()
+          permT = if(is.null(subset)) { if(one.weight) t(t(permTP)/all.weights) else permTP } else 
+            t(t(permTP[,subset,drop=FALSE])/all.weights[subset])
+          w=1:ncol(permT) 
+          Simes <- function(x) -min(sort(x)/w)
+          permT=  matrix(plyr::aaply( permT , 1, Simes))  ; 
+          permT
+        } }else  
+          if(comb.funct %in% c("MahalanobisT","MahalanobisP")) 
         test= function(subset=NULL,weights=NULL){
          if(is.null(subset)) 
            if(one.weight) pseudoT<-permTP%*%diag(all.weights) else 
