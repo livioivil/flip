@@ -260,9 +260,15 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
         test= function(subset=NULL,weights=NULL){ #browser()
           permT = if(is.null(subset)) { if(one.weight) t(t(permTP)/all.weights) else permTP } else
             t(t(permTP[,subset,drop=FALSE])/weights[subset])
+<<<<<<< HEAD
+          w=1:ncol(permT) 
+          Simes <- function(x) -min(x[order(x)]/w)
+          permT=  matrix(plyr::aaply( permT , 1, Simes))  ; 
+=======
           w=1:ncol(permT)
           Simes <- function(x) -min(sort(x)/w)
           permT=  matrix(plyr::aaply( permT , 1, Simes))  ;
+>>>>>>> 3f54eee70458c92bdee481b4c112b8c5a2cf3f1a
           permT
         } }else
           if(comb.funct %in% c("MahalanobisT","MahalanobisP"))
@@ -295,7 +301,11 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
 	nVar=ncol(permTP)
   } else {
     L <- if (many.subsets) length(subsets) else length(weights)
+<<<<<<< HEAD
+    permT <- laply(1:L, function (i) { 
+=======
     permT <- sapply(1:L, function (i) {
+>>>>>>> 3f54eee70458c92bdee481b4c112b8c5a2cf3f1a
       if (trace && L>1) {
         cat(rep("\b", 2*digitsK+3), i, " / ", K, sep="")
         flush.console()
@@ -309,6 +319,7 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
       }
 	  uit
     })
+    permT=t(permT)
     if (many.subsets && !is.null(names(subsets))){
       colnames(permT) <- names(subsets)
 	}
