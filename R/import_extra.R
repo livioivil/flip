@@ -7,4 +7,7 @@
 #' @importFrom stats qnorm rbinom rnorm runif sd terms update var vcov
 #'
 #' @importFrom utils combn data flush.console tail
+#'
+#' @importFrom Rcpp sourceCpp
 NULL
+

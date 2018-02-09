@@ -70,12 +70,6 @@
 NULL
 
 
-
-#' @useDynLib your-package-name
-#' @importFrom Rcpp sourceCpp
-NULL
-
-
 #' Seeds data
 #'
 #' Famous seeds growing data from Pesarin, F. (2001) Multivariate Permutation
