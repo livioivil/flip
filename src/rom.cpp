@@ -1,3 +1,4 @@
+// [[Rcpp::export]]
 // [[Rcpp::depends(RcppArmadillo)]]
 #define SGN(x) (((x)<0)?-1:1)
 #include <RcppArmadillo.h>

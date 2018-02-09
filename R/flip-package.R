@@ -71,7 +71,9 @@ NULL
 
 
 
-
+#' @useDynLib your-package-name
+#' @importFrom Rcpp sourceCpp
+NULL
 
 
 #' Seeds data
