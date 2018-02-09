@@ -165,9 +165,6 @@ modelWithin <- list(Y1=lm(Y1~Within,data=toyData),Y2=lm(Y2~Within,data=toyData))
 npc(res)
 
 }
-\author{
-Livio Finos and Dario Basso
-}
 \references{
 L. Finos and D. Basso (2013) Permutation Tests for Between-Unit
 Fixed Effects in Multivariate Generalized Linear Mixed Models. Statistics
@@ -179,5 +176,7 @@ Effects in Mixed-Models. Communications in Statistics - Theory and Methods.
 \seealso{
 \code{\link{flip}}, \code{\link{npc}}
 }
+\author{
+Livio Finos and Dario Basso
+}
 \keyword{htest}
-

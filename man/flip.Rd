@@ -69,10 +69,6 @@ significance is hight. See also the \code{details} section for the algorithm
 used. The old syntax \code{rotationTest=TRUE} is maintained for
 compatibility but is deprecated, use \code{testType="rotation"} instead.}
 
-\item{returnGamma}{logical. Should be the eigenvectors (with corresponding
-non-null eigenvalues) of the anti-projection matrix of \code{Z} (i.e. I-
-Z(Z'Z)^-1 Z') returned?}
-
 \item{\dots}{Further parameters. The followings are still valid but
 deprecated:
 
@@ -86,6 +82,10 @@ instead.
 
 \code{rotationTest= TRUE}. Deprecated, use \code{testType='rotation'}
 instead.}
+
+\item{returnGamma}{logical. Should be the eigenvectors (with corresponding
+non-null eigenvalues) of the anti-projection matrix of \code{Z} (i.e. I-
+Z(Z'Z)^-1 Z') returned?}
 }
 \value{
 An object of class \code{flip.object}.  Several operations and plots
@@ -187,7 +187,7 @@ data=data.frame(Y,X=X, Z=rnorm(10))
 #testing dependence among Y's and X, also using covariates
 res = flip(Y,~X,~Z,data=data)
 res
-#Note that 
+#Note that
 #flip(Y,X=~X,Z=~1,data=data)
 #is different from
 #flip(Y,~X,data=data)
@@ -195,7 +195,7 @@ res
 
 \dontrun{
 #Rotation tests:
-rot=flip(Y,X,Z=~1,testType="rotation") 
+rot=flip(Y,X,Z=~1,testType="rotation")
 # note the use Z=~1.
 }
 
@@ -221,7 +221,7 @@ flip(A+B+C+D+E~X,data=data,statTest="Wilcox",Strata=~S)
 data=data.frame(X=rep(0:2,10))
 data=data.frame(X=factor(data$X),Y=factor(rbinom(30,2,.2+.2*data$X)))
 flip(~Y,~X,data=data,statTest="chisq")
-# separated chisq (Finos and Salmaso, 2004. Nonparametric multi-focus analysis 
+# separated chisq (Finos and Salmaso, 2004. Nonparametric multi-focus analysis
 # for categorical variables. CommStat - T.M.)
 (res.sep=flip(~Y,~X,data=data,statTest="chisq.separated"))
 npc(res.sep,"sumT2") #note that combined test statistic is the same as chisq
@@ -236,9 +236,6 @@ Y <- matrix(rnorm(30))
 flip(Y=Y,X=X,statTest=my.fun)
 }
 
-}
-\author{
-livio finos, Florian Klinglmueller
 }
 \references{
 For the general framework of univariate and multivariate
@@ -259,5 +256,7 @@ that object.
 Multiplicity correction: \code{\link{flip.adjust}} and Global test:
 \code{\link{npc}}.
 }
+\author{
+livio finos, Florian Klinglmueller
+}
 \keyword{htest}
-

@@ -8,17 +8,22 @@ setClassUnion("arrayOrNULL", c("array", "NULL"))
 setClassUnion("data.frameOrNULL", c("data.frame", "NULL"))
 setClassUnion("numericOrmatrixOrcharacterOrNULL", c("numeric","matrix", "NULL","character"))
 setClassUnion("envOrNULL", c("environment", "NULL"))
+setClassUnion("listOrNULL", c("list", "NULL"))
 
 # #############da togliere per compilazione (esistno gia in someMTP)
 #  setClassUnion("numericOrNULL", c("numeric", "NULL"))
 #  setClassUnion("listOrNULL", c("list", "NULL"))
 #  require(e1071)
 
-
-setClass("flip.object", 
+# Can extend and create with new("flip.object", ...)
+#' flip.object-class
+#'
+#' TO BE DOCUMENTED
+#' @export
+setClass("flip.object",
   representation(
     res = "data.frameOrNULL",
-    call = "call", 
+    call = "call",
 	permP="arrayOrNULL",
 	permT="arrayOrNULL",
 	permSpace="listOrNULL",
@@ -48,27 +53,34 @@ setClass("flip.object",
 #==========================================================
 # Function "show" prints a "flip.object" object
 #==========================================================
+#' @export
+setGeneric("show", function(object,...) standardGeneric("show"))
+
+#' @export
 setMethod("show", "flip.object", function(object)
 {
   result(object)
 })
 
+#' @export
 setGeneric("summary")
+
+#' @export
 setMethod("summary", "flip.object", function(object,star.signif=TRUE,only.p.leq=NULL,...)
 {
   nperms= as.list(object@call$perms)
   #cat(" \"flip.object\" object of package flip\n")
   cat(" Call:\n ")
   cat(deparse(object@call), "\n")
-  # cat(ifelse(is.null(nperms$seed),"all",""), nperms$B, ifelse(is.finite(nperms$seed),"random",""), "permutations.\n",   
-	# ifelse(is.finite(nperms$seed),paste("(seed: ",is.finite(nperms$seed)," )",sep=""),"")) 
+  # cat(ifelse(is.null(nperms$seed),"all",""), nperms$B, ifelse(is.finite(nperms$seed),"random",""), "permutations.\n",
+	# ifelse(is.finite(nperms$seed),paste("(seed: ",is.finite(nperms$seed)," )",sep=""),""))
   cat(object@permSpace$B-1, "permutations.",sep=" ")
   cat("\n")
   if(!is.null(only.p.leq))  object@res=object@res[object@res[,ncol(object@res)]<=only.p.leq,,drop=FALSE]
-  
+
   if(nrow(object@res)>0){
-    
-    if(is.null(star.signif)) star.signif=TRUE 
+
+    if(is.null(star.signif)) star.signif=TRUE
     if(is.logical(star.signif)) {
       if(star.signif) {
         #takes the last column among raw and Ajusted p-value
@@ -86,19 +98,22 @@ setMethod("summary", "flip.object", function(object,star.signif=TRUE,only.p.leq=
 
 
 #==========================================================
-# Functions to extract relevant information from 
+# Functions to extract relevant information from
 # a flip.object object
 #==========================================================
+#' @export
 setGeneric("result", function(object,...) standardGeneric("result"))
+
+#' @export
 setMethod("result", "flip.object",
-  function(object,...) { 
+  function(object,...) {
     if(nrow(object@res)>0)
       for(i in c("p-value",names(object@res)[grep("Adjust",names(object@res))])){
         lower=(object@res[,i]<.0001)
         object@res[,i]=formatC(object@res[,i],digits=4,drop0trailing=FALSE,format="f")
         object@res[lower,i]="<.0001"
       }
-      print(object@res, digits = 4)  
+      print(object@res, digits = 4)
 })
 
 # #==========================================================
@@ -109,13 +124,16 @@ setMethod("result", "flip.object",
 
 
 #==========================================================
+#' @export
 setGeneric("p.value", function(object, ...) standardGeneric("p.value"))
+
+#' @export
 setMethod("p.value", "flip.object",
   function(object) {
-    x=object@res[,"p-value"] 
+    x=object@res[,"p-value"]
 	names(x)=names(object)
 	x
-	
+
   }
 )
 
@@ -123,6 +141,12 @@ setMethod("p.value", "flip.object",
 #==========================================================
 #it concatenates flip objects
 #warning("More than one test statistic is imputed, only the first perms space will be stored.")
+
+#' cFlip
+#'
+#' @param ... dots?
+#'
+#' @return res?
 cFlip <- function(...) {
   res=list(...)[[1]]
     if(length(list(...))>1){
@@ -133,7 +157,7 @@ cFlip <- function(...) {
 		} else nperms=nperms[1]
 
     for(i in 2:length(list(...)))  res@permT=cbind(res@permT[1:nperms,,drop=FALSE],list(...)[[i]]@permT[1:nperms,,drop=FALSE])
-		
+
 		res@tail = as.vector(unlist(sapply(1:length(list(...)), function(i)  rep(if(is.null(list(...)[[i]]@tail)) 0 else list(...)[[i]]@tail,length.out=ncol(list(...)[[i]]@permT))
                       )))
 		# migliore questo output, ammettere la presenza di altri elementi in extraInfoPre
@@ -149,7 +173,10 @@ cFlip <- function(...) {
 }
 
 #==========================================================
+#' @export
 setGeneric("size", function(object, ...) standardGeneric("size"))
+
+#' @export
 setMethod("size", "flip.object",
   function(object) {
     dim(object@permT)
@@ -167,25 +194,26 @@ setMethod("size", "flip.object",
 #==========================================================
 # The subsetting methods for "flip.object"
 #==========================================================
-setMethod("[", "flip.object", 
-            function(x, i, j,...,drop) 
+#' @export
+setMethod("[", "flip.object",
+            function(x, i, j,...,drop)
 {
   iii=i
-	if(is.character(i) && !all(i %in% names(x))){ 
+	if(is.character(i) && !all(i %in% names(x))){
 		search=which(!(i %in% names(x)))
 		extended= lapply(i, function(ii) names(x)[if(ii %in% names(x)) ii else grep(ii, names(x))] )
-		i=unlist(extended)	
+		i=unlist(extended)
 	}
 
 
-  if (all(i %in% names(x)) || 
+  if (all(i %in% names(x)) ||
           all(i %in% 1:length(x)) ||
           all(i %in% -1:-length(x)) ||
           (is.logical(i) && (length(i)== length(x)))) {
     x@res <- x@res[i, ,drop=FALSE]
-    if (!is.null(x@permP)) #if(i <= ncol(x@permP)) 
+    if (!is.null(x@permP)) #if(i <= ncol(x@permP))
 		x@permP <- x@permP[,i,drop=FALSE]
-    if (!is.null(x@permT)) #if(i <= ncol(x@permT)) 
+    if (!is.null(x@permT)) #if(i <= ncol(x@permT))
 		x@permT <- x@permT[,i,drop=FALSE]
     if (!is.null(x@tail)) # if((i <= length(as.vector(x@tail))) || (length(as.vector(x@tail))==1))
 								x@tail <- x@tail[min(length(as.vector(x@tail)),1)]
@@ -193,7 +221,7 @@ setMethod("[", "flip.object",
        #le colonne di Y non sono le stesse delle colonne di permT (a meno che non ci sia un'unica colonna X)
        search=which(!(iii %in% colnames(x@data$Y)))
        extended= lapply(iii, function(ii) colnames(x@data$Y)[if(ii %in% colnames(x@data$Y)) ii else grep(ii, colnames(x@data$Y))] )
-       i=unlist(extended)        
+       i=unlist(extended)
       if(!is.null(x@data$Y)) x@data$Y <- x@data$Y[,i,drop=FALSE]
       if(!is.null(x@data$se)) x@data$se <- x@data$se[,i,drop=FALSE]
       if(!is.null(x@data$df.mod)) x@data$df.mod <- x@data$df.mod[,i,drop=FALSE]
@@ -208,10 +236,11 @@ setMethod("[", "flip.object",
   } else {
     stop("invalid index set", call. = FALSE)
   }
-})            
+})
 
-setMethod("[[", "flip.object", 
-            function(x, i, j,...,exact) 
+#' @export
+setMethod("[[", "flip.object",
+            function(x, i, j,...,exact)
 {
    x[i]
 })
@@ -219,8 +248,9 @@ setMethod("[[", "flip.object",
 #==========================================================
 # The length method for "flip.object"
 #==========================================================
-setMethod("length", "flip.object", 
-            function(x) 
+#' @export
+setMethod("length", "flip.object",
+            function(x)
 {
   nrow(x@res)
 })
@@ -228,31 +258,36 @@ setMethod("length", "flip.object",
 
 
 #==========================================================
-# The names and alias methods for "flip.object" 
+# The names and alias methods for "flip.object"
 # (applies to pathwaynames)
 #==========================================================
-setMethod("names", "flip.object", 
-            function(x) 
+#' @export
+setMethod("names", "flip.object",
+            function(x)
 {
   rownames(x@res)
-})      
+})
 
 
-setMethod("names<-", "flip.object", 
-            function(x, value) 
+#' @export
+setMethod("names<-", "flip.object",
+            function(x, value)
 {
   rownames(x@res) <- value
   if (!is.null(x@permP)) colnames(x@permP) <- value
   if (!is.null(x@permT)) colnames(x@permT) <- value
   x
-})            
+})
 
 
 
 #==========================================================
 # A sort method for "flip.object"
 #==========================================================
-setGeneric("sort") 
+#' @export
+setGeneric("sort")
+
+#' @export
 setMethod("sort", "flip.object",
   function(x, decreasing = FALSE ) {
       ix <- order(p.value(x), decreasing=decreasing)
@@ -274,7 +309,10 @@ setMethod("sort", "flip.object",
 # Multiple testing correction for "flip.object" object
 #==========================================================
 
+#' @export
 setGeneric("p.adjust", function(p, method = p.adjust.methods, n = length(p)) standardGeneric("p.adjust"))
+
+#' @export
 setMethod("p.adjust", matchSignature(signature(p = "flip.object"), p.adjust),
   function(p, method = p.adjust.methods, n = length(p)) {
     method <- method[1]
@@ -285,9 +323,9 @@ setMethod("p.adjust", matchSignature(signature(p = "flip.object"), p.adjust),
       p@res <- cbind(p@res, p.adjust(p.value(p), method=method))
     else
       p@res <- cbind(p@res, p.adjust(p.value(p), method=method, n=n))
-	
-	colnames(p@res)[length(colnames(p@res))]=paste("Adjust:",method,sep="")	
-	
+
+	colnames(p@res)[length(colnames(p@res))]=paste("Adjust:",method,sep="")
+
     p
   }
 )
@@ -297,14 +335,18 @@ setMethod("p.adjust", matchSignature(signature(p = "flip.object"), p.adjust),
 #==========================================================
 # Histogram method to visualize permutations
 #==========================================================
+#' @export
 setGeneric("hist", function(x,...) standardGeneric("hist"))
-#setMethod("hist", matchSignature(signature(x = "flip.object"), hist), 
+
+#setMethod("hist", matchSignature(signature(x = "flip.object"), hist),
+
+#' @export
 setMethod("hist", "flip.object", function(x, ...)  {
-  
+
   flip.hist <- function(x, breaks=100, main=NULL, xlab = "Test Statistics", ...) {
 
      if (length(x) > 1){
-       
+
        f<-function(k=length(x),yxratio=1.25){
        n.cl=ceiling(sqrt(k*yxratio) )
        n.rw=ceiling(k/n.cl)
@@ -314,11 +356,11 @@ setMethod("hist", "flip.object", function(x, ...)  {
        par(mfrow=f(k=length(x),yxratio=1.25))
         res=sapply(1:length(x),function(i)flip.hist(x[i]))
        par(mfrow=mfrow.now)
-       
+
        return(invisible(res))
 #      stop("length(object) > 1. Please reduce to a single test result")
   }
-    # if (is.null(x@weights)) 
+    # if (is.null(x@weights))
       # weights <- rep(1, size(x))
     # else
       # weights <- x@weights[[1]]
@@ -326,7 +368,7 @@ setMethod("hist", "flip.object", function(x, ...)  {
       # subset <- seq_len(size(x))
     # else
       # subset <- x@subsets[[1]]
-  
+
     #recalculate <- x@functions$permutations(subset, weights)
     if(is.null(main))  main=names(x)[1]
     Q <- x@permT[1,]
@@ -338,28 +380,28 @@ setMethod("hist", "flip.object", function(x, ...)  {
       pts=.setTail(cbind(c(x@permT[1,],hst$mids)),x@tail)
       cols[which(pts[-1]>=pts[1] )]="#F98400"
 #       cols.brd[which(pts[-1]>=pts[1] )]="#FF0000"
-      
-     plot(hst,          xlim = c(1.1 * min(0, x@permT), 1.1 * max(x@permT)), 
+
+     plot(hst,          xlim = c(1.1 * min(0, x@permT), 1.1 * max(x@permT)),
       main = main, xlab = xlab,col=cols,
       , border= cols.brd#"#F2AD00"
       , ...)#"#00A08A"
-     if(is.null(list(...)$freq) & is.null(list(...)$probability)) 
+     if(is.null(list(...)$freq) & is.null(list(...)$probability))
        h <- max(hst$counts) else {
-         if(c(1-list(...)$freq,list(...)$probability)>0 ) 
-           h <- max(hst$density) else  
+         if(c(1-list(...)$freq,list(...)$probability)>0 )
+           h <- max(hst$density) else
              h <- max(hst$counts)
        }
 redUnipd="#FF0000"
     lines(  c(Q, Q), c(h/2, 0) , lwd=2,col=redUnipd)
     points( Q,0 , lwd=2,col=redUnipd,pch=21,bg=redUnipd)
     text( Q, h/2, 'Observed\ntest\nstatistic' , pos=3,col=redUnipd)
-  
+
     # No output
     invisible(list(statistic = Q, histogram = hst))
   }
-  
+
   flip.hist(x,...)
-})        
+})
 
 
 # #==========================================================
@@ -367,14 +409,17 @@ redUnipd="#FF0000"
 # #==========================================================
 
 
+#' @export
 setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
-setMethod("plot", "flip.object", 
+
+#' @export
+setMethod("plot", "flip.object",
  function(x, y, ...) {
 #setMethod("plot", "flip.object", function(x, y, ...) {
-  if(!exists("main")) main=NULL 
+  if(!exists("main")) main=NULL
   if(!exists("xlab")) xlab = NULL
-  if(!exists("ylab")) ylab=NULL 
-  
+  if(!exists("ylab")) ylab=NULL
+
   plot.flip <- function(x, y=NULL, main, xlab, ylab, which.PCs=1:2,col="#F98400"#"orange
                         ,bg="#F2AD00" #"darkgrey"
                         ,pch=21,asp=1,...){
@@ -387,12 +432,12 @@ setMethod("plot", "flip.object",
            ylab=colnames(x@permT)[2],
            main= "Permutation Space" ,
            bg=bg, col=col,pch=pch,asp=asp,...)
-      
+
       points(x@permT[1,1],x@permT[1,2],col="#F2AD00"#"darkgrey"
              ,bg="#00A08A"#"blue"
              ,cex=2,lwd=2,pch=21)
       text(x@permT[1,1],x@permT[1,2],labels="ObsStat",col="gray30")
-    } else { 
+    } else {
       keep=apply(x@permT,2,function(x)length(unique(x))>1)
       x@permT=x@permT[,keep]
       pc=prcomp(x@permT,scale. =FALSE,center=FALSE)
@@ -400,22 +445,22 @@ setMethod("plot", "flip.object",
       pc$x=pc$x[,which.PCs]
       pc$sdev=pc$sdev[which.PCs]
       pc$rotation=pc$rotation[,which.PCs]
-      
+
       #makes obs to be always on top-right quadrant:
-      pc$rotation[,1]=pc$rotation[,1]*sign(pc$x[1,1]) 
-      pc$rotation[,2]=pc$rotation[,2]*sign(pc$x[1,2]) 
+      pc$rotation[,1]=pc$rotation[,1]*sign(pc$x[1,1])
+      pc$rotation[,2]=pc$rotation[,2]*sign(pc$x[1,2])
       pc$x[,1]=pc$x[,1]*sign(pc$x[1,1])
-      pc$x[,2]=pc$x[,2]*sign(pc$x[1,2]) 
-      
-      pc$x=pc$x[,1:2]/pc$sdev[1:2]      
+      pc$x[,2]=pc$x[,2]*sign(pc$x[1,2])
+
+      pc$x=pc$x[,1:2]/pc$sdev[1:2]
       datapc=pc$rotation[,1:2]*sqrt(nrow(pc$rotation))*1.3
-      
+
       plot(pc$x, xlim=range(c(pc$x[,1],datapc[,1])), ylim=range(c(pc$x[,2],datapc[,2])),
            xlab=paste("PC1 (",round(pc$ sdev [1]^2 /sum(pc$ sdev ^2) *100,2)," %)",sep=""),
            ylab=paste("PC2 (",round(pc$ sdev [2]^2 /sum(pc$ sdev ^2) *100,2)," %)",sep=""),
            main= "PCA of Permutation Space" ,
            bg=bg, col=col,pch=pch,asp=asp)
-      
+
       points(pc$x[1,1],pc$x[1,2],col="#F2AD00"#"darkgrey"
              ,bg="#00A08A"#"blue"
              ,cex=2,lwd=2,pch=21)
@@ -425,7 +470,7 @@ setMethod("plot", "flip.object",
                                                    ),lwd=2,angle=15,length=.1)
       text(datapc[,1],datapc[,2],labels=rownames(datapc),col="gray30")
       text(pc$x[1,1],pc$x[1,2],labels="ObsStat",col="gray30")
-      
+
       # lam <- pc$sdev[1:2] #* sqrt(dim(pc$x)[1])
       # #plot(pc$x[, 1:2]/lam)
       # pc$x[,1:2]=pc$x[,1:2] / lam
@@ -437,7 +482,7 @@ setMethod("plot", "flip.object",
       # text(pc$x[1,1]*1.1,pc$x[1,2]*1.1,col="red","Obs")
       # arrows( 0, 0, 2*pc$rotation[,1], 2*pc$rotation[,2], lwd=1,col="gray")
       # text(2.1*pc$rotation[,1], 2.1*pc$rotation[,2], rownames(pc$rotation), cex=1.5,col="black")
-      # title("PCA of Permutation Space") 
+      # title("PCA of Permutation Space")
     }
   }
   plot.flip(x,y=NULL, main=main, xlab=xlab, ylab=ylab,...)
@@ -449,36 +494,42 @@ setMethod("plot", "flip.object",
 # # get elements of flip-object
 # #==========================================================
 
+#' getFlip
+#'
+#' @param obj object?
+#' @param element element?
+#'
+#' @return res?
 getFlip <- function(obj,element){
   if(element%in%slotNames(obj))
     return(slot(obj,element))
-  
+
   if(element%in%names(obj@res))
     return(obj@res[element])
-  
+
   if(tolower(element)%in%c(tolower("Adjust:"),tolower("Adjust")))
     return(obj@res[grep("Adjust",colnames(obj@res))])
-    
+
   if(!is.null(obj@data)){
     if(element%in%names(obj@data))
       return(obj@data[element])
-    
+
     if(substr(element,1,5)=="data$")
       return(obj@data[substr(element,6,nchar(element))])
-    
+
   } else if(!is.null(obj@call.env$data)){
-    
+
     if(element%in%names(obj@data))
       return(obj@data[element])
-    
+
     if(substr(element,1,5)=="data$")
-      return(obj@data[substr(element,6,nchar(element))])    
-    
+      return(obj@data[substr(element,6,nchar(element))])
+
   }
-  
+
   if(substr(element,1,4)=="res$")
     return(obj@res[substr(element,5,nchar(element))])
-  
+
   if(element%in%c("nperms","perms","B"))
     return(obj@permSpace$B)
 }

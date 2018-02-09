@@ -1,6 +1,5 @@
 # History files
 .Rhistory
-
 flip.Rproj
 
 # Example code in package build process
@@ -9,5 +8,4 @@ flip.Rproj
 # bk files
 *~
 .Rproj.user
-
 
