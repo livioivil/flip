@@ -28,7 +28,6 @@ yes\cr Depends: \tab methods, e1071, someMTP, cherry\cr }
 }
 \examples{
 
-
 Y=data.frame(matrix(rnorm(50),10,5))
 names(Y)=LETTERS[1:5]
 Y[,1:2]=Y[,1:2]
@@ -42,14 +41,6 @@ plot(res)
 p2=npc(res,"fisher",subsets=list(c1=c("A","B"),c2=names(Y)))
 p2
 
-}
-\author{
-Livio Finos, with contributions by Florian Klinglmueller, Dario
-Basso, Aldo Solari, Lucia Benetazzo, Jelle Goeman and Marco Rinaldo. Special
-thanks are due to Ivan Marin-Franch and Fredrik Nilsson for the debugging
-and the good questions.
-
-Maintainer: livio finos <livio@stat.unipd.it>
 }
 \references{
 For the general framework of univariate and multivariate
@@ -74,5 +65,12 @@ the multivariate linear model. Biometrics. Accepted
 The structure of \code{flip} is widely borrowed from library
 \code{globaltest} by J. Goeman and J. Oosting in bioconductor.org.
 }
-\keyword{package}
+\author{
+Livio Finos, with contributions by Florian Klinglmueller, Dario
+Basso, Aldo Solari, Lucia Benetazzo, Jelle Goeman and Marco Rinaldo. Special
+thanks are due to Ivan Marin-Franch and Fredrik Nilsson for the debugging
+and the good questions.
 
+Maintainer: livio finos <livio@stat.unipd.it>
+}
+\keyword{package}

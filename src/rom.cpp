@@ -5,9 +5,9 @@
 using namespace arma;
 
 // [[Rcpp::export]]
-mat rom(int n) {
+arma::mat rom(int n) {
   vec d(n);
-  mat A=eye(n,n);
+  arma::mat A=eye(n,n);
   double s=0;
   double beta=0;
   int sgn=0;
@@ -16,7 +16,7 @@ mat rom(int n) {
   d[n-1] = SGN(Rcpp::rnorm(1)[1]);
   for(int i = (n-1); i > 0; i--) {
     x=Rcpp::rnorm(n-i+1);
-    colvec y(x.begin(), x.size(), false);
+    arma::colvec y(x.begin(), x.size(), false);
     s = (sqrt(y.st()*y))[0];
     sgn = SGN(y[0]);
     s = sgn*s;

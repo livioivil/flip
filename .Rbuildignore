@@ -1,2 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^flip\.Rproj$
+^NoteCommit$
+^README\.Rmd$
+^README\.html$
+^figure$
+^LICENSE$

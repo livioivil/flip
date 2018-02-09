@@ -9,4 +9,3 @@ Famous seeds growing data from Pesarin, F. (2001) Multivariate Permutation
 Tests with Applications in Biostatistics. Wiley, New York.
 }
 \keyword{htest}
-
