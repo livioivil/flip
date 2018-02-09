@@ -3,10 +3,8 @@ Type: Package
 Title: Multivariate Permutation Tests
 Version: 2.4.3
 Date: 2015-10-08
-Author: Livio Finos, with contributions by Florian Klinglmueller, Dario Basso,
-    Aldo Solari, Lucia Benetazzo, Jelle Goeman and Marco Rinaldo. Special thanks
-    are due to Ivan Marin-Franch and Fredrik Nilsson for the debugging and the good
-    questions.
+Author: Livio Finos, with contributions by Corrado Lanera, Florian Klinglmueller, Dario Basso,
+    Aldo Solari, Lucia Benetazzo, Jelle Goeman and Marco Rinaldo.
 Maintainer: Livio Finos <livio@stat.unipd.it>
 Depends:
     methods,
