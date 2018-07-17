@@ -4,8 +4,7 @@
 \alias{flip}
 \alias{flip.statTest}
 \alias{orthoZ}
-\title{The main function for univariate and multivariate testing under a
-permutation (and rotation) framework + some utilities.}
+\title{flip}
 \usage{
 flip(Y, X = NULL, Z = NULL, data = NULL, tail = 0, perms = 1000,
   statTest = NULL, Strata = NULL, flipReturn, testType = NULL, ...)
@@ -92,12 +91,15 @@ An object of class \code{flip.object}.  Several operations and plots
 can be made from this object. See also \code{\link{flip.object-class}}.
 }
 \description{
+The main function for univariate and multivariate testing under a
+permutation (and rotation) framework + some utilities.
+
 \code{flip} is the main function for permutation (or rotation) test.
-}
-\details{
+
 It allows for multivariate one sample, C>=2 samples and any regression
 tests. Also the use of covariates (to be fitted in the model but) not under
 test is allowed.
+
 
 \code{statTest="t"} is the t statistic derived from the correlation among
 each Xs and each Ys (i.e. a linear model for each couples of Xs and Ys).
@@ -169,9 +171,11 @@ affect the control of the type I error.
 
 Y=matrix(rnorm(50),10,5)
 colnames(Y)=LETTERS[1:5]
-Y[,1:2]=Y[,1:2] +2
+Y[,1:2]=Y[,1:2] +1
 res = flip(Y)
 res
+plot(res[[1]])
+plot(res[2:3])
 plot(res)
 
 X=rep(0:1,5)

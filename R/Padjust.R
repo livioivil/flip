@@ -38,7 +38,7 @@ flip.adjust <- function (permTP, method = flip.npc.methods, maxalpha=1, weights=
       
       # Define the local test to be used in the closed testing procedure
       mytest <- function(hyps) {p.value(npc(permTP[hyps],method,weights=weights[hyps]))}
-      cl <- closed(mytest, names(permTP),alpha=NA)
+      cl <- cherry::closed(mytest, names(permTP),alpha=NA)
       adjs=sapply(names(permTP),function(id) adjusted(cl,id))
 			}
 		}

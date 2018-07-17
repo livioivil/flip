@@ -30,8 +30,9 @@ flip.statTest <-
 
 
 
-
-#' The main function for univariate and multivariate testing under a
+#' @title  flip
+#' @name  flip
+#' @description The main function for univariate and multivariate testing under a
 #' permutation (and rotation) framework + some utilities.
 #'
 #' \code{flip} is the main function for permutation (or rotation) test.
@@ -195,9 +196,11 @@ flip.statTest <-
 #'
 #' Y=matrix(rnorm(50),10,5)
 #' colnames(Y)=LETTERS[1:5]
-#' Y[,1:2]=Y[,1:2] +2
+#' Y[,1:2]=Y[,1:2] +1
 #' res = flip(Y)
 #' res
+#' plot(res[[1]])
+#' plot(res[2:3])
 #' plot(res)
 #'
 #' X=rep(0:1,5)

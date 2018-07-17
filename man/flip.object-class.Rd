@@ -3,7 +3,7 @@
 \docType{class}
 \name{flip.object-class}
 \alias{flip.object-class}
-\title{flip.object-class}
+\title{Class flip.object}
 \description{
-TO BE DOCUMENTED
+The class flip.object is the output of a call to \code{\link{flip}}, \code{\link{flipMix}}, \code{\link{npc}}, \code{\link{flip.adjust}} etc.
 }

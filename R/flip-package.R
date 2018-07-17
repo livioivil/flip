@@ -1,4 +1,7 @@
-#' The library is devoted to permutation-based inferential methods.
+#' @title  flip-package
+#' @name  flip-package
+#' @aliases flip.package flippackage
+#' @description The library is devoted to permutation-based inferential methods.
 #'
 #' It implements many univariate and multivariate permutation (and rotation)
 #' tests.
@@ -47,11 +50,7 @@
 #' A. Solari, L. Finos, J.J. Goeman (2014) Rotation-based multiple testing in
 #' the multivariate linear model. Biometrics. Accepted
 #'
-#' The structure of \code{flip} is widely borrowed from library
-#' \code{globaltest} by J. Goeman and J. Oosting in bioconductor.org.
 #' @keywords package
-#' @importFrom Rcpp evalCpp
-#' @useDynLib flip, .registration = TRUE
 #' @examples
 #'
 #' Y=data.frame(matrix(rnorm(50),10,5))

@@ -57,7 +57,8 @@ vector of +1 and -1 used for symmetry test.
 }
 \details{
 \code{rom} computes a Random Orthogonal Matrix of size \code{n}X\code{n}
-(C-compiled function, very fast)
+(C-compiled function, very fast). implements the algorithm of Stewart (1980). The function is
+compiled in C++. NOTE: this option is not available in the newest versions. This is now equivalent to \code{romFast}
 
 \code{romFast} computes a Random Orthogonal Matrix of size \code{n}X\code{n}
 using the \code{qr.Q} decomposition. \code{romFast} is faster than
@@ -70,9 +71,6 @@ based on the function \code{permutations} of the \code{library(e1071)}.
 
 \code{t2p} computes the (possibily multivariate) space of p-values from the
 space of test statistic.
-
-\code{rom} implements the algorithm of Stewart (1980). The function is
-compiled in C++.
 }
 \examples{
 

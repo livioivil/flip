@@ -1,8 +1,8 @@
 #==========================================================
 # CLASS DEFINITION *** CLASS DEFINITION *** CLASS DEFINITION
 #==========================================================
-
-#setClassUnion("matrixOrNULL", c("matrix", "NULL"))
+# detach(unload=T)
+# setClassUnion("matrixOrNULL", c("matrix", "NULL"))
 setClassUnion("numericOrmatrixOrNULL", c("numeric","matrix", "NULL"))
 setClassUnion("arrayOrNULL", c("array", "NULL"))
 setClassUnion("data.frameOrNULL", c("data.frame", "NULL"))
@@ -16,10 +16,14 @@ setClassUnion("listOrNULL", c("list", "NULL"))
 #  require(e1071)
 
 # Can extend and create with new("flip.object", ...)
-#' flip.object-class
+#' Class flip.object
 #'
-#' TO BE DOCUMENTED
-#' @export
+#' The class flip.object is the output of a call to \code{\link{flip}}, \code{\link{flipMix}}, \code{\link{npc}}, \code{\link{flip.adjust}} etc. 
+#' 
+#' @name flip.object-class
+#' @rdname flip.object-class
+#' @exportClass flip.object
+#' 
 setClass("flip.object",
   representation(
     res = "data.frameOrNULL",
@@ -38,31 +42,49 @@ setClass("flip.object",
     data = "listOrNULL",
     call.env = "envOrNULL"
     #model = "character"
-  ),
-  prototype = list(
-  res = NULL,
-	permP=NULL,
-	permT=NULL,
-	permSpace=NULL,
-	permY=NULL,
-	data=NULL,
-  call.env=NULL
   )
+  # ,prototype = list(
+  #   res = NULL,
+  #   permP=NULL,
+  #   permT=NULL,
+  #   permSpace=NULL,
+  #   permY=NULL,
+  #   data=NULL,
+  #   call.env=NULL
+  # )
 )
+
+setMethod("initialize", "flip.object",
+          function(.Object, ...) {
+            .Object <- callNextMethod()
+            .Object
+            })
 
 #==========================================================
 # Function "show" prints a "flip.object" object
 #==========================================================
 #' @export
-setGeneric("show", function(object,...) standardGeneric("show"))
-
-#' @export
+#' @title show
+#' @param object a flip-object
+#' @param ... additional arguments to be passed
+#' @return NULL
+#' @describeIn summary prints same as \code{summary}
+#' 
 setMethod("show", "flip.object", function(object)
 {
-  result(object)
+  summary(object)
 })
 
+
 #' @export
+#' @title summary
+#' @param object a flip-object
+#' @param star.signif If \code{TRUE} (default), it puts stars on the significant tests
+#' @param only.p.leq Shows only tests with a p-value lower than \code{only.p.leq}. The default \code{NULL} is equivalent to set \code{only.p.leq=1}.
+#' @param ... additional arguments to be passed
+#' @return NULL
+#' @description prints information about the flip-object
+# @aliases summary result show 
 setGeneric("summary")
 
 #' @export
@@ -102,6 +124,13 @@ setMethod("summary", "flip.object", function(object,star.signif=TRUE,only.p.leq=
 # a flip.object object
 #==========================================================
 #' @export
+#' @title result
+#' @param object a flip-object
+#' @param ... additional arguments to be passed
+#' @return NULL
+#' @description prints information about the flip-object  
+
+
 setGeneric("result", function(object,...) standardGeneric("result"))
 
 #' @export
@@ -125,6 +154,11 @@ setMethod("result", "flip.object",
 
 #==========================================================
 #' @export
+#' @title p.value
+#' @description returns a vector of p-values from a flip-object
+#' @param object a flip-object
+#' @param ... additional arguments to be passed
+#' @return vector of p-values
 setGeneric("p.value", function(object, ...) standardGeneric("p.value"))
 
 #' @export
@@ -144,9 +178,9 @@ setMethod("p.value", "flip.object",
 
 #' cFlip
 #'
-#' @param ... dots?
+#' @param ... arguments
 #'
-#' @return res?
+#' @return res
 cFlip <- function(...) {
   res=list(...)[[1]]
     if(length(list(...))>1){
@@ -174,6 +208,11 @@ cFlip <- function(...) {
 
 #==========================================================
 #' @export
+#' @title size
+#' @description size of permutation space: number of permutations X number of variables
+#' @param object a flip-object
+#' @param ... additional arguments to be passed
+#' @return NULL
 setGeneric("size", function(object, ...) standardGeneric("size"))
 
 #' @export
@@ -338,9 +377,14 @@ setMethod("p.adjust", matchSignature(signature(p = "flip.object"), p.adjust),
 #' @export
 setGeneric("hist", function(x,...) standardGeneric("hist"))
 
-#setMethod("hist", matchSignature(signature(x = "flip.object"), hist),
-
 #' @export
+#' @title hist
+#' @aliases hist
+#' @name hist
+#' @param x a flip.object
+#' @param ... additional arguments to be passed
+#' @description  show the histogram of the distribution of the test statistics (computed under the null hypothesis).
+#' 
 setMethod("hist", "flip.object", function(x, ...)  {
 
   flip.hist <- function(x, breaks=100, main=NULL, xlab = "Test Statistics", ...) {

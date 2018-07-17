@@ -1,35 +1,23 @@
 Package: flip
 Type: Package
 Title: Multivariate Permutation Tests
-Version: 2.4.3.0021
-Date: 2015-10-08
-Author: Livio Finos, with contributions by Corrado Lanera, Florian Klinglmueller, Dario Basso,
+Version: 2.5.0
+Date: 2018-08-01
+Author: Livio Finos, with contributions by Florian Klinglmueller, Dario Basso,
     Aldo Solari, Lucia Benetazzo, Jelle Goeman and Marco Rinaldo.
-Maintainer: Livio Finos <livio@stat.unipd.it>
-Depends:
-    e1071,
-    methods,
-    someMTP,
-    cherry
-Imports: 
-    Rcpp (>= 0.12.15),
-    plyr,
-    graphics,
-    stats,
-    utils
-LinkingTo: Rcpp, RcppArmadillo
+Maintainer: Livio Finos <livio.finos@unipd.it>
 Description: It implements many univariate and multivariate permutation (and
     rotation) tests. Allowed tests: the t one and two samples, ANOVA, linear
     models, Chi Squared test, rank tests (i.e. Wilcoxon, Mann-Whitney,
-    Kruskal-Wallis), Sign test and McNemar. Test on Linear Models are
+    Kruskal-Wallis), Sign test and Mc Nemar. Test on Linear Models are
     performed also in presence of covariates (i.e. nuisance parameters).
     The permutation and the rotation methods to get the null distribution of
     the test statistics are available. It also implements methods for
-    multiplicity control such as Westfall-Young minP procedure and Closed
+    multiplicity control such as Westfall & Young minP procedure and Closed
     Testing (Marcus, 1976) and k-FWER. Moreover, it allows to test for fixed
     effects in mixed effects models.
 License: GPL (>= 2)
-URL: https://cran.r-project.org/web/packages/flip/index.html
+URL: ttps://CRAN.R-project.org/package=flip
 LazyLoad: yes
 LazyData: true
 Packaged: 2014-04-14 11:03:22 UTC; livio
@@ -38,3 +26,4 @@ Repository: CRAN
 RoxygenNote: 6.0.1
 Encoding: UTF-8
 ByteCompile: true
+Imports: methods, cherry, e1071, plyr

@@ -3,12 +3,15 @@
 \docType{package}
 \name{flip-package}
 \alias{flip-package}
-\title{The library is devoted to permutation-based inferential methods.}
+\alias{flip.package}
+\alias{flippackage}
+\title{flip-package}
 \description{
+The library is devoted to permutation-based inferential methods.
+
 It implements many univariate and multivariate permutation (and rotation)
 tests.
-}
-\details{
+
 The tests comprised are: the one and two samples, ANOVA, linear models, Chi
 Squared test, rank tests (i.e. Wilcoxon, Mann-Whitney, Kruskal-Wallis),
 Kolmogorov-Smirnov and Anderson-Darling.
@@ -61,9 +64,6 @@ Computing, 15, 1, 53-60
 
 A. Solari, L. Finos, J.J. Goeman (2014) Rotation-based multiple testing in
 the multivariate linear model. Biometrics. Accepted
-
-The structure of \code{flip} is widely borrowed from library
-\code{globaltest} by J. Goeman and J. Oosting in bioconductor.org.
 }
 \author{
 Livio Finos, with contributions by Florian Klinglmueller, Dario

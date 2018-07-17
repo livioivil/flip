@@ -7,10 +7,10 @@
 cFlip(...)
 }
 \arguments{
-\item{...}{dots?}
+\item{...}{arguments}
 }
 \value{
-res?
+res
 }
 \description{
 cFlip

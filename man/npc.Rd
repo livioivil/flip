@@ -75,25 +75,6 @@ method) described in Pesarin (2001). It makes use of the join space of the
 permutations. This is usually derived from a call of \code{flip} function or
 \code{flipMixWithin}.
 
-Very shortly:\ \code{"Fisher"} =-sum log(p-values) \ \code{"Liptak"} =sum
-qnorm(p-values) \ \code{"MahalanobisT"} = Mahalanobis distance of centered
-matrix \code{permTP} (or \code{permTP@permT}) \ \code{"MahalanobisP"} = same
-as above, but using scores defined by qnorm(p-values) (tails are forced to
-be one-sided) \ \code{"minP"} = \code{"Tippett"} = min(p-values) \
-\code{"maxT"} = max(test statistics) \ \code{"maxTstd"} = max(standardized
-test statistics) \ \code{"sumT"} = sum (test statistics) \ \code{"sumTstd"}
-= sum (standardized test statistics) \ \code{"sumT2"} = sum (test
-statistics)^2\ The followings have to be used carefully and only with
-objects from function flipMix()\ \code{"data.sum"} = sum of all columns of
-Y\ \code{"data.linComb"} = sum of all columns of Y (include a vector or
-matrix \code{linComb} among the arguments)\ \code{"data.pc"} = extract the
-first Principal component from the covariance matrix (you may also include a
-vector \code{whichPCs} indicating which PCs you want to consider)\
-\code{"data.trace"} = Extends the Pillai Trace, use parametric bootstrap to
-asses the significance.\ \code{"kfwer"} = can be only used with
-\code{flip.adjust} (not in \code{npc}). It requires an extra parameter
-\code{k} (\code{k=11} by default).
-
 \code{flip.adjust} adjusts the p-value for multiplicity (FamilyWise Error
 Rate -FWER- and kFWER).  When \code{method} is equal to \code{"maxT"},
 \code{"maxTstd"} (i.e. max T on \code{scale(permTP)}) or "minP" (i.e.

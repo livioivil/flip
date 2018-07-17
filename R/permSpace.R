@@ -7,7 +7,8 @@
 #' vector of +1 and -1 used for symmetry test.
 #'
 #' \code{rom} computes a Random Orthogonal Matrix of size \code{n}X\code{n}
-#' (C-compiled function, very fast)
+#' (C-compiled function, very fast). implements the algorithm of Stewart (1980). The function is
+#' compiled in C++. NOTE: this option is not available in the newest versions. This is now equivalent to \code{romFast}
 #'
 #' \code{romFast} computes a Random Orthogonal Matrix of size \code{n}X\code{n}
 #' using the \code{qr.Q} decomposition. \code{romFast} is faster than
@@ -21,8 +22,6 @@
 #' \code{t2p} computes the (possibily multivariate) space of p-values from the
 #' space of test statistic.
 #'
-#' \code{rom} implements the algorithm of Stewart (1980). The function is
-#' compiled in C++.
 #'
 #' @name permutationSpace
 #' @aliases permutationSpace make.permSpace make.signSpace allpermutations
@@ -123,7 +122,7 @@ make.signSpace <- function(N,perms) {
 			#random <- FALSE
 		 # require(e1071)
 			if(N>1){
-				perms$permID <-cbind(0,bincombinations(N-1))
+				perms$permID <-cbind(0,e1071::bincombinations(N-1))
 				perms$permID= perms$permID[-1,]
 				perms$permID [which(perms$permID ==1)] <- -1
 				perms$permID [which(perms$permID ==0)] <- 1
@@ -137,7 +136,7 @@ make.signSpace <- function(N,perms) {
 		} else {
 			#otherwise random permutations
 			#if (is.na(perms$seed)) perms$seed <- round(runif(1)*1000)
-			if (!is.na(perms$seed)) set.seed(perms$seed)
+			if ((!is.null(perms$seed))&&(!is.na(perms$seed))) set.seed(perms$seed)
 			perms$permID <- matrix(1 - 2 * rbinom(N * ((perms$B-1)%/%2),1, 0.5), ((perms$B-1)%/%2), N)
 			if(is.null(perms$rotFunct)) perms$rotFunct <- function(i) (permSpace$permID[i,]*data$Y)
 		}
@@ -163,7 +162,7 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 	} else 	{ ## then standard permutations
 		perms=.make.PermSpace(IDs,perms,return.permIDs=return.permIDs,Strata=Strata)
   }
-  if(!is.na(perms$seed)) set.seed(perms$seed)
+  if((!is.null(perms$seed))&&(!is.na(perms$seed))) set.seed(perms$seed)
   environment(perms$rotFunct) <- sys.frame(sys.parent())
   perms
 }
@@ -173,7 +172,7 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 ##########################
 .make.PermSpace <- function(IDs,perms,return.permIDs=FALSE,Strata=NULL,forceRandom=FALSE){
   if(is.null(return.permIDs)) return.permIDs=FALSE
-     if(length(IDs)==1) IDs=1:IDs
+     if(length(IDs)==1) IDs
 	if(is.null(Strata)){
 				perms$n=length(IDs)
 				allperms=npermutations(IDs)
@@ -189,7 +188,7 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 					# if (is.na(perms$seed))
 						# perms$seed <- round(runif(1)*1000)
 					# set.seed(perms$seed)
-					if (!is.na(perms$seed))	set.seed(perms$seed)
+					if ((!is.null(perms$seed))&&(!is.na(perms$seed)))	set.seed(perms$seed)
 
 					if(!return.permIDs) {
 						perms$rotFunct <- function(i) (data$Y[sample(perms$n),,drop=FALSE])
@@ -216,12 +215,14 @@ make.permSpace <- function(IDs,perms,return.permIDs=FALSE,testType="permutation"
 # rotation space of a vector Y.
 # perms is the number of permutations; seed the seed for random number generation, rotFunct the function to generate the random rotations
 ############################
-romFast  <- function(N) {
+rom <- romFast  <- function(N) {
   R <- matrix(rnorm(N^2),ncol=N)
   R <- qr.Q(qr(R, LAPACK = FALSE))
   flipsign <- which(rbinom(N,1,.5)==1)
   R[,flipsign] <- -R[,flipsign]
-  R}
+  R
+  }
+
 
 
 .make.RotSpace <- function(Y,perms) {
