@@ -10,10 +10,6 @@ setClassUnion("numericOrmatrixOrcharacterOrNULL", c("numeric","matrix", "NULL","
 setClassUnion("envOrNULL", c("environment", "NULL"))
 setClassUnion("listOrNULL", c("list", "NULL"))
 
-# #############da togliere per compilazione (esistno gia in someMTP)
-#  setClassUnion("numericOrNULL", c("numeric", "NULL"))
-#  setClassUnion("listOrNULL", c("list", "NULL"))
-#  require(e1071)
 
 # Can extend and create with new("flip.object", ...)
 #' Class flip.object
@@ -23,7 +19,6 @@ setClassUnion("listOrNULL", c("list", "NULL"))
 #' @name flip.object-class
 #' @rdname flip.object-class
 #' @exportClass flip.object
-#' 
 setClass("flip.object",
   representation(
     res = "data.frameOrNULL",
@@ -76,18 +71,21 @@ setMethod("show", "flip.object", function(object)
 })
 
 
-#' @export
-#' @title summary
+# @export
+# @title summary
+# @description prints information about the flip-object
+# @aliases summary result show 
+# setGeneric("summary")
+#' Prints information about the flip-object.
+# @description Prints information about the flip-object.
+#' @name flip.object-class
+#' @rdname flip.object-class
 #' @param object a flip-object
 #' @param star.signif If \code{TRUE} (default), it puts stars on the significant tests
 #' @param only.p.leq Shows only tests with a p-value lower than \code{only.p.leq}. The default \code{NULL} is equivalent to set \code{only.p.leq=1}.
 #' @param ... additional arguments to be passed
 #' @return NULL
-#' @description prints information about the flip-object
-# @aliases summary result show 
-setGeneric("summary")
-
-#' @export
+#' @aliases summary,flip.object-method
 setMethod("summary", "flip.object", function(object,star.signif=TRUE,only.p.leq=NULL,...)
 {
   nperms= as.list(object@call$perms)
@@ -100,7 +98,7 @@ setMethod("summary", "flip.object", function(object,star.signif=TRUE,only.p.leq=
   cat("\n")
   if(!is.null(only.p.leq))  object@res=object@res[object@res[,ncol(object@res)]<=only.p.leq,,drop=FALSE]
 
-  if(nrow(object@res)>0){
+  if(!is.null(object@res)&&(nrow(object@res)>0)){
 
     if(is.null(star.signif)) star.signif=TRUE
     if(is.logical(star.signif)) {
@@ -123,25 +121,34 @@ setMethod("summary", "flip.object", function(object,star.signif=TRUE,only.p.leq=
 # Functions to extract relevant information from
 # a flip.object object
 #==========================================================
-#' @export
-#' @title result
+# @export
+# @title result
+# @param object a flip-object
+# @param ... additional arguments to be passed
+# @return NULL
+# @description prints information about the flip-object  
+#' Prints information about the flip-object.
+#' @name flip.object-class
+#' @rdname flip.object-class
+#' @exportMethod result
+setGeneric("result", function(object,...) standardGeneric("result"))
+
+
+# @export
+#' @rdname flip.object-class
+#' @aliases result,flip.object-method
 #' @param object a flip-object
 #' @param ... additional arguments to be passed
 #' @return NULL
-#' @description prints information about the flip-object  
-
-
-setGeneric("result", function(object,...) standardGeneric("result"))
-
-#' @export
 setMethod("result", "flip.object",
   function(object,...) {
-    if(nrow(object@res)>0)
+    if(!is.null(object@res)&&(nrow(object@res)>0)){
       for(i in c("p-value",names(object@res)[grep("Adjust",names(object@res))])){
         lower=(object@res[,i]<.0001)
         object@res[,i]=formatC(object@res[,i],digits=4,drop0trailing=FALSE,format="f")
         object@res[lower,i]="<.0001"
       }
+  }
       print(object@res, digits = 4)
 })
 
@@ -152,16 +159,28 @@ setMethod("result", "flip.object",
 # })
 
 
+
 #==========================================================
-#' @export
-#' @title p.value
-#' @description returns a vector of p-values from a flip-object
+# @export
+# @title p.value
+# Returns a vector of p-values from a flip-object.
+# @name flip.object-class
+# @rdname flip.object-class
+# @exportMethod p.value
+#' Returns a vector of p-values from a flip-object.
+#' @name flip.object-class
+#' @rdname flip.object-class
+#' @exportMethod p.value
 #' @param object a flip-object
 #' @param ... additional arguments to be passed
 #' @return vector of p-values
+
 setGeneric("p.value", function(object, ...) standardGeneric("p.value"))
 
-#' @export
+
+# @export
+#' @rdname flip.object-class
+#' @aliases p.value,flip.object-method
 setMethod("p.value", "flip.object",
   function(object) {
     x=object@res[,"p-value"]
@@ -179,7 +198,7 @@ setMethod("p.value", "flip.object",
 #' cFlip
 #'
 #' @param ... arguments
-#'
+#' @export
 #' @return res
 cFlip <- function(...) {
   res=list(...)[[1]]
@@ -207,15 +226,27 @@ cFlip <- function(...) {
 }
 
 #==========================================================
-#' @export
-#' @title size
-#' @description size of permutation space: number of permutations X number of variables
+# @export
+# @rdname flip.object-class
+# @description size of permutation space: number of permutations X number of variables
+# @param object a flip-object
+# @param ... additional arguments to be passed
+# @return NULL
+#' 
+#' Size of permutation space: number of permutations X number of variables.
+#' @name flip.object-class
+#' @rdname flip.object-class
+#' @exportMethod plot
 #' @param object a flip-object
 #' @param ... additional arguments to be passed
 #' @return NULL
+#' 
 setGeneric("size", function(object, ...) standardGeneric("size"))
 
-#' @export
+# @export
+#' @rdname flip.object-class
+#' @aliases size,flip.object-method
+# @export
 setMethod("size", "flip.object",
   function(object) {
     dim(object@permT)
@@ -233,7 +264,15 @@ setMethod("size", "flip.object",
 #==========================================================
 # The subsetting methods for "flip.object"
 #==========================================================
-#' @export
+#' Operators acting on vectors, matrices, arrays and lists to extract or replace parts.
+#' @name flip.object-class
+#' @rdname flip.object-class
+# @exportMethod "["
+#' @param object a flip-object
+#' @param ... additional arguments to be passed
+#' @return NULL
+#' @aliases [,flip.object-method
+# 
 setMethod("[", "flip.object",
             function(x, i, j,...,drop)
 {
@@ -278,6 +317,7 @@ setMethod("[", "flip.object",
 })
 
 #' @export
+#' @rdname flip.object-class
 setMethod("[[", "flip.object",
             function(x, i, j,...,exact)
 {
@@ -287,7 +327,9 @@ setMethod("[[", "flip.object",
 #==========================================================
 # The length method for "flip.object"
 #==========================================================
-#' @export
+#' @rdname flip.object-class
+#' @aliases length,flip.object-method
+#' 
 setMethod("length", "flip.object",
             function(x)
 {
@@ -300,7 +342,9 @@ setMethod("length", "flip.object",
 # The names and alias methods for "flip.object"
 # (applies to pathwaynames)
 #==========================================================
-#' @export
+
+#' @rdname flip.object-class
+#' @aliases names,flip.object-method
 setMethod("names", "flip.object",
             function(x)
 {
@@ -308,7 +352,8 @@ setMethod("names", "flip.object",
 })
 
 
-#' @export
+#' @rdname flip.object-class
+#' @aliases names<-,flip.object-method
 setMethod("names<-", "flip.object",
             function(x, value)
 {
@@ -323,10 +368,14 @@ setMethod("names<-", "flip.object",
 #==========================================================
 # A sort method for "flip.object"
 #==========================================================
-#' @export
-setGeneric("sort")
+# @export
+# @rdname flip.object-class
+# setGeneric("sort")
 
-#' @export
+# @export
+#' @rdname flip.object-class
+#' @aliases sort,flip.object-method
+#' 
 setMethod("sort", "flip.object",
   function(x, decreasing = FALSE ) {
       ix <- order(p.value(x), decreasing=decreasing)
@@ -334,24 +383,20 @@ setMethod("sort", "flip.object",
   }
 )
 
-# #==========================================================
-# # Model.matrix extracts the model matrix (only if x=TRUE)
-# #==========================================================
-# setMethod("model.matrix", matchSignature(signature(object = "flip.object"), model.matrix),
-  # function(object, ... ) {
-    # list(tail = object@tail, Z = object@Z)
-  # }
-# )
 
 
 #==========================================================
 # Multiple testing correction for "flip.object" object
 #==========================================================
 
-#' @export
-setGeneric("p.adjust", function(p, method = p.adjust.methods, n = length(p)) standardGeneric("p.adjust"))
+# @export
+# @rdname flip.object-class
+# setGeneric("p.adjust", function(p, method = p.adjust.methods, n = length(p)) standardGeneric("p.adjust"))
 
-#' @export
+# @export
+#' @rdname flip.object-class
+#' @aliases p.adjust,flip.object-method
+#' 
 setMethod("p.adjust", matchSignature(signature(p = "flip.object"), p.adjust),
   function(p, method = p.adjust.methods, n = length(p)) {
     method <- method[1]
@@ -374,17 +419,29 @@ setMethod("p.adjust", matchSignature(signature(p = "flip.object"), p.adjust),
 #==========================================================
 # Histogram method to visualize permutations
 #==========================================================
-#' @export
+# Method hist.
+# Shows the histogram of the distribution of the test statistics (computed under the null hypothesis).
+# 
+# @export
+# @docType methods
+# 
+# @aliases hist
+# @param x a flip.object
+# @param ... additional arguments to be passed
+# @return a \code{hist} object
+# @rdname flip.object-methods
+# @docType methods
+#'
+#' Method hist.
+# @name flip.object-class
+# @rdname flip.object-class
+# @exportMethod hist  
+
 setGeneric("hist", function(x,...) standardGeneric("hist"))
 
-#' @export
-#' @title hist
-#' @aliases hist
-#' @name hist
-#' @param x a flip.object
-#' @param ... additional arguments to be passed
-#' @description  show the histogram of the distribution of the test statistics (computed under the null hypothesis).
-#' 
+# @name hist
+#' @aliases hist,flip.object-method
+#' @rdname flip.object-methods
 setMethod("hist", "flip.object", function(x, ...)  {
 
   flip.hist <- function(x, breaks=100, main=NULL, xlab = "Test Statistics", ...) {
@@ -453,10 +510,17 @@ redUnipd="#FF0000"
 # #==========================================================
 
 
-#' @export
+# @export
+#' Method plot.
+#' @name flip.object-class
+#' @rdname flip.object-class
+#' @exportMethod plot
+#' 
 setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
 
-#' @export
+# @export
+#' @rdname flip.object-class
+#' @aliases plot,flip.object-method
 setMethod("plot", "flip.object",
  function(x, y, ...) {
 #setMethod("plot", "flip.object", function(x, y, ...) {

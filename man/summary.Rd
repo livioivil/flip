@@ -3,28 +3,14 @@
 \docType{methods}
 \name{show,flip.object-method}
 \alias{show,flip.object-method}
-\alias{summary}
 \title{show}
 \usage{
 \S4method{show}{flip.object}(object)
-
-summary(object, ...)
 }
 \arguments{
 \item{object}{a flip-object}
 
 \item{...}{additional arguments to be passed}
-
-\item{object}{a flip-object}
-
-\item{star.signif}{If \code{TRUE} (default), it puts stars on the significant tests}
-
-\item{only.p.leq}{Shows only tests with a p-value lower than \code{only.p.leq}. The default \code{NULL} is equivalent to set \code{only.p.leq=1}.}
-
-\item{...}{additional arguments to be passed}
-}
-\description{
-prints information about the flip-object
 }
 \section{Methods (by class)}{
 \itemize{

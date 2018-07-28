@@ -3,7 +3,100 @@
 \docType{class}
 \name{flip.object-class}
 \alias{flip.object-class}
+\alias{flip.object-class}
+\alias{summary,flip.object-method}
+\alias{flip.object-class}
+\alias{result,flip.object-method}
+\alias{flip.object-class}
+\alias{p.value,flip.object-method}
+\alias{flip.object-class}
+\alias{size,flip.object-method}
+\alias{flip.object-class}
+\alias{[,flip.object-method}
+\alias{[[,flip.object-method}
+\alias{length,flip.object-method}
+\alias{names,flip.object-method}
+\alias{names<-,flip.object-method}
+\alias{sort,flip.object-method}
+\alias{p.adjust,flip.object-method}
+\alias{flip.object-class}
+\alias{plot,flip.object-method}
 \title{Class flip.object}
+\usage{
+\S4method{summary}{flip.object}(object, star.signif = TRUE,
+  only.p.leq = NULL, ...)
+
+result(object, ...)
+
+\S4method{result}{flip.object}(object, ...)
+
+p.value(object, ...)
+
+\S4method{p.value}{flip.object}(object)
+
+size(object, ...)
+
+\S4method{size}{flip.object}(object)
+
+\S4method{[}{flip.object,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
+
+\S4method{[[}{flip.object}(x, i, j, ..., exact)
+
+\S4method{length}{flip.object}(x)
+
+\S4method{names}{flip.object}(x)
+
+\S4method{names}{flip.object}(x) <- value
+
+\S4method{sort}{flip.object}(x, decreasing = FALSE)
+
+\S4method{p.adjust}{flip.object}(p, method = p.adjust.methods,
+  n = length(p))
+
+plot(x, y, ...)
+
+\S4method{plot}{flip.object}(x, y, ...)
+}
+\arguments{
+\item{object}{a flip-object}
+
+\item{star.signif}{If \code{TRUE} (default), it puts stars on the significant tests}
+
+\item{only.p.leq}{Shows only tests with a p-value lower than \code{only.p.leq}. The default \code{NULL} is equivalent to set \code{only.p.leq=1}.}
+
+\item{...}{additional arguments to be passed}
+
+\item{object}{a flip-object}
+
+\item{...}{additional arguments to be passed}
+
+\item{object}{a flip-object}
+
+\item{...}{additional arguments to be passed}
+
+\item{object}{a flip-object}
+
+\item{...}{additional arguments to be passed}
+
+\item{object}{a flip-object}
+
+\item{...}{additional arguments to be passed}
+}
+\value{
+vector of p-values
+}
 \description{
 The class flip.object is the output of a call to \code{\link{flip}}, \code{\link{flipMix}}, \code{\link{npc}}, \code{\link{flip.adjust}} etc.
+
+Prints information about the flip-object.
+
+Prints information about the flip-object.
+
+Returns a vector of p-values from a flip-object.
+
+Size of permutation space: number of permutations X number of variables.
+
+Operators acting on vectors, matrices, arrays and lists to extract or replace parts.
+
+Method plot.
 }
