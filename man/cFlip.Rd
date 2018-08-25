@@ -10,8 +10,9 @@ cFlip(...)
 \item{...}{arguments}
 }
 \value{
-res
+a \code{flip.object}
 }
 \description{
-cFlip
+It concatenates flip objects
+warning("More than one test statistic is imputed, only the first perms space will be stored.")
 }

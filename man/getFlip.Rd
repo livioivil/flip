@@ -7,13 +7,13 @@
 getFlip(obj, element)
 }
 \arguments{
-\item{obj}{object?}
+\item{obj}{a \code{flip.object}}
 
-\item{element}{element?}
+\item{element}{element to the returned}
 }
 \value{
-res?
+values of the element requested.
 }
 \description{
-getFlip
+It returns a given element of a flip.object.
 }

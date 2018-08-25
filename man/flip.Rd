@@ -7,7 +7,8 @@
 \title{flip}
 \usage{
 flip(Y, X = NULL, Z = NULL, data = NULL, tail = 0, perms = 1000,
-  statTest = NULL, Strata = NULL, flipReturn, testType = NULL, ...)
+  statTest = NULL, Strata = NULL, flipReturn, testType = NULL,
+  returnGamma = TRUE, ...)
 }
 \arguments{
 \item{Y}{The response vector of the regression model. May be supplied as a
@@ -68,6 +69,10 @@ significance is hight. See also the \code{details} section for the algorithm
 used. The old syntax \code{rotationTest=TRUE} is maintained for
 compatibility but is deprecated, use \code{testType="rotation"} instead.}
 
+\item{returnGamma}{logical. Should be the eigenvectors (with corresponding
+non-null eigenvalues) of the anti-projection matrix of \code{Z} (i.e. I-
+Z(Z'Z)^-1 Z') returned?}
+
 \item{\dots}{Further parameters. The followings are still valid but
 deprecated:
 
@@ -81,10 +86,6 @@ instead.
 
 \code{rotationTest= TRUE}. Deprecated, use \code{testType='rotation'}
 instead.}
-
-\item{returnGamma}{logical. Should be the eigenvectors (with corresponding
-non-null eigenvalues) of the anti-projection matrix of \code{Z} (i.e. I-
-Z(Z'Z)^-1 Z') returned?}
 }
 \value{
 An object of class \code{flip.object}.  Several operations and plots
@@ -233,13 +234,14 @@ npc(res.sep,"sumT2") #note that combined test statistic is the same as chisq
 \dontrun{
 # User-defined test statistic:
 my.fun <- function(Y){
-  summary(lm(Y~X))$coeff[1,"Pr(>|t|)"]
+summary(lm(Y~X))$coeff[2,"Estimate"]
 }
-X<- matrix(rep(0:2,10))
-Y <- matrix(rnorm(30))
-flip(Y=Y,X=X,statTest=my.fun)
+X <- matrix(rep(0:2,5))
+Y <- matrix(rnorm(mean=X,n=15))
+res=flip(Y=Y,X=X,statTest=my.fun,tail=0)
+res
+hist(res)
 }
-
 }
 \references{
 For the general framework of univariate and multivariate
@@ -250,7 +252,9 @@ For Rotation tests see: Langsrud, O. (2005) Rotation tests, Statistics and
 Computing, 15, 1, 53-60
 
 A. Solari, L. Finos, J.J. Goeman (2014) Rotation-based multiple testing in
-the multivariate linear model. Biometrics. Accepted
+the multivariate linear model. Biometrics, 70 (4), 954-961.
+
+Livio Finos and Fortunato Pesarin (2018) On zero-inflated permutation testing and some related problems. Statistical Papers.
 }
 \seealso{
 The permutation spaces on which the test is based:

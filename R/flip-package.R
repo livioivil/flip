@@ -34,6 +34,13 @@
 #' @references For the general framework of univariate and multivariate
 #' permutation tests see: Pesarin, F. (2001) Multivariate Permutation Tests
 #' with Applications in Biostatistics. Wiley, New York.
+#' 
+#' #' @references For the general framework of univariate and multivariate
+#' permutation tests see: Pesarin, F. (2001) Multivariate Permutation Tests
+#' with Applications in Biostatistics. Wiley, New York.
+#' 
+#' Livio Finos and Fortunato Pesarin (2018) On zero-inflated permutation testing and some related problems. Statistical Papers.
+#' 
 #'
 #' For analysis of mixed-models see: L. Finos and D. Basso (2014) Permutation
 #' Tests for Between-Unit Fixed Effects in Multivariate Generalized Linear
@@ -48,7 +55,8 @@
 #' Computing, 15, 1, 53-60
 #'
 #' A. Solari, L. Finos, J.J. Goeman (2014) Rotation-based multiple testing in
-#' the multivariate linear model. Biometrics. Accepted
+#' the multivariate linear model. Biometrics, 70 (4), 954-961.
+#' 
 #'
 #' @keywords package
 #' @examples

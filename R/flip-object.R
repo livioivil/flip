@@ -10,11 +10,13 @@ setClassUnion("numericOrmatrixOrcharacterOrNULL", c("numeric","matrix", "NULL","
 setClassUnion("envOrNULL", c("environment", "NULL"))
 setClassUnion("listOrNULL", c("list", "NULL"))
 
-
 # Can extend and create with new("flip.object", ...)
-#' Class flip.object
+#' @title Class flip.object
 #'
-#' The class flip.object is the output of a call to \code{\link{flip}}, \code{\link{flipMix}}, \code{\link{npc}}, \code{\link{flip.adjust}} etc. 
+#' @description The class flip.object is the output of a call to \code{\link{flip}}, \code{\link{flipMix}}, \code{\link{npc}}, \code{\link{flip.adjust}} etc. 
+#' The following are functions to extract and manipulate relevant information from
+#' a \code{flip.object}.
+
 #' 
 #' @name flip.object-class
 #' @rdname flip.object-class
@@ -58,34 +60,47 @@ setMethod("initialize", "flip.object",
 #==========================================================
 # Function "show" prints a "flip.object" object
 #==========================================================
-#' @export
-#' @title show
-#' @param object a flip-object
-#' @param ... additional arguments to be passed
+#' \code{show} prints the flip.object.
+# @name flip.object-class
+#' @rdname flip.object-class
+#' @exportMethod show
 #' @return NULL
-#' @describeIn summary prints same as \code{summary}
-#' 
+#' @aliases show,flip.object-method
+#' @docType methods
+# 
 setMethod("show", "flip.object", function(object)
-{
-  summary(object)
-})
+  {
+    if(!is.null(object@res)&&(nrow(object@res)>0)){
+      for(i in c("p-value",names(object@res)[grep("Adjust",names(object@res))])){
+        lower=(object@res[,i]<.0001)
+        object@res[,i]=formatC(object@res[,i],digits=4,drop0trailing=FALSE,format="f")
+        object@res[lower,i]="<.0001"
+      }
+    }
+  cat("\n")
+    print(object@res, digits = 4)
+    invisible(object)
+  })
 
 
-# @export
-# @title summary
-# @description prints information about the flip-object
-# @aliases summary result show 
-# setGeneric("summary")
-#' Prints information about the flip-object.
-# @description Prints information about the flip-object.
-#' @name flip.object-class
+#########################
+# @name flip.object-class
+#' @rdname flip.object-class
+#' @return NULL
+#' @exportMethod summary
+#' @aliases summary,flip.object-method
+
+setGeneric("summary", function(object, ...) standardGeneric("summary"))
+
+  ################
+#' \code{summary}: Prints information about the flip-object.
+# @name flip.object-class
 #' @rdname flip.object-class
 #' @param object a flip-object
 #' @param star.signif If \code{TRUE} (default), it puts stars on the significant tests
 #' @param only.p.leq Shows only tests with a p-value lower than \code{only.p.leq}. The default \code{NULL} is equivalent to set \code{only.p.leq=1}.
 #' @param ... additional arguments to be passed
 #' @return NULL
-#' @aliases summary,flip.object-method
 setMethod("summary", "flip.object", function(object,star.signif=TRUE,only.p.leq=NULL,...)
 {
   nperms= as.list(object@call$perms)
@@ -113,44 +128,36 @@ setMethod("summary", "flip.object", function(object,star.signif=TRUE,only.p.leq=
                                     (object@res[,column]<=.001),function(x) paste(rep("*",x),collapse=""))
     }
   }
-  result(object,...)
+  show(object,...)
+  #invisible(object)
 })
 
 
 #==========================================================
-# Functions to extract relevant information from
-# a flip.object object
 #==========================================================
-# @export
-# @title result
-# @param object a flip-object
-# @param ... additional arguments to be passed
+# @name flip.object-class
+# @rdname flip.object-class
 # @return NULL
-# @description prints information about the flip-object  
-#' Prints information about the flip-object.
-#' @name flip.object-class
-#' @rdname flip.object-class
-#' @exportMethod result
-setGeneric("result", function(object,...) standardGeneric("result"))
+# @exportMethod result
 
-
-# @export
-#' @rdname flip.object-class
-#' @aliases result,flip.object-method
-#' @param object a flip-object
-#' @param ... additional arguments to be passed
-#' @return NULL
-setMethod("result", "flip.object",
-  function(object,...) {
-    if(!is.null(object@res)&&(nrow(object@res)>0)){
-      for(i in c("p-value",names(object@res)[grep("Adjust",names(object@res))])){
-        lower=(object@res[,i]<.0001)
-        object@res[,i]=formatC(object@res[,i],digits=4,drop0trailing=FALSE,format="f")
-        object@res[lower,i]="<.0001"
-      }
-  }
-      print(object@res, digits = 4)
-})
+# setGeneric("result", function(object,...) standardGeneric("result"))
+# @name flip.object-class
+# @rdname flip.object-class
+# @aliases result,flip.object-method
+# @exportMethod result
+# @return NULL
+# setMethod("result", "flip.object",
+#   function(object,...) {
+#     if(!is.null(object@res)&&(nrow(object@res)>0)){
+#       for(i in c("p-value",names(object@res)[grep("Adjust",names(object@res))])){
+#         lower=(object@res[,i]<.0001)
+#         object@res[,i]=formatC(object@res[,i],digits=4,drop0trailing=FALSE,format="f")
+#         object@res[lower,i]="<.0001"
+#       }
+#   }
+#       print(object@res, digits = 4)
+#       #invisible(object)
+# })
 
 # #==========================================================
 # setGeneric("subsets", function(object, ...) standardGeneric("subsets"))
@@ -167,39 +174,40 @@ setMethod("result", "flip.object",
 # @name flip.object-class
 # @rdname flip.object-class
 # @exportMethod p.value
-#' Returns a vector of p-values from a flip-object.
-#' @name flip.object-class
-#' @rdname flip.object-class
-#' @exportMethod p.value
-#' @param object a flip-object
-#' @param ... additional arguments to be passed
-#' @return vector of p-values
+# Returns a vector of p-values from a flip-object.
+# @name p.value
+# @rdname flip.object-class
+# @exportMethod p.value
+# @param object a flip-object
+# @param ... additional arguments to be passed
+# @return vector of p-values
 
-setGeneric("p.value", function(object, ...) standardGeneric("p.value"))
+# setGeneric("p.value", function(object, ...) standardGeneric("p.value"))
 
 
 # @export
-#' @rdname flip.object-class
-#' @aliases p.value,flip.object-method
-setMethod("p.value", "flip.object",
-  function(object) {
+# @rdname flip.object-class
+# @aliases p.value,flip.object-method
+# setMethod("p.value", "flip.object",
+p.value <-  function(object) {
     x=object@res[,"p-value"]
 	names(x)=names(object)
 	x
 
-  }
-)
+}
+
 
 
 #==========================================================
-#it concatenates flip objects
-#warning("More than one test statistic is imputed, only the first perms space will be stored.")
 
-#' cFlip
-#'
+#' @title cFlip
+#' @aliases cFlip
 #' @param ... arguments
 #' @export
-#' @return res
+#' @return a \code{flip.object}
+#' @description It concatenates flip objects
+#' warning("More than one test statistic is imputed, only the first perms space will be stored.")
+
 cFlip <- function(...) {
   res=list(...)[[1]]
     if(length(list(...))>1){
@@ -226,30 +234,22 @@ cFlip <- function(...) {
 }
 
 #==========================================================
-# @export
-# @rdname flip.object-class
-# @description size of permutation space: number of permutations X number of variables
-# @param object a flip-object
-# @param ... additional arguments to be passed
-# @return NULL
-#' 
-#' Size of permutation space: number of permutations X number of variables.
-#' @name flip.object-class
+#' \code{dim}: Size of permutation space, i.e. the number of permutations X number of variables.
+# @name flip.object-class
 #' @rdname flip.object-class
-#' @exportMethod plot
-#' @param object a flip-object
-#' @param ... additional arguments to be passed
 #' @return NULL
-#' 
-setGeneric("size", function(object, ...) standardGeneric("size"))
+#' @exportMethod dim
+# setGeneric("dim", function(object, ...) standardGeneric("dim"))
+# @name flip.object-class
+# @rdname flip.object-class
+# @exportMethod dim
+#' @return NULL
+#' @aliases dim,flip.object-method
+#' @docType methods
 
-# @export
-#' @rdname flip.object-class
-#' @aliases size,flip.object-method
-# @export
-setMethod("size", "flip.object",
-  function(object) {
-    dim(object@permT)
+setMethod("dim", "flip.object",
+  function(x) {
+    dim(x@permT)
   }
 )
 # ==========================================================
@@ -264,18 +264,20 @@ setMethod("size", "flip.object",
 #==========================================================
 # The subsetting methods for "flip.object"
 #==========================================================
-#' Operators acting on vectors, matrices, arrays and lists to extract or replace parts.
-#' @name flip.object-class
+#' \code{[} and \code{[[}: Extract parts of flip.object
+#'
+#' @docType methods
+#' @param x a \code{flip.object}.
+#' @param y not used.
+#' @param i indices specifying elements to extract or replace. Indices are \code{numeric}, \code{character} or \code{logical} vectors or empty (missing) or \code{NULL}. 
+
+# @name flip.object-class
 #' @rdname flip.object-class
-# @exportMethod "["
-#' @param object a flip-object
-#' @param ... additional arguments to be passed
-#' @return NULL
+#' @exportMethod [
 #' @aliases [,flip.object-method
-# 
-setMethod("[", "flip.object",
-            function(x, i, j,...,drop)
-{
+
+setMethod("[", "flip.object", 
+          function (x, i){
   iii=i
 	if(is.character(i) && !all(i %in% names(x))){
 		search=which(!(i %in% names(x)))
@@ -316,10 +318,14 @@ setMethod("[", "flip.object",
   }
 })
 
-#' @export
+
+#' @name [[
+#' @aliases [[,flip.object-method
+#' @docType methods
 #' @rdname flip.object-class
+#' 
 setMethod("[[", "flip.object",
-            function(x, i, j,...,exact)
+            function(x, i)
 {
    x[i]
 })
@@ -327,8 +333,12 @@ setMethod("[[", "flip.object",
 #==========================================================
 # The length method for "flip.object"
 #==========================================================
-#' @rdname flip.object-class
 #' @aliases length,flip.object-method
+# @param x a \code{flip.object}.
+#' @name length
+#' @docType methods
+#' @rdname flip.object-class
+#' @export
 #' 
 setMethod("length", "flip.object",
             function(x)
@@ -342,9 +352,13 @@ setMethod("length", "flip.object",
 # The names and alias methods for "flip.object"
 # (applies to pathwaynames)
 #==========================================================
-
-#' @rdname flip.object-class
+#' \code{names}: it deals the names of the tests (the variables, usually)
 #' @aliases names,flip.object-method
+#' @export
+#' @docType methods
+#' @rdname flip.object-class
+#' @exportMethod names
+
 setMethod("names", "flip.object",
             function(x)
 {
@@ -352,14 +366,18 @@ setMethod("names", "flip.object",
 })
 
 
-#' @rdname flip.object-class
 #' @aliases names<-,flip.object-method
+#' @param value \code{character} vector of up to the same 
+#' length as \code{x}, or \code{NULL}.
+#' @docType methods
+#' @rdname flip.object-class
 setMethod("names<-", "flip.object",
             function(x, value)
 {
   rownames(x@res) <- value
   if (!is.null(x@permP)) colnames(x@permP) <- value
   if (!is.null(x@permT)) colnames(x@permT) <- value
+  if (!is.null(x@res)) rownames(x@res) <- value
   x
 })
 
@@ -368,14 +386,15 @@ setMethod("names<-", "flip.object",
 #==========================================================
 # A sort method for "flip.object"
 #==========================================================
-# @export
-# @rdname flip.object-class
-# setGeneric("sort")
 
-# @export
+#' \code{sort}: it sorts the tests stored in \code{flip.objects} by their p-values.
+# @name flip.object-class
+#' @rdname flip.object-class
+#' @exportMethod sort
+# @name flip.object-class
 #' @rdname flip.object-class
 #' @aliases sort,flip.object-method
-#' 
+#' @param decreasing logical. Should the sort be increasing or decreasing?  
 setMethod("sort", "flip.object",
   function(x, decreasing = FALSE ) {
       ix <- order(p.value(x), decreasing=decreasing)
@@ -394,54 +413,41 @@ setMethod("sort", "flip.object",
 # setGeneric("p.adjust", function(p, method = p.adjust.methods, n = length(p)) standardGeneric("p.adjust"))
 
 # @export
-#' @rdname flip.object-class
-#' @aliases p.adjust,flip.object-method
-#' 
-setMethod("p.adjust", matchSignature(signature(p = "flip.object"), p.adjust),
-  function(p, method = p.adjust.methods, n = length(p)) {
-    method <- method[1]
-    method <- p.adjust.methods[grep(method, p.adjust.methods, ignore.case=T)]
-    if(length(method)==(0))   # this is just to get a good error message
-      method <- match.arg(method)
-	if (missing(n))
-      p@res <- cbind(p@res, p.adjust(p.value(p), method=method))
-    else
-      p@res <- cbind(p@res, p.adjust(p.value(p), method=method, n=n))
 
-	colnames(p@res)[length(colnames(p@res))]=paste("Adjust:",method,sep="")
-
-    p
-  }
-)
+##########
+# @rdname flip.object-class
+# @aliases p.adjust,flip.object-method
+# 
+# setMethod("p.adjust", matchSignature(signature(p = "flip.object"), p.adjust),
+#   function(p, method = p.adjust.methods, n = length(p)) {
+#     method <- method[1]
+#     method <- p.adjust.methods[grep(method, p.adjust.methods, ignore.case=T)]
+#     if(length(method)==(0))   # this is just to get a good error message
+#       method <- match.arg(method)
+# 	if (missing(n))
+#       p@res <- cbind(p@res, p.adjust(p.value(p), method=method))
+#     else
+#       p@res <- cbind(p@res, p.adjust(p.value(p), method=method, n=n))
+# 
+# 	colnames(p@res)[length(colnames(p@res))]=paste("Adjust:",method,sep="")
+# 
+#     p
+#   }
+# )
 
 
 
 #==========================================================
 # Histogram method to visualize permutations
 #==========================================================
-# Method hist.
-# Shows the histogram of the distribution of the test statistics (computed under the null hypothesis).
-# 
-# @export
-# @docType methods
-# 
-# @aliases hist
-# @param x a flip.object
-# @param ... additional arguments to be passed
-# @return a \code{hist} object
-# @rdname flip.object-methods
-# @docType methods
-#'
-#' Method hist.
-# @name flip.object-class
-# @rdname flip.object-class
-# @exportMethod hist  
-
-setGeneric("hist", function(x,...) standardGeneric("hist"))
-
-# @name hist
+#' \code{hist}: it produces the histogram of the distribution of the test statistic.
+#' When there are more test, it produces one histogram for each test statistic.
+#' @rdname flip.object-class
+#' @exportMethod hist  
 #' @aliases hist,flip.object-method
-#' @rdname flip.object-methods
+
+# setGeneric("hist", function(x,...) standardGeneric("hist"))
+
 setMethod("hist", "flip.object", function(x, ...)  {
 
   flip.hist <- function(x, breaks=100, main=NULL, xlab = "Test Statistics", ...) {
@@ -462,11 +468,11 @@ setMethod("hist", "flip.object", function(x, ...)  {
 #      stop("length(object) > 1. Please reduce to a single test result")
   }
     # if (is.null(x@weights))
-      # weights <- rep(1, size(x))
+      # weights <- rep(1, dim(x))
     # else
       # weights <- x@weights[[1]]
     # if (is.null(x@subsets))
-      # subset <- seq_len(size(x))
+      # subset <- seq_len(dim(x))
     # else
       # subset <- x@subsets[[1]]
 
@@ -510,25 +516,38 @@ redUnipd="#FF0000"
 # #==========================================================
 
 
-# @export
-#' Method plot.
-#' @name flip.object-class
-#' @rdname flip.object-class
+#' \code{plot}: it produces the scatter plot of the (joint)
+#'  distribution of the test statistics.
+#' When there are more than 2 tests, the plot is based on the first two principal components.
 #' @exportMethod plot
-#' 
-setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
-
-# @export
-#' @rdname flip.object-class
+#' @examples 
+#' Y=matrix(rnorm(50),10,5)
+#' colnames(Y)=LETTERS[1:5]
+#' Y[,1:2]=Y[,1:2] +2
+#' res = flip(Y)
+#' res
+#' summary(res)
+#' sort(res)
+#' names(res)
+#' length(res)
+#' dim(res)
+#' res=res[2:3]
+#' res
+#' hist(res)
+#' plot(res)
 #' @aliases plot,flip.object-method
+#' @rdname flip.object-class
 setMethod("plot", "flip.object",
- function(x, y, ...) {
-#setMethod("plot", "flip.object", function(x, y, ...) {
+ function(x, ...) {
   if(!exists("main")) main=NULL
   if(!exists("xlab")) xlab = NULL
   if(!exists("ylab")) ylab=NULL
 
-  plot.flip <- function(x, y=NULL, main, xlab, ylab, which.PCs=1:2,col="#F98400"#"orange
+  # if(!is.null(y)) {
+  #   x=cFlip(x,y)
+  #   rm(y)
+  # }
+  plot.flip <- function(x, main, xlab, ylab, which.PCs=1:2,col="#F98400"#"orange
                         ,bg="#F2AD00" #"darkgrey"
                         ,pch=21,asp=1,...){
     #draw <- function(x, main, xlab, ylab,...){
@@ -593,7 +612,7 @@ setMethod("plot", "flip.object",
       # title("PCA of Permutation Space")
     }
   }
-  plot.flip(x,y=NULL, main=main, xlab=xlab, ylab=ylab,...)
+  plot.flip(x, main=main, xlab=xlab, ylab=ylab,...)
 })
 
 
@@ -602,12 +621,14 @@ setMethod("plot", "flip.object",
 # # get elements of flip-object
 # #==========================================================
 
-#' getFlip
-#'
-#' @param obj object?
-#' @param element element?
-#'
-#' @return res?
+#' @title getFlip
+#' @aliases getFlip
+#' @param obj a \code{flip.object}
+#' @param element element to the returned
+#' @export
+#' @description It returns a given element of a flip.object.
+#' @return values of the element requested.
+#'   
 getFlip <- function(obj,element){
   if(element%in%slotNames(obj))
     return(slot(obj,element))

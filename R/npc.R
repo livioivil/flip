@@ -4,9 +4,6 @@ flip.npc.methods <-
 ############################
 
 
-
-
-
 #' Functions for multiplicity corrections
 #'
 #' \code{npc} provides overall tests (i.e. weak FWER control), while
@@ -59,11 +56,6 @@ flip.npc.methods <-
 #' to Hotelling T2), "minP" (i.e. Tippet), "maxT", "sumT" (i.e. direct) ,
 #' "sumT2" (sum of T^2).  \code{"Fisher"} combining function is the default.
 #' See also the section \code{Details}.
-#' @param method A method among \code{\link{flip.npc.methods}} or
-#' \code{\link{p.adjust.methods}}. By default \code{"maxT"} is used.  See also
-#' the section \code{Details}.
-#' @param maxalpha Adjusted p-values greater than \code{maxalpha} are forced to
-#' 1. It saves computational time when there are many hypotheses under test.
 #' @param weights Optional argument that can be used to give certain variables
 #' greater weight in the combined test.  Can be a vector or a list of vectors.
 #' In the latter case, a separate test will be performed for each weight
@@ -79,9 +71,9 @@ flip.npc.methods <-
 #' \code{\link{flip.object-class}} (\code{names(flipObject)}), or a list of
 #' such vectors.  In the latter case, a separate test will be performed for
 #' each subset. Only for
-#' \code{comb.funct %in% c("data.sum","data.linComb","data.pc","data.trace")} the
+#' \code{comb.funct \%in\% c("data.sum","data.linComb","data.pc","data.trace")} the
 #' names refers to the columns of \code{Y} data
-#' (\code{colnames(flipObject@data$Y)}). }
+#' \code{colnames(flipObject@data$Y) }. 
 #' @param stdSpace Ask if the permutation distribution of the test statistic
 #' should be standardized or not. The default is \code{FALSE}. The option is
 #' applied only if \code{comb.funct} or \code{method} is equal to \code{"maxT"}
@@ -121,18 +113,17 @@ flip.npc.methods <-
 #' summary(p2)
 #'
 #'
-#'
-#' res=flip.adjust(res,"maxT")
-#'
+#' res=flip.adjust(res, method="maxT")
+#' 
 #' #res=flip.adjust(res,"BH")
 #' ##same as
 #' #p.adjust(res,"BH")
 #'
 #' ## now try
-#' #getFlip(res,"Adjust")
+#' getFlip(res,"Adjust")
 #'
 #' @export npc
-#' @export flip.adjust flip.npc.methods
+#' @export flip.npc.methods
 npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subsets=NULL,weights=NULL, stdSpace=FALSE, ...){
 #	on.exit(browser())
 	### just in analogy with gt(). to be implemented as flip-options

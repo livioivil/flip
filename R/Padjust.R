@@ -1,3 +1,11 @@
+#' @rdname npc
+#' @param method A method among \code{\link{flip.npc.methods}} or
+#' \code{\link{p.adjust.methods}}. By default \code{"maxT"} is used.  See also
+#' the section \code{Details}.
+#' @param maxalpha Adjusted p-values greater than \code{maxalpha} are forced to
+#' 1. It saves computational time when there are many hypotheses under test.
+#' @export flip.adjust 
+
 flip.adjust <- function (permTP, method = flip.npc.methods, maxalpha=1, weights=NULL, stdSpace=FALSE, ...) {
     
 	##TODO: here is case sensitive, while in npc it is not. here is so for compatibility with p.adjust. shall we change?
@@ -96,7 +104,7 @@ flip.adjust <- function (permTP, method = flip.npc.methods, maxalpha=1, weights=
 
 ################
 .maxt.adjust_2 <- function(permT,maxalpha=1,weights=NULL,m=ncol(permT)) {
-#   maxalpha=1 no used !!
+#   maxalpha=1 not used !!
   if(!is.null(weights)) permT=permT%*%diag(weights)
   ord=order(-permT[1,])
   permT=permT[,ord]

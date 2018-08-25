@@ -3,44 +3,36 @@
 \docType{class}
 \name{flip.object-class}
 \alias{flip.object-class}
-\alias{flip.object-class}
+\alias{show,flip.object-method}
+\alias{summary}
 \alias{summary,flip.object-method}
-\alias{flip.object-class}
-\alias{result,flip.object-method}
-\alias{flip.object-class}
-\alias{p.value,flip.object-method}
-\alias{flip.object-class}
-\alias{size,flip.object-method}
-\alias{flip.object-class}
+\alias{summary,flip.object-method}
+\alias{dim,flip.object-method}
+\alias{[,flip.object,ANY,ANY,ANY-method}
 \alias{[,flip.object-method}
+\alias{[[}
 \alias{[[,flip.object-method}
+\alias{length}
 \alias{length,flip.object-method}
 \alias{names,flip.object-method}
 \alias{names<-,flip.object-method}
 \alias{sort,flip.object-method}
-\alias{p.adjust,flip.object-method}
-\alias{flip.object-class}
+\alias{hist,flip.object-method}
 \alias{plot,flip.object-method}
 \title{Class flip.object}
 \usage{
+\S4method{show}{flip.object}(object)
+
+summary(object, ...)
+
 \S4method{summary}{flip.object}(object, star.signif = TRUE,
   only.p.leq = NULL, ...)
 
-result(object, ...)
+\S4method{dim}{flip.object}(x)
 
-\S4method{result}{flip.object}(object, ...)
+\S4method{[}{flip.object,ANY,ANY,ANY}(x, i)
 
-p.value(object, ...)
-
-\S4method{p.value}{flip.object}(object)
-
-size(object, ...)
-
-\S4method{size}{flip.object}(object)
-
-\S4method{[}{flip.object,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
-
-\S4method{[[}{flip.object}(x, i, j, ..., exact)
+\S4method{[[}{flip.object}(x, i)
 
 \S4method{length}{flip.object}(x)
 
@@ -50,53 +42,67 @@ size(object, ...)
 
 \S4method{sort}{flip.object}(x, decreasing = FALSE)
 
-\S4method{p.adjust}{flip.object}(p, method = p.adjust.methods,
-  n = length(p))
-
-plot(x, y, ...)
+\S4method{hist}{flip.object}(x, ...)
 
 \S4method{plot}{flip.object}(x, y, ...)
 }
 \arguments{
 \item{object}{a flip-object}
 
+\item{...}{additional arguments to be passed}
+
 \item{star.signif}{If \code{TRUE} (default), it puts stars on the significant tests}
 
 \item{only.p.leq}{Shows only tests with a p-value lower than \code{only.p.leq}. The default \code{NULL} is equivalent to set \code{only.p.leq=1}.}
 
-\item{...}{additional arguments to be passed}
+\item{x}{a \code{flip.object}.}
 
-\item{object}{a flip-object}
+\item{i}{indices specifying elements to extract or replace. Indices are \code{numeric}, \code{character} or \code{logical} vectors or empty (missing) or \code{NULL}.}
 
-\item{...}{additional arguments to be passed}
+\item{value}{\code{character} vector of up to the same 
+length as \code{x}, or \code{NULL}.}
 
-\item{object}{a flip-object}
+\item{decreasing}{logical. Should the sort be increasing or decreasing?}
 
-\item{...}{additional arguments to be passed}
-
-\item{object}{a flip-object}
-
-\item{...}{additional arguments to be passed}
-
-\item{object}{a flip-object}
-
-\item{...}{additional arguments to be passed}
-}
-\value{
-vector of p-values
+\item{y}{not used.}
 }
 \description{
-The class flip.object is the output of a call to \code{\link{flip}}, \code{\link{flipMix}}, \code{\link{npc}}, \code{\link{flip.adjust}} etc.
+The class flip.object is the output of a call to \code{\link{flip}}, \code{\link{flipMix}}, \code{\link{npc}}, \code{\link{flip.adjust}} etc. 
+The following are functions to extract and manipulate relevant information from
+a \code{flip.object}.
 
-Prints information about the flip-object.
+\code{show} prints the flip.object.
 
-Prints information about the flip-object.
+\code{summary}: Prints information about the flip-object.
 
-Returns a vector of p-values from a flip-object.
+\code{dim}: Size of permutation space, i.e. the number of permutations X number of variables.
 
-Size of permutation space: number of permutations X number of variables.
+\code{[} and \code{[[}: Extract parts of flip.object
 
-Operators acting on vectors, matrices, arrays and lists to extract or replace parts.
+\code{names}: it deals the names of the tests (the variables, usually)
 
-Method plot.
+\code{sort}: it sorts the tests stored in \code{flip.objects} by their p-values.
+
+\code{hist}: it produces the histogram of the distribution of the test statistic.
+When there are more test, it produces one histogram for each test statistic.
+
+\code{plot}: it produces the scatter plot of the (joint)
+ distribution of the test statistics.
+When there are more than 2 tests, the plot is based on the first two principal components.
+}
+\examples{
+Y=matrix(rnorm(50),10,5)
+colnames(Y)=LETTERS[1:5]
+Y[,1:2]=Y[,1:2] +2
+res = flip(Y)
+res
+summary(res)
+sort(res)
+names(res)
+length(res)
+dim(res)
+res=res[2:3]
+res
+hist(res)
+plot(res)
 }

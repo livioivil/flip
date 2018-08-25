@@ -190,7 +190,10 @@ flip.statTest <-
 #' Computing, 15, 1, 53-60
 #'
 #' A. Solari, L. Finos, J.J. Goeman (2014) Rotation-based multiple testing in
-#' the multivariate linear model. Biometrics. Accepted
+#' the multivariate linear model. Biometrics, 70 (4), 954-961.
+#' 
+#' Livio Finos and Fortunato Pesarin (2018) On zero-inflated permutation testing and some related problems. Statistical Papers.
+#' 
 #' @keywords htest
 #' @examples
 #'
@@ -258,16 +261,18 @@ flip.statTest <-
 #' \dontrun{
 #' # User-defined test statistic:
 #' my.fun <- function(Y){
-#'   summary(lm(Y~X))$coeff[1,"Pr(>|t|)"]
+#' summary(lm(Y~X))$coeff[2,"Estimate"]
 #' }
-#' X<- matrix(rep(0:2,10))
-#' Y <- matrix(rnorm(30))
-#' flip(Y=Y,X=X,statTest=my.fun)
-#' }
-#'
+#' X <- matrix(rep(0:2,5))
+#' Y <- matrix(rnorm(mean=X,n=15))
+#' res=flip(Y=Y,X=X,statTest=my.fun,tail=0)
+#' res
+#' hist(res)
+#'}
 #' @export flip flip.statTest orthoZ
+#' 
 flip <- function(Y, X=NULL, Z=NULL, data=NULL, tail = 0, perms = 1000, statTest=NULL,
-                 Strata=NULL, flipReturn, testType=NULL, ...) {
+                 Strata=NULL, flipReturn, testType=NULL, returnGamma = TRUE,...) {
 
   if(is.null(statTest) ) if(is.null(list(...)$separatedX)   || list(...)$separatedX)   { statTest="t" } else statTest="F"
     statTest <- .get.statTest(statTest)
@@ -348,7 +353,7 @@ flip <- function(Y, X=NULL, Z=NULL, data=NULL, tail = 0, perms = 1000, statTest=
   test<- function() {
     N=nrow(Y)
     if(is.null(N)) N=length(N)
-    perms <- make.permSpace(N,perms,return.permIDs=FALSE,Strata=Strata)
+    perms <- make.permSpace(1:N,perms,return.permIDs=FALSE,Strata=Strata)
     perms$rotFunct=NULL
     digitsK=trunc(log10(perms$B))+1
 
