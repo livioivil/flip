@@ -8,6 +8,6 @@
 #' @importFrom utils combn data flush.console tail
 #' @importFrom stats p.adjust
 #' @importFrom cherry closed adjusted
-# @importFrom someMTP p.adjust.w
+#' @importFrom someMTP p.adjust.w
 NULL
 

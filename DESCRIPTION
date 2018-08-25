@@ -2,7 +2,7 @@ Package: flip
 Type: Package
 Title: Multivariate Permutation Tests
 Version: 2.5.0
-Date: 2018-08-01
+Date: 2018-08-25
 Author: Livio Finos, with contributions by Florian Klinglmueller, Dario Basso,
     Aldo Solari, Lucia Benetazzo, Jelle Goeman and Marco Rinaldo.
 Maintainer: Livio Finos <livio.finos@unipd.it>
@@ -20,10 +20,10 @@ License: GPL (>= 2)
 URL: ttps://CRAN.R-project.org/package=flip
 LazyLoad: yes
 LazyData: true
-Packaged: 2014-04-14 11:03:22 UTC; livio
+Packaged: 2018-08-25 11:03:22 UTC; livio
 NeedsCompilation: yes
 Repository: CRAN
 RoxygenNote: 6.0.1
 Encoding: UTF-8
 ByteCompile: true
-Imports: methods, cherry, e1071, plyr
+Imports: methods, cherry, e1071, plyr, someMTP
