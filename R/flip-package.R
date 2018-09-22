@@ -89,5 +89,22 @@ NULL
 #'
 NULL
 
+#' Reaction data
+#'
+#' The reaction time of these subjects was tested by having them grab a 
+#' meter stick after it was released by the tester. 
+#' The number of centimeters that the meter stick dropped before being caught is a direct measure of the person’s response time.
+#' 
+#' The values of `Age` are in years. The `Gender` is coded as `F` for female and  `M` for male.
+#' The values of `Reaction.Time` are in centimeters.
+#'
+#' (data are fictitious)
+#' 
+#' @format the data.frame contains the three columns: `Age`, `Gender` and `Reaction.Time`
+#' @keywords htest
+#' @name reaction
+#'
+NULL
+
 
 

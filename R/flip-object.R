@@ -185,15 +185,21 @@ setMethod("summary", "flip.object", function(object,star.signif=TRUE,only.p.leq=
 # setGeneric("p.value", function(object, ...) standardGeneric("p.value"))
 
 
-# @export
-# @rdname flip.object-class
-# @aliases p.value,flip.object-method
-# setMethod("p.value", "flip.object",
+
+# #==========================================================
+# # get p.values of flip-object
+# #==========================================================
+
+#@title p.value
+#' @rdname getFlip 
+# @param object a \code{flip.object}
+#' @export
+#'   
+
 p.value <-  function(object) {
     x=object@res[,"p-value"]
 	names(x)=names(object)
 	x
-
 }
 
 
@@ -451,62 +457,67 @@ setMethod("sort", "flip.object",
 setMethod("hist", "flip.object", function(x, ...)  {
 
   flip.hist <- function(x, breaks=100, main=NULL, xlab = "Test Statistics", ...) {
-
-     if (length(x) > 1){
-
-       f<-function(k=length(x),yxratio=1.25){
-       n.cl=ceiling(sqrt(k*yxratio) )
-       n.rw=ceiling(k/n.cl)
-       if((n.cl-1)*n.rw>=k) n.cl=n.cl-1
-       c(n.cl,n.rw)}
-       mfrow.now=par("mfrow")
-       par(mfrow=f(k=length(x),yxratio=1.25))
-        res=sapply(1:length(x),function(i)flip.hist(x[i]))
-       par(mfrow=mfrow.now)
-
-       return(invisible(res))
-#      stop("length(object) > 1. Please reduce to a single test result")
-  }
+    
+    if (length(x) > 1){
+      
+      f<-function(k=length(x),yxratio=1.25){
+        n.cl=ceiling(sqrt(k*yxratio) )
+        n.rw=ceiling(k/n.cl)
+        if((n.cl-1)*n.rw>=k) n.cl=n.cl-1
+        c(n.cl,n.rw)}
+      mfrow.now=par("mfrow")
+      par(mfrow=f(k=length(x),yxratio=1.25))
+      res=sapply(1:length(x),function(i)flip.hist(x[i]))
+      par(mfrow=mfrow.now)
+      
+      return(invisible(res))
+      #      stop("length(object) > 1. Please reduce to a single test result")
+    }
     # if (is.null(x@weights))
-      # weights <- rep(1, dim(x))
+    # weights <- rep(1, dim(x))
     # else
-      # weights <- x@weights[[1]]
+    # weights <- x@weights[[1]]
     # if (is.null(x@subsets))
-      # subset <- seq_len(dim(x))
+    # subset <- seq_len(dim(x))
     # else
-      # subset <- x@subsets[[1]]
-
+    # subset <- x@subsets[[1]]
+    
     #recalculate <- x@functions$permutations(subset, weights)
     if(is.null(main))  main=names(x)[1]
     Q <- x@permT[1,]
     nperm <- length(x@permT-1)
     hst <- hist(x@permT,plot=FALSE, breaks = breaks)
-
-      cols=rep("#00A08A",length(hst$breaks)-1)
-      cols.brd=cols
-      pts=.setTail(cbind(c(x@permT[1,],hst$mids)),x@tail)
-      cols[which(pts[-1]>=pts[1] )]="#F98400"
-#       cols.brd[which(pts[-1]>=pts[1] )]="#FF0000"
-
-     plot(hst,          xlim = c(1.1 * min(0, x@permT), 1.1 * max(x@permT)),
-      main = main, xlab = xlab,col=cols,
-      , border= cols.brd#"#F2AD00"
-      , ...)#"#00A08A"
-     if(is.null(list(...)$freq) & is.null(list(...)$probability))
-       h <- max(hst$counts) else {
-         if(c(1-list(...)$freq,list(...)$probability)>0 )
-           h <- max(hst$density) else
-             h <- max(hst$counts)
-       }
-redUnipd="#FF0000"
+    
+    cols=rep("#00A08A",length(hst$breaks)-1)
+    cols.brd=cols
+    pts=flip:::.setTail(cbind(
+      c(x@permT[1,],
+        hst$breaks[1:(floor(length(hst$breaks)/2)-1)],
+        hst$breaks[(floor(length(hst$breaks)/2)+1):length(hst$breaks)]
+      )),x@tail)
+    change_color=(pts[-1]>=pts[1] )
+    cols[change_color]="#F98400"
+    #       cols.brd[which(pts[-1]>=pts[1] )]="#FF0000"
+    
+    plot(hst,          xlim = c(1.1 * min(0, x@permT), 1.1 * max(x@permT)),
+         main = main, xlab = xlab,col=cols,
+         , border= cols.brd#"#F2AD00"
+         , ...)#"#00A08A"
+    if(is.null(list(...)$freq) & is.null(list(...)$probability))
+      h <- max(hst$counts) else {
+        if(c(1-list(...)$freq,list(...)$probability)>0 )
+          h <- max(hst$density) else
+            h <- max(hst$counts)
+      }
+    redUnipd="#FF0000"
     lines(  c(Q, Q), c(h/2, 0) , lwd=2,col=redUnipd)
     points( Q,0 , lwd=2,col=redUnipd,pch=21,bg=redUnipd)
     text( Q, h/2, 'Observed\ntest\nstatistic' , pos=3,col=redUnipd)
-
+    
     # No output
     invisible(list(statistic = Q, histogram = hst))
   }
-
+  
   flip.hist(x,...)
 })
 
@@ -623,42 +634,43 @@ setMethod("plot", "flip.object",
 
 #' @title getFlip
 #' @aliases getFlip
-#' @param obj a \code{flip.object}
+#' @param object a \code{flip.object}
 #' @param element element to the returned
 #' @export
-#' @description It returns a given element of a flip.object.
-#' @return values of the element requested.
+#' @description \code{getFlip} returns a given element of a flip.object.
+#' \code{p.value} returns the p-values of a \code{flip.object}.
+#' @return \code{getFlip} retuns a vector with values of the element requested. \code{p.value} returns a vector of p-values.
 #'   
-getFlip <- function(obj,element){
-  if(element%in%slotNames(obj))
-    return(slot(obj,element))
+getFlip <- function(object,element){
+  if(element%in%slotNames(object))
+    return(slot(object,element))
 
-  if(element%in%names(obj@res))
-    return(obj@res[element])
+  if(element%in%names(object@res))
+    return(object@res[element])
 
   if(tolower(element)%in%c(tolower("Adjust:"),tolower("Adjust")))
-    return(obj@res[grep("Adjust",colnames(obj@res))])
+    return(object@res[grep("Adjust",colnames(object@res))])
 
-  if(!is.null(obj@data)){
-    if(element%in%names(obj@data))
-      return(obj@data[element])
-
-    if(substr(element,1,5)=="data$")
-      return(obj@data[substr(element,6,nchar(element))])
-
-  } else if(!is.null(obj@call.env$data)){
-
-    if(element%in%names(obj@data))
-      return(obj@data[element])
+  if(!is.null(object@data)){
+    if(element%in%names(object@data))
+      return(object@data[element])
 
     if(substr(element,1,5)=="data$")
-      return(obj@data[substr(element,6,nchar(element))])
+      return(object@data[substr(element,6,nchar(element))])
+
+  } else if(!is.null(object@call.env$data)){
+
+    if(element%in%names(object@data))
+      return(object@data[element])
+
+    if(substr(element,1,5)=="data$")
+      return(object@data[substr(element,6,nchar(element))])
 
   }
 
   if(substr(element,1,4)=="res$")
-    return(obj@res[substr(element,5,nchar(element))])
+    return(object@res[substr(element,5,nchar(element))])
 
   if(element%in%c("nperms","perms","B"))
-    return(obj@permSpace$B)
+    return(object@permSpace$B)
 }
