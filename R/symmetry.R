@@ -121,15 +121,15 @@
   permT=matrix(,perms$B, ncol(data$Y))
   permT[1,]=colSums(data$Y)
   for(i in 2:(perms$B)) { 
-      if (i%%1000==0) {
-        cat(rep("\b", 2*digitsK+3), i, " / ", perms$B, sep="")
-        flush.console()
-      }
+      # if (i%%1000==0) {
+        # cat(rep("\b", 2*digitsK+3), i, " / ", perms$B, sep="")
+        # flush.console()
+      # }
       # R is random matrix of independent standard-normal entries 
       # Z shall be a random matrix with the same mean and covariance structure as Y 
       permT[i,] = colSums(perms$rotFunct())
   }
-  cat(rep("\b", 2*digitsK+3));  flush.console()
+  # cat(rep("\b", 2*digitsK+3));  flush.console()
   
   colnames(permT) = .getTNames(data$Y)
   rownames(permT)=.getTRowNames(permT)

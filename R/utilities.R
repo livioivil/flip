@@ -672,7 +672,7 @@ orthoZ <- function(Y, X=NULL, Z=NULL, returnGamma=FALSE){
 #         }  
         permT[i+1,]=as.vector(t(data$X)%*%perms$rotFunct(i))
       }
-      cat(rep("\b", 2*digitsK+1));  flush.console()
+      # cat(rep("\b", 2*digitsK+1));  flush.console()
       
       environment(perms$rotFunct) <- envOrig
       colnames(permT)=.getTNames(data$Y,data$X)
@@ -696,7 +696,7 @@ orthoZ <- function(Y, X=NULL, Z=NULL, returnGamma=FALSE){
       }
     }
   } else {warning("testType not implemented (yet?)"); return(NULL)}
-  cat(rep("\b", 2*digitsK+3));  flush.console()
+  # cat(rep("\b", 2*digitsK+3));  flush.console()
   permT
 }
 
@@ -712,10 +712,10 @@ orthoZ <- function(Y, X=NULL, Z=NULL, returnGamma=FALSE){
       permT[1,]=obs
       rm(obs)
       for(i in 1:(perms$B-1)){ 
-        if (i%%10==0) {
-          cat(rep("\b", 2*digitsK+10), i, " / ", perms$B, sep="")
-          flush.console()
-        }
+        # if (i%%10==0) {
+          # cat(rep("\b", 2*digitsK+10), i, " / ", perms$B, sep="")
+          # flush.console()
+        # }
         # R is random matrix of independent standard-normal entries 
         # Z shall be a random matrix with the same mean and covariance structure as Y 
         permT[i+1,]=apply((t(perms$rotFunct())%*%P)^2,1,sum)
@@ -738,7 +738,7 @@ orthoZ <- function(Y, X=NULL, Z=NULL, returnGamma=FALSE){
       rownames(permT)=.getTRowNames(permT)
     }
   } else {warning("test type not implemented (yet?)"); return(NULL)}
-  cat(rep("\b", 2*digitsK+3));  flush.console()
+  # cat(rep("\b", 2*digitsK+3));  flush.console()
   permT
 }
 

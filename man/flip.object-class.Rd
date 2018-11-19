@@ -6,7 +6,6 @@
 \alias{show,flip.object-method}
 \alias{summary}
 \alias{summary,flip.object-method}
-\alias{summary,flip.object-method}
 \alias{dim,flip.object-method}
 \alias{[,flip.object,ANY,ANY,ANY-method}
 \alias{[,flip.object-method}
@@ -70,25 +69,6 @@ length as \code{x}, or \code{NULL}.}
 The class flip.object is the output of a call to \code{\link{flip}}, \code{\link{flipMix}}, \code{\link{npc}}, \code{\link{flip.adjust}} etc. 
 The following are functions to extract and manipulate relevant information from
 a \code{flip.object}.
-
-\code{show} prints the flip.object.
-
-\code{summary}: Prints information about the flip-object.
-
-\code{dim}: Size of permutation space, i.e. the number of permutations X number of variables.
-
-\code{[} and \code{[[}: Extract parts of flip.object
-
-\code{names}: it deals the names of the tests (the variables, usually)
-
-\code{sort}: it sorts the tests stored in \code{flip.objects} by their p-values.
-
-\code{hist}: it produces the histogram of the distribution of the test statistic.
-When there are more test, it produces one histogram for each test statistic.
-
-\code{plot}: it produces the scatter plot of the (joint)
- distribution of the test statistics.
-When there are more than 2 tests, the plot is based on the first two principal components.
 }
 \examples{
 Y=matrix(rnorm(50),10,5)

@@ -3,7 +3,6 @@
 \name{flip.adjust}
 \alias{flip.adjust}
 \alias{npc}
-\alias{flip.adjust}
 \alias{flip.npc.methods}
 \title{Functions for multiplicity corrections}
 \usage{
