@@ -1,6 +1,6 @@
 obs2coeffWithin <- function(modelWithin,units,X=NULL, Z=NULL, data=NULL,equal.se=FALSE,se=NA,
                             replaceNA.coeffWithin=NA,replaceNA.coeffWithin.se=Inf,...){
-  
+  options(warn=-1)
   if(is(modelWithin,"formula"))
     modelWithin <- lm(modelWithin,data=data)
   
@@ -32,7 +32,8 @@ obs2coeffWithin <- function(modelWithin,units,X=NULL, Z=NULL, data=NULL,equal.se
 	########### missing values are replaced with average among subjects and other things to make up the output
 	out=.fixDataREff(out,units=units,X=X,Z=Z,data=data,replaceNA.coeffWithin=replaceNA.coeffWithin,replaceNA.coeffWithin.se=replaceNA.coeffWithin.se,
                    equal.se=equal.se,se=se,ncoef=ncol(out$coeffWithin),...)
-out
+	options(warn=0)
+	out
 }
 
 

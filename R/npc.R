@@ -127,7 +127,7 @@ flip.npc.methods <-
 npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subsets=NULL,weights=NULL, stdSpace=FALSE, ...){
 #	on.exit(browser())
 	### just in analogy with gt(). to be implemented as flip-options
-	trace=TRUE
+	trace=FALSE
 	if(is.null(list(...)$flipReturn))
     flipReturn=list(permT=TRUE,call.env=TRUE) else
       flipReturn=list(...)$flipReturn
