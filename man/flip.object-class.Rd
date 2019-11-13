@@ -17,7 +17,6 @@
 \alias{names<-,flip.object-method}
 \alias{sort,flip.object-method}
 \alias{hist,flip.object-method}
-\alias{plot,flip.object,ANY-method}
 \alias{plot,flip.object-method}
 \title{Class flip.object}
 \usage{
@@ -44,7 +43,7 @@ summary(object, ...)
 
 \S4method{hist}{flip.object}(x, ...)
 
-\S4method{plot}{flip.object,ANY}(x, y, ...)
+\S4method{plot}{flip.object}(x, y, ...)
 }
 \arguments{
 \item{object}{a flip-object}

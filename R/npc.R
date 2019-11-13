@@ -299,7 +299,8 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
       }
 	  uit
     })
-    permT=t(permT)
+
+    permT=t(as.matrix(permT))
     if (many.subsets && !is.null(names(subsets))){
       colnames(permT) <- names(subsets)
 	}

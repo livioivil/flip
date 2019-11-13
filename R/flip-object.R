@@ -581,6 +581,7 @@ setMethod("plot", "flip.object",
       pc=prcomp(x@permT,scale. =FALSE,center=FALSE)
 #       reduce the data
       pc$x=pc$x[,which.PCs]
+      tot.var=sum(pc$sdev^2)
       pc$sdev=pc$sdev[which.PCs]
       pc$rotation=pc$rotation[,which.PCs]
 
@@ -594,8 +595,8 @@ setMethod("plot", "flip.object",
       datapc=pc$rotation[,1:2]*sqrt(nrow(pc$rotation))*1.3
 
       plot(pc$x, xlim=range(c(pc$x[,1],datapc[,1])), ylim=range(c(pc$x[,2],datapc[,2])),
-           xlab=paste("PC1 (",round(pc$ sdev [1]^2 /sum(pc$ sdev ^2) *100,2)," %)",sep=""),
-           ylab=paste("PC2 (",round(pc$ sdev [2]^2 /sum(pc$ sdev ^2) *100,2)," %)",sep=""),
+           xlab=paste("PC1 (",round(pc$ sdev [1]^2 /tot.var *100,2)," %)",sep=""),
+           ylab=paste("PC2 (",round(pc$ sdev [2]^2 /tot.var *100,2)," %)",sep=""),
            main= "PCA of Permutation Space" ,
            bg=bg, col=col,pch=pch,asp=asp)
 
