@@ -285,7 +285,8 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
 	nVar=ncol(permTP)
   } else {
     L <- if (many.subsets) length(subsets) else length(weights)
-    permT <- plyr::laply(1:L, function (i) { 
+    permT <- plyr::laply(1:L, 
+                         function (i) { 
       if (trace && L>1) {
         cat(rep("\b", 2*digitsK+3), i, " / ", K, sep="")
         flush.console()
@@ -299,8 +300,11 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
       }
 	  uit
     })
-
-    permT=t(as.matrix(permT))
+    # browser()
+    
+    if(is.vector(permT)) 
+      permT=as.matrix(permT) else
+        permT=t(permT)
     if (many.subsets && !is.null(names(subsets))){
       colnames(permT) <- names(subsets)
 	}
