@@ -6,11 +6,23 @@
 \alias{flip.npc.methods}
 \title{Functions for multiplicity corrections}
 \usage{
-flip.adjust(permTP, method = flip.npc.methods, maxalpha = 1,
-  weights = NULL, stdSpace = FALSE, ...)
+flip.adjust(
+  permTP,
+  method = flip.npc.methods,
+  maxalpha = 1,
+  weights = NULL,
+  stdSpace = FALSE,
+  ...
+)
 
-npc(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods),
-  subsets = NULL, weights = NULL, stdSpace = FALSE, ...)
+npc(
+  permTP,
+  comb.funct = c(flip.npc.methods, p.adjust.methods),
+  subsets = NULL,
+  weights = NULL,
+  stdSpace = FALSE,
+  ...
+)
 }
 \arguments{
 \item{permTP}{A permutation space (B times m matrix) or an

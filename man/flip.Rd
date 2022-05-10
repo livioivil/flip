@@ -6,9 +6,20 @@
 \alias{orthoZ}
 \title{flip}
 \usage{
-flip(Y, X = NULL, Z = NULL, data = NULL, tail = 0, perms = 1000,
-  statTest = NULL, Strata = NULL, flipReturn, testType = NULL,
-  returnGamma = TRUE, ...)
+flip(
+  Y,
+  X = NULL,
+  Z = NULL,
+  data = NULL,
+  tail = 0,
+  perms = 1000,
+  statTest = NULL,
+  Strata = NULL,
+  flipReturn,
+  testType = NULL,
+  returnGamma = TRUE,
+  ...
+)
 }
 \arguments{
 \item{Y}{The response vector of the regression model. May be supplied as a

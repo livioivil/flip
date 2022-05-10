@@ -7,7 +7,6 @@
 \alias{summary}
 \alias{summary,flip.object-method}
 \alias{dim,flip.object-method}
-\alias{[,flip.object,ANY,ANY,ANY-method}
 \alias{[,flip.object-method}
 \alias{[[}
 \alias{[[,flip.object-method}
@@ -24,12 +23,11 @@
 
 summary(object, ...)
 
-\S4method{summary}{flip.object}(object, star.signif = TRUE,
-  only.p.leq = NULL, ...)
+\S4method{summary}{flip.object}(object, star.signif = TRUE, only.p.leq = NULL, ...)
 
 \S4method{dim}{flip.object}(x)
 
-\S4method{[}{flip.object,ANY,ANY,ANY}(x, i)
+\S4method{[}{flip.object}(x, i)
 
 \S4method{[[}{flip.object}(x, i)
 

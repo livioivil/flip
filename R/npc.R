@@ -235,8 +235,18 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
       permT} else
       if(comb.funct %in% c("maxT", "maxTstd"))
         test= function(subset=NULL,weights=NULL){ #browser()
-          permT = matrix(apply(if(is.null(subset)) { if(one.weight) t(all.weights*t(permTP)) else permTP } else
-            t(weights[subset]*t(permTP[,subset,drop=FALSE])) , 1, max))  ;
+          permT = matrix(apply(
+            if(is.null(subset)) { 
+              if(one.weight) 
+                t(all.weights*t(permTP)) 
+              else 
+                permTP 
+              } else {
+                if(is.null(weights))
+                  (permTP[,subset,drop=FALSE]) 
+                else
+                  t(weights[subset]*t(permTP[,subset,drop=FALSE]))
+            }, 1, max))  ;
           permT
         } else
       if(comb.funct %in% c("minP"))
@@ -269,11 +279,10 @@ npc <- function(permTP, comb.funct = c(flip.npc.methods, p.adjust.methods) ,subs
            pseudoT=qnorm( t2p(pseudoT,tail=1,obs.only=FALSE)*.99999999999)  else
              pseudoT=scale(pseudoT,scale=FALSE)
 
-         ei=eigen(t(pseudoT)%*%pseudoT,symmetric=TRUE)
-         ei$values[ei$values<0]=0
-         invhalfEV=ei$values^-.5
-         keep= is.finite(invhalfEV)
-					  permT=matrix(rowSums((pseudoT %*% ei$vectors[,keep] %*% diag(invhalfEV[keep]))^2)*sum(keep))
+         ei=svd(pseudoT,nv=0)
+         ei$d[ei$d<=0]=NA
+         keep= is.finite(ei$d)
+					  permT=matrix(rowSums(ei$u[,keep]^2)*nrow(ei$u))
          permT
 					}
 

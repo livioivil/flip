@@ -7,11 +7,24 @@
 \title{The main function for testing mixed models under a permutation (and
 rotation) framework}
 \usage{
-flipMix(modelWithin, X = NULL, Z = NULL, units, perms = 1000,
-  data = NULL, tail = 0, statTest = NULL, flipReturn,
-  testType = "permutation", Su = NULL, equal.se = FALSE, se = NA,
+flipMix(
+  modelWithin,
+  X = NULL,
+  Z = NULL,
+  units,
+  perms = 1000,
+  data = NULL,
+  tail = 0,
+  statTest = NULL,
+  flipReturn,
+  testType = "permutation",
+  Su = NULL,
+  equal.se = FALSE,
+  se = NA,
   replaceNA.coeffWithin = "coeffMeans",
-  replaceNA.coeffWithin.se = replaceNA.coeffWithin, ...)
+  replaceNA.coeffWithin.se = replaceNA.coeffWithin,
+  ...
+)
 }
 \arguments{
 \item{modelWithin}{When it is a \code{\link[stats:formula]{formula}} object,

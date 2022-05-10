@@ -3,7 +3,9 @@
 \name{reaction}
 \alias{reaction}
 \title{Reaction data}
-\format{the data.frame contains the three columns: `Age`, `Gender` and `Reaction.Time`}
+\format{
+the data.frame contains the three columns: `Age`, `Gender` and `Reaction.Time`
+}
 \description{
 The reaction time of these subjects was tested by having them grab a 
 meter stick after it was released by the tester. 

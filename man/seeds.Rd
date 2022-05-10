@@ -3,7 +3,9 @@
 \name{seeds}
 \alias{seeds}
 \title{Seeds data}
-\format{the data.frame contains the three columns: grs, x, y}
+\format{
+the data.frame contains the three columns: grs, x, y
+}
 \description{
 Famous seeds growing data from Pesarin, F. (2001) Multivariate Permutation
 Tests with Applications in Biostatistics. Wiley, New York.
